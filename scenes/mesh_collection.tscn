@@ -1,4 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://cgu56h3r4pxnu"]
+[gd_scene load_steps=14 format=3 uid="uid://cgu56h3r4pxnu"]
+
+[ext_resource type="Material" uid="uid://bjg07w5mnjam3" path="res://materials/grey_material.tres" id="1_j283d"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1f441"]
 
@@ -142,6 +144,7 @@ shadow_mesh = SubResource("ArrayMesh_gethq")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("ArrayMesh_4mtpk")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("1_j283d")
 
 [node name="lever" type="MeshInstance3D" parent="Button2"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
@@ -154,6 +157,7 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("ArrayMesh_od478")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("1_j283d")
 
 [node name="Empty2" type="Node3D" parent="."]
 
@@ -161,3 +165,4 @@ skeleton = NodePath("")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 mesh = SubResource("ArrayMesh_g3gmw")
 skeleton = NodePath("")
+surface_material_override/0 = ExtResource("1_j283d")

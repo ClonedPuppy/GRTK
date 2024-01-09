@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ccv8yseq7ntvf"]
+
+[ext_resource type="Shader" path="res://shaders/grid_floor_shader.gdshader" id="1_t7pmc"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_t7pmc")
