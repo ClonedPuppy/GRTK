@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bj7ax6sm8f37y"]
+[gd_scene load_steps=3 format=3 uid="uid://bj7ax6sm8f37y"]
 
 [ext_resource type="MeshLibrary" uid="uid://dgiysbhvxgkva" path="res://assets/ProtoKit.tres" id="1_mjqxf"]
+[ext_resource type="Script" path="res://scripts/add_button_functions.gd" id="2_onwq2"]
 
 [node name="main" type="Node3D"]
 
@@ -11,4 +12,5 @@ cell_center_y = false
 data = {
 "cells": PackedInt32Array(0, 65535, 2, 1, 65535, 2, 2, 0, 2, 65535, 65535, 2, 65534, 65535, 2, 65533, 0, 2, 65533, 65535, 1, 2, 65535, 1441793, 2, 1, 655361, 65533, 1, 1048577, 65534, 0, 1048576, 65535, 0, 1048576, 0, 0, 1048576, 1, 0, 1048576, 65534, 1, 1048578, 65535, 1, 1048578, 0, 1, 1048578, 1, 1, 1048578)
 }
+script = ExtResource("2_onwq2")
 metadata/_editor_floor_ = Vector3(0, 0, 0)
