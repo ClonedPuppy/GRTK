@@ -1,7 +1,7 @@
 extends GridMap
 
-@onready var ui_panel = $"."
-@onready var ui_meshes = ui_panel.mesh_library
+@onready var ui_meshes = self.mesh_library
+var button_number = 0
 
 func _ready():
 	if ui_meshes:
@@ -11,11 +11,13 @@ func _ready():
 			if item_id != -1:  # Check if cell is not empty
 				var item_name = mesh_library.get_item_name(item_id)
 				if item_name == "Button":
-					print("Cell: ", cell, " has mesh: ", item_name)
-					create_area_for_cell(cell)
+					print("Cell: ", cell, " has mesh: ", item_name + str(button_number))
+					button_number += 1
+					create_area_for_cell(cell, item_name + str(button_number))
 
-func create_area_for_cell(cell: Vector3):
+func create_area_for_cell(cell: Vector3, cell_name: String):
 	var area = Area3D.new()
+	area.name = "Area3D_" + str(cell)
 	add_child(area)
 
 	# Calculate the global transform for the cell
@@ -31,9 +33,14 @@ func create_area_for_cell(cell: Vector3):
 	shape.extents = Vector3(0.01, 0.0025, 0.01)  # Half extents
 	collision_shape.shape = shape
 
+	area.set_meta("cell", cell)
+	area.set_meta("name", cell_name)
+	
 	# Connect signals using Callable
 	area.connect("body_entered", Callable(self, "_on_Area3D_body_entered"))
-
+	
 func _on_Area3D_body_entered(body: Node):
-	# Handle the signal when a body enters the Area3D
-	pass
+	if body.has_meta("cell"):
+		var cell = body.get_meta("cell")
+		print("Body entered at cell: ", cell)
+		# Handle the signal
