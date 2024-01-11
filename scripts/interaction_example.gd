@@ -23,7 +23,6 @@ func _on_interact_volume_body_entered(body):
 	print(body.name)
 	tracked_body = body
 
-
 func _on_interact_volume_body_exited(body):
 	if tracked_body == body:
 		tracked_body = null

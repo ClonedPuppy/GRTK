@@ -1,5 +1,6 @@
 extends GridMap
 
+@onready var lever = $"../lever"
 @onready var ui_meshes = self.mesh_library
 var button_number = 0
 
@@ -17,7 +18,7 @@ func _ready():
 
 func create_area_for_cell(cell: Vector3, cell_name: String):
 	var area = Area3D.new()
-	area.name = "Area3D_" + str(cell)
+	area.name = "Button_" + str(button_number)
 	add_child(area)
 
 	# Calculate the global transform for the cell
@@ -26,11 +27,13 @@ func create_area_for_cell(cell: Vector3, cell_name: String):
 	area.global_transform = global_transform * cell_transform
 
 	var collision_shape = CollisionShape3D.new()
+	collision_shape.name = "Collision_" + str(button_number)
 	area.add_child(collision_shape)
 
 	# Assuming button size is 0.01 x 0.0025 x 0.01
-	var shape = BoxShape3D.new()
-	shape.extents = Vector3(0.01, 0.0025, 0.01)  # Half extents
+	var shape = CylinderShape3D.new()
+	shape.height = 0.005
+	shape.radius = 0.005
 	collision_shape.shape = shape
 
 	area.set_meta("cell", cell)
@@ -39,7 +42,24 @@ func create_area_for_cell(cell: Vector3, cell_name: String):
 	# Connect signals using Callable
 	area.connect("body_entered", Callable(self, "_on_Area3D_body_entered"))
 	
+	# Add a MeshInstance3D with the GLTF mesh at the same location
+	var mesh_instance = MeshInstance3D.new()
+	var mesh = lever.mesh
+	if mesh:
+		mesh_instance.mesh = mesh
+	else:
+		print("Failed to load mesh from:", lever)
+		return
+
+	var corrected_rotation = Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))
+	mesh_instance.transform = Transform3D(corrected_rotation, Vector3(0,-0.0025,0))
+	mesh_instance.name = "Lever_" + str(button_number)
+
+	area.add_child(mesh_instance)
+	
+	
 func _on_Area3D_body_entered(body: Node):
+	print("Body entered at cell: ", body)
 	if body.has_meta("cell"):
 		var cell = body.get_meta("cell")
 		print("Body entered at cell: ", cell)
