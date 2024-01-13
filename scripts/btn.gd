@@ -2,10 +2,15 @@ extends Area3D
 
 var area
 var tracked_body = null
+var pressed = false
+#var lever_template
+var lever
+var initial_y_position = -0.0025  # Store the initial y-position of the button_plate
+
 
 func init(area_node: Area3D, cell_no: int):
-	print("run..")
 	area = area_node
+	#lever_template = $"../../lever"
 	area_node.connect("body_entered", Callable(self, "_on_Area3D_body_entered"))
 	area_node.connect("body_exited", Callable(self, "_on_Area3D_body_exited"))
 	
@@ -22,12 +27,14 @@ func init(area_node: Area3D, cell_no: int):
 	
 	# Add a MeshInstance3D with the leverage mesh at the same location
 	var mesh_instance = MeshInstance3D.new()
-	var lever = $"../../lever"
-	var mesh = lever.mesh
+	#const LEVER_MESH_PATH = 
+	var mesh_library = load("res://assets/levers.tres")
+	var mesh = mesh_library.get_item_mesh(0)
+	#var mesh = lever_template.mesh
 	if mesh:
 		mesh_instance.mesh = mesh
 	else:
-		print("Failed to load mesh from:", lever)
+		print("Failed to load mesh from:", mesh)
 		return
 
 	var corrected_rotation = Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))
@@ -35,15 +42,39 @@ func init(area_node: Area3D, cell_no: int):
 	mesh_instance.name = "Lever_" + str(cell_no)
 
 	area.add_child(mesh_instance)
+	set_process(true)
+	lever = mesh_instance
 
-# Put in code to move the button lever up and down driven by the body that entered the area3d.
+
+func _process(delta):
+	if tracked_body and !pressed:
+		var _global_position = tracked_body.global_transform.origin
+		var _local_position = area.to_local(_global_position)
+		update_button_plate_position(_local_position.y)
+		if _local_position.y < 0.0025:
+			pressed = true
+			reset_button_plate()
+
+
+func reset_button_plate():
+	var button_plate_transform = lever.transform
+	button_plate_transform.origin.y = initial_y_position  # Reset to original y position
+	lever.transform = button_plate_transform
+
+
+func update_button_plate_position(y_position):
+	var button_plate_transform = lever.transform
+	button_plate_transform.origin.y = initial_y_position + y_position - 0.005
+	lever.transform = button_plate_transform
 
 
 func _on_Area3D_body_entered(body: Node):
-	print("Body that entered: ", body.name)
-	print("Button that sent signal: ", area.name)
+	tracked_body = body
+	print(tracked_body)
 
 
 func _on_Area3D_body_exited(body: Node):
-	print("Body that exited: ", body.name)
-	print("Button that sent signal: ", area.name)
+	if tracked_body == body:
+		tracked_body = null
+		pressed = false
+		reset_button_plate()

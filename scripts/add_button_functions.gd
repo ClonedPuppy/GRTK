@@ -15,9 +15,9 @@ func _ready():
 				if item_name == "Button":
 					print("Cell: ", cell, " has mesh: ", item_name + str(button_number))
 					button_number += 1
-					create_manipulator_for_cell(cell)
+					setup_cell(cell)
 
-func create_manipulator_for_cell(cell: Vector3):
+func setup_cell(cell: Vector3):
 	var area = Area3D.new()
 	current_area = area
 	area.name = "Button_" + str(button_number)
