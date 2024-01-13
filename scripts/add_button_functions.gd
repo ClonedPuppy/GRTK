@@ -1,6 +1,5 @@
 extends GridMap
 
-@onready var lever = $"../lever"
 @onready var ui_meshes = self.mesh_library
 var button_number = 0
 var current_area
@@ -13,7 +12,6 @@ func _ready():
 			if item_id != -1:  # Check if cell is not empty
 				var item_name = mesh_library.get_item_name(item_id)
 				if item_name == "Button":
-					print("Cell: ", cell, " has mesh: ", item_name + str(button_number))
 					button_number += 1
 					setup_cell(cell)
 

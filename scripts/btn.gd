@@ -3,14 +3,11 @@ extends Area3D
 var area
 var tracked_body = null
 var pressed = false
-#var lever_template
 var lever
-var initial_y_position = -0.0025  # Store the initial y-position of the button_plate
-
+var initial_y_position = -0.0025  # Store the initial y-position of the button
 
 func init(area_node: Area3D, cell_no: int):
 	area = area_node
-	#lever_template = $"../../lever"
 	area_node.connect("body_entered", Callable(self, "_on_Area3D_body_entered"))
 	area_node.connect("body_exited", Callable(self, "_on_Area3D_body_exited"))
 	
@@ -27,10 +24,8 @@ func init(area_node: Area3D, cell_no: int):
 	
 	# Add a MeshInstance3D with the leverage mesh at the same location
 	var mesh_instance = MeshInstance3D.new()
-	#const LEVER_MESH_PATH = 
 	var mesh_library = load("res://assets/levers.tres")
 	var mesh = mesh_library.get_item_mesh(0)
-	#var mesh = lever_template.mesh
 	if mesh:
 		mesh_instance.mesh = mesh
 	else:
@@ -70,7 +65,7 @@ func update_button_plate_position(y_position):
 
 func _on_Area3D_body_entered(body: Node):
 	tracked_body = body
-	print(tracked_body)
+	print(area)
 
 
 func _on_Area3D_body_exited(body: Node):
