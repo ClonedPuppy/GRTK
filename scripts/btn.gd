@@ -1,12 +1,15 @@
 extends Area3D
 
 var area
+var tracked_body = null
 
 func init(area_node: Area3D, cell_no: int):
 	print("run..")
 	area = area_node
 	area_node.connect("body_entered", Callable(self, "_on_Area3D_body_entered"))
-		# Add a collision node
+	area_node.connect("body_exited", Callable(self, "_on_Area3D_body_exited"))
+	
+	# Add a collision node
 	var collision_shape = CollisionShape3D.new()
 	collision_shape.name = "Collision_" + str(cell_no)
 	area.add_child(collision_shape)
@@ -33,7 +36,14 @@ func init(area_node: Area3D, cell_no: int):
 
 	area.add_child(mesh_instance)
 
+# Put in code to move the button lever up and down driven by the body that entered the area3d.
+
+
 func _on_Area3D_body_entered(body: Node):
 	print("Body that entered: ", body.name)
 	print("Button that sent signal: ", area.name)
 
+
+func _on_Area3D_body_exited(body: Node):
+	print("Body that exited: ", body.name)
+	print("Button that sent signal: ", area.name)
