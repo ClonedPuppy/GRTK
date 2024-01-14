@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8mf7vdb7fkom"
-path.s3tc="res://.godot/imported/SkeuomorphicButtons.png-0d01f1331458cb0a9015863d1b4a444b.s3tc.ctex"
+uid="uid://bcgb2eu78bdsx"
+path.s3tc="res://.godot/imported/ProtoKit_material_albedo000.png-bf22dc750eb7c41e5679d839464189b0.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://sourceFiles/SkeuomorphicButtons.png"
-dest_files=["res://.godot/imported/SkeuomorphicButtons.png-0d01f1331458cb0a9015863d1b4a444b.s3tc.ctex"]
+source_file="res://assets/textures/ProtoKit_material_albedo000.png"
+dest_files=["res://.godot/imported/ProtoKit_material_albedo000.png-bf22dc750eb7c41e5679d839464189b0.s3tc.ctex"]
 
 [params]
 

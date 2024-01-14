@@ -33,7 +33,7 @@ func init(area_node: Area3D, cell_no: int):
 		return
 
 	var corrected_rotation = Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))
-	mesh_instance.transform = Transform3D(corrected_rotation, Vector3(0,-0.0025,0))
+	mesh_instance.transform = Transform3D(corrected_rotation, Vector3(0, initial_y_position, 0))
 	mesh_instance.name = "Lever_" + str(cell_no)
 
 	area.add_child(mesh_instance)
