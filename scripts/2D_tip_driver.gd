@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-const SPEED = 0.01
+const SPEED = 0.001
 func _physics_process(delta):
 
 	var input_dir = Input.get_vector("left", "right", "down", "up")

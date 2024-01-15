@@ -22,7 +22,7 @@ func setup_cell(cell: Vector3):
 
 	# Calculate the local transform for the cell
 	var cell_local_transform = Transform3D()
-	cell_local_transform.origin = cell * cell_size + Vector3(0.01, 0.0025, 0.01)
+	cell_local_transform.origin = cell * cell_size + Vector3(0.02, 0.005, 0.02)
 
 	# Set the area's local transform relative to the GridMap
 	area.transform = cell_local_transform
