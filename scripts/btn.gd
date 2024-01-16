@@ -4,7 +4,7 @@ var area
 var tracked_body = null
 var pressed = false
 var lever
-var initial_y_position = -0.0025  # Store the initial y-position of the button
+var initial_y_position = -0.005  # Store the initial y-position of the button
 
 func init(area_node: Area3D, cell_no: int):
 	area = area_node
@@ -18,8 +18,8 @@ func init(area_node: Area3D, cell_no: int):
 
 	# Add a shape to the collision node, assuming button size is 0.005 x 0.005
 	var shape = CylinderShape3D.new()
-	shape.height = 0.005
-	shape.radius = 0.005
+	shape.height = 0.01
+	shape.radius = 0.01
 	collision_shape.shape = shape
 	
 	# Add a MeshInstance3D with the leverage mesh at the same location
@@ -59,7 +59,7 @@ func reset_button_plate():
 
 func update_button_plate_position(y_position):
 	var button_plate_transform = lever.transform
-	button_plate_transform.origin.y = initial_y_position + y_position - 0.005
+	button_plate_transform.origin.y = initial_y_position + y_position - 0.007
 	lever.transform = button_plate_transform
 
 

@@ -28,8 +28,8 @@ material = ExtResource("3_pbxcr")
 size = Vector2(25, 25)
 
 [sub_resource type="SphereMesh" id="SphereMesh_46jtq"]
-radius = 0.002
-height = 0.004
+radius = 0.005
+height = 0.01
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_8d5p1"]
 radius = 0.002
@@ -44,17 +44,19 @@ shadow_enabled = true
 environment = SubResource("Environment_klqqv")
 
 [node name="GridMap" type="GridMap" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.122, -0.033)
 mesh_library = ExtResource("1_mjqxf")
-cell_size = Vector3(0.02, 0.005, 0.02)
+cell_size = Vector3(0.04, 0.01, 0.04)
+cell_octant_size = 1
 cell_center_y = false
 data = {
 "cells": PackedInt32Array(65534, 0, 2, 65535, 0, 2, 0, 0, 2, 1, 0, 2, 65534, 65535, 1, 1, 65535, 1441793, 1, 1, 655361, 65534, 1, 1048577, 65535, 65535, 1048576, 0, 65535, 1048576, 65535, 1, 1048576, 0, 1, 1048576)
 }
 script = ExtResource("2_onwq2")
-metadata/_editor_floor_ = Vector3(0, 0, 0)
+metadata/_editor_floor_ = Vector3(0, -2, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.382264, 0.924053, 0, -0.924053, 0.382264, -1.04308e-07, 0.0624671, 0.0402126)
+transform = Transform3D(1, 0, 0, 0, 0.382264, 0.924053, 0, -0.924053, 0.382264, -1.04308e-07, 0.207101, 0.0235288)
 near = 0.005
 far = 500.0
 
@@ -63,7 +65,7 @@ mesh = SubResource("PlaneMesh_3aeh2")
 script = ExtResource("4_761hc")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.02, 0.01)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0198248, 0.140615, -0.0124102)
 script = ExtResource("5_fl84b")
 
 [node name="TipSphere" type="MeshInstance3D" parent="CharacterBody3D"]
