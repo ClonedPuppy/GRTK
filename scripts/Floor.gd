@@ -1,13 +1,13 @@
 extends MeshInstance3D
 
 @onready var plane = self
-@onready var camera_global_position = $"../Camera3D".global_transform.origin
+@onready var camera_global_position = $"../XROrigin3D/XRCamera3D".global_transform.origin
 @onready var camera_local_position = plane.to_local(camera_global_position)
 @onready var projected_position = Vector2(camera_local_position.x, camera_local_position.z)
 @onready var plane_size = mesh.size  
 
 func _process(delta):
-	camera_global_position = $"../Camera3D".global_transform.origin
+	camera_global_position = $"../XROrigin3D/XRCamera3D".global_transform.origin
 	camera_local_position = plane.to_local(camera_global_position)
 	projected_position = Vector2(camera_local_position.x, camera_local_position.z)
 	
