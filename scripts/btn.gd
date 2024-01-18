@@ -1,6 +1,7 @@
 extends Area3D
 
 var area
+var button_number
 var tracked_body = null
 var pressed = false
 var lever
@@ -8,9 +9,10 @@ var initial_y_position = -0.005  # Store the initial y-position of the button
 
 func init(area_node: Area3D, cell_no: int):
 	area = area_node
+	button_number = cell_no
 	area_node.connect("body_entered", Callable(self, "_on_Area3D_body_entered"))
 	area_node.connect("body_exited", Callable(self, "_on_Area3D_body_exited"))
-	
+
 	# Add a collision node
 	var collision_shape = CollisionShape3D.new()
 	collision_shape.name = "Collision_" + str(cell_no)
@@ -49,6 +51,7 @@ func _process(delta):
 		if _local_position.y < 0.0025:
 			pressed = true
 			reset_button_plate()
+			ButtonStatesAutoload.update_button_state(button_number, pressed)
 
 
 func reset_button_plate():
@@ -65,7 +68,6 @@ func update_button_plate_position(y_position):
 
 func _on_Area3D_body_entered(body: Node):
 	tracked_body = body
-	print(area)
 
 
 func _on_Area3D_body_exited(body: Node):

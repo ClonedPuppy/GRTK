@@ -17,6 +17,7 @@ func _ready():
 
 func setup_cell(cell: Vector3):
 	var area = Area3D.new()
+
 	current_area = area
 	area.name = "Button_" + str(button_number)
 
@@ -39,27 +40,4 @@ func setup_cell(cell: Vector3):
 			area.call("init", area, button_number)
 	else:
 		print("Failed to load script:", script_path)
-
-
-
-#func setup_cell(cell: Vector3):
-	#var area = Area3D.new()
-	#current_area = area
-	#area.name = "Button_" + str(button_number)
-	#
-	## Calculate the global transform for the cell
-	#var cell_transform = Transform3D()
-	#cell_transform.origin = cell * cell_size + Vector3(0.01, 0.0025, 0.01)
-	#area.global_transform = global_transform * cell_transform
-	#
-	#add_child(area)
-#
-	## Add script
-	#var script_path = "res://scripts/btn.gd"
-	#var script = load(script_path)
-	#if script:
-		#area.script = script
-		#if area.has_method("init"):
-			#area.call("init", area, button_number)
-	#else:
-		#print("Failed to load script:", script_path)
+		

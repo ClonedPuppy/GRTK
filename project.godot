@@ -15,6 +15,10 @@ run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+ButtonStatesAutoload="*res://scripts/button_states_autoload.gd"
+
 [debug]
 
 gdscript/warnings/unused_parameter=0
