@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bj7ax6sm8f37y"]
+[gd_scene load_steps=20 format=3 uid="uid://bj7ax6sm8f37y"]
 
 [ext_resource type="Script" path="res://scripts/StartVR.gd" id="1_0qha1"]
 [ext_resource type="MeshLibrary" uid="uid://dgiysbhvxgkva" path="res://assets/ProtoKit.tres" id="1_mjqxf"]
@@ -229,6 +229,9 @@ bind/24/pose = Transform3D(0.885243, -0.168456, 0.433552, 0.353504, 0.849454, -0
 bind/25/name = &"Little_Tip_R"
 bind/25/bone = -1
 bind/25/pose = Transform3D(0.858791, -0.16715, 0.484293, 0.384474, 0.83503, -0.39358, -0.338612, 0.524201, 0.781381, -0.0195091, -0.0307427, 0.10888)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fi1y2"]
+radius = 0.005
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_3aeh2"]
 material = ExtResource("3_pbxcr")
@@ -649,6 +652,17 @@ bones/25/scale = Vector3(1, 1, 1)
 [node name="mesh_Hand_L" type="MeshInstance3D" parent="XROrigin3D/RightHand/hand_r/Armature/Skeleton3D"]
 mesh = SubResource("ArrayMesh_ch2yp")
 skin = SubResource("Skin_hjxcs")
+
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="XROrigin3D/RightHand/hand_r/Armature/Skeleton3D"]
+transform = Transform3D(0.984192, -0.0935044, 0.150411, 0.0644422, 0.980123, 0.187635, -0.164966, -0.174976, 0.970654, -0.0414229, -0.0227513, -0.131112)
+bone_name = "Index_Tip_R"
+bone_idx = 10
+
+[node name="RigidBody3D" type="RigidBody3D" parent="XROrigin3D/RightHand/hand_r/Armature/Skeleton3D/BoneAttachment3D"]
+gravity_scale = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightHand/hand_r/Armature/Skeleton3D/BoneAttachment3D/RigidBody3D"]
+shape = SubResource("SphereShape3D_fi1y2")
 
 [node name="GridMap" type="GridMap" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.915161, -0.569822)

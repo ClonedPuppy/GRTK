@@ -48,8 +48,9 @@ func _process(delta):
 		var _global_position = tracked_body.global_transform.origin
 		var _local_position = area.to_local(_global_position)
 		update_button_plate_position(_local_position.y)
-		if _local_position.y < 0.0025:
+		if _local_position.y < 0.0015:
 			pressed = true
+			print("pressed")
 			reset_button_plate()
 			ButtonStatesAutoload.update_button_state(button_number, pressed)
 
