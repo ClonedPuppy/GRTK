@@ -6,6 +6,7 @@ var tracked_body = null
 var pressed = false
 var lever
 var initial_y_position = -0.005  # Store the initial y-position of the button
+var click_sound: AudioStreamPlayer
 
 func init(area_node: Area3D, cell_no: int):
 	area = area_node
@@ -41,6 +42,11 @@ func init(area_node: Area3D, cell_no: int):
 	area.add_child(mesh_instance)
 	set_process(true)
 	lever = mesh_instance
+	
+	# Initialize the AudioStreamPlayer
+	click_sound = AudioStreamPlayer.new()
+	click_sound.stream = preload("res://assets/click-button.ogg")
+	add_child(click_sound)
 
 
 func _process(delta):
@@ -50,6 +56,7 @@ func _process(delta):
 		update_button_plate_position(_local_position.y)
 		if _local_position.y < 0.0015:
 			pressed = true
+			click_sound.play()
 			print("pressed")
 			reset_button_plate()
 			ButtonStatesAutoload.update_button_state(button_number, pressed)

@@ -1282,3 +1282,5 @@ skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 shape = SubResource("SphereShape3D_8d5p1")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
