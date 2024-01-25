@@ -46,6 +46,10 @@ up={
 ]
 }
 
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+
 [xr]
 
 openxr/enabled=true
