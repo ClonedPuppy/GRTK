@@ -6,6 +6,7 @@ var tracked_body = null
 var pressed = false
 var lever
 var initial_y_position = -0.005  # Store the initial y-position of the button
+var finger_collision_offset = 0.0025
 var click_sound: AudioStreamPlayer
 
 func init(area_node: Area3D, cell_no: int):
@@ -35,7 +36,7 @@ func init(area_node: Area3D, cell_no: int):
 		print("Failed to load mesh from:", mesh)
 		return
 
-	var corrected_rotation = Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))
+	var corrected_rotation = Quaternion(Vector3(1, 0, 0), deg_to_rad(0))
 	mesh_instance.transform = Transform3D(corrected_rotation, Vector3(0, initial_y_position, 0))
 	mesh_instance.name = "Lever_" + str(cell_no)
 
@@ -45,7 +46,7 @@ func init(area_node: Area3D, cell_no: int):
 	
 	# Initialize the AudioStreamPlayer
 	click_sound = AudioStreamPlayer.new()
-	click_sound.stream = preload("res://assets/click-button.ogg")
+	click_sound.stream = preload("res://assets/General_Button_2_User_Interface_Tap_FX_Sound.ogg")
 	add_child(click_sound)
 
 
@@ -53,8 +54,9 @@ func _process(delta):
 	if tracked_body and !pressed:
 		var _global_position = tracked_body.global_transform.origin
 		var _local_position = area.to_local(_global_position)
-		update_button_plate_position(_local_position.y)
-		if _local_position.y < 0.0015:
+		update_button_plate_position(_local_position.y - finger_collision_offset)
+		print(_local_position.y)
+		if _local_position.y < 0.005:
 			pressed = true
 			click_sound.play()
 			print("pressed")

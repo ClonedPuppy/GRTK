@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bj7ax6sm8f37y"]
+[gd_scene load_steps=25 format=3 uid="uid://bj7ax6sm8f37y"]
 
 [ext_resource type="Script" path="res://scripts/StartVR.gd" id="1_0qha1"]
 [ext_resource type="MeshLibrary" uid="uid://dgiysbhvxgkva" path="res://assets/ProtoKit.tres" id="1_mjqxf"]
@@ -7,23 +7,16 @@
 [ext_resource type="Material" uid="uid://ccv8yseq7ntvf" path="res://materials/grid_floor_material.tres" id="3_pbxcr"]
 [ext_resource type="Material" uid="uid://bsgl6at68b8gj" path="res://materials/green_material.tres" id="3_pl25v"]
 [ext_resource type="Script" path="res://scripts/Floor.gd" id="4_761hc"]
-[ext_resource type="Script" path="res://scripts/2D_tip_driver.gd" id="5_fl84b"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rqh3u"]
-sky_top_color = Color(0, 0, 0, 1)
-sky_horizon_color = Color(0.301961, 0.309804, 0.321569, 1)
-sky_curve = 0.0187499
-sky_cover_modulate = Color(0.607843, 0.607843, 0.607843, 1)
-ground_bottom_color = Color(0, 0, 0, 1)
-ground_horizon_color = Color(0.211765, 0.215686, 0.223529, 1)
-ground_curve = 0.00901248
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_2707b"]
 
 [sub_resource type="Sky" id="Sky_pa77m"]
-sky_material = SubResource("ProceduralSkyMaterial_rqh3u")
+sky_material = SubResource("PhysicalSkyMaterial_2707b")
 
 [sub_resource type="Environment" id="Environment_klqqv"]
 background_mode = 2
 sky = SubResource("Sky_pa77m")
+ambient_light_source = 3
 tonemap_mode = 2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jskoj"]
@@ -444,13 +437,6 @@ bind/25/pose = Transform3D(0.858791, -0.16715, 0.484293, 0.384474, 0.83503, -0.3
 [sub_resource type="PlaneMesh" id="PlaneMesh_3aeh2"]
 material = ExtResource("3_pbxcr")
 size = Vector2(25, 25)
-
-[sub_resource type="SphereMesh" id="SphereMesh_46jtq"]
-radius = 0.005
-height = 0.01
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_8d5p1"]
-radius = 0.002
 
 [node name="main" type="Node3D"]
 
@@ -1257,7 +1243,7 @@ skin = SubResource("Skin_c1ps3")
 surface_material_override/0 = ExtResource("3_pl25v")
 
 [node name="GridMap" type="GridMap" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.915161, -0.569822)
+transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 1.21309, -0.319292)
 mesh_library = ExtResource("1_mjqxf")
 cell_size = Vector3(0.04, 0.01, 0.04)
 cell_octant_size = 1
@@ -1271,16 +1257,5 @@ metadata/_editor_floor_ = Vector3(0, 0, 0)
 [node name="Floor" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_3aeh2")
 script = ExtResource("4_761hc")
-
-[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0198248, 0.140615, -0.0124102)
-script = ExtResource("5_fl84b")
-
-[node name="TipSphere" type="MeshInstance3D" parent="CharacterBody3D"]
-mesh = SubResource("SphereMesh_46jtq")
-skeleton = NodePath("../..")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
-shape = SubResource("SphereShape3D_8d5p1")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]

@@ -1,6 +1,8 @@
 # GDScript implementation of 1€ filter
 #
 # Original work: https://gery.casiez.net/1euro/
+#
+# This code was lifted from Godot-XR-Kit: https://github.com/patrykkalinowski/godot-xr-kit
 
 extends Node
 

@@ -1,3 +1,5 @@
+# This code was lifted from Godot-XR-Kit: https://github.com/patrykkalinowski/godot-xr-kit
+
 extends Node
 
 @export var xr_origin: XROrigin3D
