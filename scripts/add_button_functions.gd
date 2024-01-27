@@ -39,5 +39,5 @@ func setup_cell(cell: Vector3):
 		if area.has_method("init"):
 			area.call("init", area, button_number)
 	else:
-		print("Failed to load script:", script_path)
+		print("Failed to attach script:", script_path)
 		

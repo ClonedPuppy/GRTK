@@ -439,6 +439,7 @@ material = ExtResource("3_pbxcr")
 size = Vector2(25, 25)
 
 [node name="main" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.273931, 0.436027, -0.0697943)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.766244, -0.150127, 0.624765, 0.403567, 0.644176, 0.649747, -0.500003, 0.749999, -0.43301, 0.124235, 0.116918, 0)

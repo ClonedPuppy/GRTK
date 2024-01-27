@@ -11,8 +11,8 @@ func set_value(key, value):
 	state_dict[key] = value
 
 # Function to get a value from the dictionary
-func get_value(key):
+func get_value(key: int):
 	return state_dict.get(key)
 
-func update_button_state(button_id, new_state):
+func update_button_state(button_id: int, new_state):
 	state_dict[button_id] = new_state
