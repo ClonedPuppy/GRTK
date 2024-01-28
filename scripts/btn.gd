@@ -50,20 +50,31 @@ func init(area_node: Area3D, cell_no: int):
 	click_sound = AudioStreamPlayer.new()
 	click_sound.stream = preload("res://assets/General_Button_2_User_Interface_Tap_FX_Sound.ogg")
 	add_child(click_sound)
+	
+	# Setup the button in the global Dict
+	ButtonStatesAutoload.update_button_state(button_number, false)
 
 
 func _process(delta):
 	if tracked_body and !pressed:
 		var _global_position = tracked_body.global_transform.origin
 		var _local_position = area.to_local(_global_position)
+		
+		# Get the current state of the button
+		var _button_state = ButtonStatesAutoload.get_value(button_number) 
+		
+		# Make sure we are pressing the button from a top - down direction
 		if _local_position.y >= 0 and last_y_position >= 0 and _local_position.y < last_y_position:
+			
+			# Update the lever position as the "finger tip" is moving in the Area3D
 			update_button_plate_position(_local_position.y - finger_collision_offset)
-			print("Current: %s  Last: %s" % [_local_position.y, last_y_position])
-
+			
+			# Check if the "finger tip" is far enough down the Are3D volume to trigger the button as pressed 
 			if _local_position.y < 0.0025:
-				if ButtonStatesAutoload.get(button_number) != null:
+				# Check if button has been 
+				if ButtonStatesAutoload.get_value(button_number) != null:
 					ButtonStatesAutoload.update_button_state(button_number, true)
-				elif ButtonStatesAutoload.get(button_number) == true:
+				elif ButtonStatesAutoload.get_value(button_number) == true:
 					initial_y_position = 0
 					reset_button_plate()
 				else:
@@ -73,10 +84,12 @@ func _process(delta):
 
 				pressed = true
 				click_sound.play()
-				print("pressed")
 
-		last_y_position = _local_position.y  # Update the last y position
+		# Update the last y position
+		last_y_position = _local_position.y  
 
+			#print("Current: %s  Last: %s" % [_local_position.y, last_y_position])
+				#print("pressed")
 
 # Resets the lever mesh to it's original height
 func reset_button_plate():
