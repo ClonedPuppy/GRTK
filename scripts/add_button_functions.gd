@@ -40,4 +40,3 @@ func setup_cell(cell: Vector3):
 			area.call("init", area, button_number)
 	else:
 		print("Failed to attach script:", script_path)
-		

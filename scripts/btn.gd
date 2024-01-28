@@ -46,9 +46,11 @@ func init(area_node: Area3D, cell_no: int):
 	mesh_instance.name = "Lever_" + str(cell_no)
 
 	area.add_child(mesh_instance)
-	set_process(true) #manually turn on the _process function as it's disabled since attaching the script via code
 	lever = mesh_instance
 	
+	# Manually turn on the _process function as it's disabled since attaching the script via code
+	set_process(true) 
+
 	# Initialize the AudioStreamPlayer
 	click_sound = AudioStreamPlayer.new()
 	click_sound.stream = preload("res://assets/General_Button_2_User_Interface_Tap_FX_Sound.ogg")
@@ -73,21 +75,33 @@ func _process(delta):
 			update_button_plate_position(_local_position.y - finger_collision_offset)
 			
 			# Check if the "finger tip" is far enough down the Are3D volume to trigger the button as pressed 
-			if _local_position.y < 0.0025:
+			if _local_position.y < 0.0025 and not active:
 				active = true
 				click_sound.play()
-				# Switch the state of the button
+
+				# Toggle the button state
 				_button_state = not _button_state
-				
-				# Change the resting height to better indicate if button pressed
-				if _button_state == true:
-					print("Button is pressed")
-					initial_y_position = 0
-					reset_button_plate()
-				else:
-					initial_y_position = -0.0025
-					print("Button is unpressed")
-					reset_button_plate()
+
+				# Change the resting height based on the button state
+				initial_y_position = 0.0 if _button_state else -0.0025
+				print("Button is " + ("pressed" if _button_state else "unpressed"))
+				reset_button_plate()
+
+			#if _local_position.y < 0.0025:
+				#active = true
+				#click_sound.play()
+				## Switch the state of the button
+				#_button_state = not _button_state
+				#
+				## Change the resting height to better indicate if button pressed
+				#if _button_state == true:
+					#print("Button is pressed")
+					#initial_y_position = 0
+					#reset_button_plate()
+				#else:
+					#initial_y_position = -0.0025
+					#print("Button is unpressed")
+					#reset_button_plate()
 
 		# Update the last y position
 		last_y_position = _local_position.y  
