@@ -1,9 +1,10 @@
 extends Area3D
 
+# Vars
 var area
 var button_number
 var tracked_body = null
-var pressed = false
+var active = false
 var lever
 var initial_y_position = -0.0025  # Store the initial y-position of the button
 var last_y_position: float = 0.0  # Variable to store the last y position
@@ -14,6 +15,8 @@ var click_sound: AudioStreamPlayer
 func init(area_node: Area3D, cell_no: int):
 	area = area_node
 	button_number = cell_no
+	
+	# Signals emitted at entry and exit
 	area_node.connect("body_entered", Callable(self, "_on_Area3D_body_entered"))
 	area_node.connect("body_exited", Callable(self, "_on_Area3D_body_exited"))
 
@@ -56,7 +59,7 @@ func init(area_node: Area3D, cell_no: int):
 
 
 func _process(delta):
-	if tracked_body and !pressed:
+	if tracked_body and !active:
 		var _global_position = tracked_body.global_transform.origin
 		var _local_position = area.to_local(_global_position)
 		
@@ -71,25 +74,24 @@ func _process(delta):
 			
 			# Check if the "finger tip" is far enough down the Are3D volume to trigger the button as pressed 
 			if _local_position.y < 0.0025:
-				# Check if button has been 
-				if ButtonStatesAutoload.get_value(button_number) != null:
-					ButtonStatesAutoload.update_button_state(button_number, true)
-				elif ButtonStatesAutoload.get_value(button_number) == true:
+				active = true
+				click_sound.play()
+				# Switch the state of the button
+				_button_state = not _button_state
+				
+				# Change the resting height to better indicate if button pressed
+				if _button_state == true:
+					print("Button is pressed")
 					initial_y_position = 0
 					reset_button_plate()
 				else:
-					ButtonStatesAutoload.update_button_state(button_number, false)
 					initial_y_position = -0.0025
+					print("Button is unpressed")
 					reset_button_plate()
-
-				pressed = true
-				click_sound.play()
 
 		# Update the last y position
 		last_y_position = _local_position.y  
 
-			#print("Current: %s  Last: %s" % [_local_position.y, last_y_position])
-				#print("pressed")
 
 # Resets the lever mesh to it's original height
 func reset_button_plate():
@@ -114,5 +116,5 @@ func _on_Area3D_body_entered(body: Node):
 func _on_Area3D_body_exited(body: Node):
 	if tracked_body == body:
 		tracked_body = null
-		pressed = false
+		active = false
 		reset_button_plate()
