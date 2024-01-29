@@ -83,25 +83,9 @@ func _process(delta):
 				_button_state = not _button_state
 
 				# Change the resting height based on the button state
-				initial_y_position = 0.0 if _button_state else -0.0025
-				print("Button is " + ("pressed" if _button_state else "unpressed"))
+				initial_y_position = -0.005 if _button_state else -0.0025
+				ButtonStatesAutoload.set_value(button_number, _button_state)
 				reset_button_plate()
-
-			#if _local_position.y < 0.0025:
-				#active = true
-				#click_sound.play()
-				## Switch the state of the button
-				#_button_state = not _button_state
-				#
-				## Change the resting height to better indicate if button pressed
-				#if _button_state == true:
-					#print("Button is pressed")
-					#initial_y_position = 0
-					#reset_button_plate()
-				#else:
-					#initial_y_position = -0.0025
-					#print("Button is unpressed")
-					#reset_button_plate()
 
 		# Update the last y position
 		last_y_position = _local_position.y  
