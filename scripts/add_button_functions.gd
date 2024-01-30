@@ -32,7 +32,7 @@ func setup_cell(cell: Vector3):
 	add_child(area)
 
 	# Load and assign script to the Area3D node
-	var script_path = "res://scripts/btn.gd"
+	var script_path = "res://scripts/momentary_btn.gd"
 	var script = load(script_path)
 	if script:
 		area.script = script

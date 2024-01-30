@@ -8,6 +8,8 @@ var active = false
 var lever
 var initial_y_position = -0.0025  # Store the initial y-position of the button
 var last_y_position: float = 0.0  # Variable to store the last y position
+var min_movement_threshold = 0.0005 # Minimum movement required to consider a press
+var max_movement_threshold = 0.5 # Maximum movement allowed for a valid press
 var finger_collision_offset = 0.0025
 var click_sound: AudioStreamPlayer
 
@@ -65,30 +67,34 @@ func _process(delta):
 		var _global_position = tracked_body.global_transform.origin
 		var _local_position = area.to_local(_global_position)
 		
+		var movement_distance = last_y_position - _local_position.y
+		
 		# Get the current state of the button
 		var _button_state = ButtonStatesAutoload.get_value(button_number) 
 		
 		# Make sure we are pressing the button from a top - down direction
-		if _local_position.y >= 0 and last_y_position >= 0 and _local_position.y < last_y_position:
+		if _local_position.y >= 0 and last_y_position >= 0 and movement_distance >= min_movement_threshold:
 			
 			# Update the lever position as the "finger tip" is moving in the Area3D
 			update_button_plate_position(_local_position.y - finger_collision_offset)
 			
 			# Check if the "finger tip" is far enough down the Are3D volume to trigger the button as pressed 
-			if _local_position.y < 0.0025 and not active:
+			if _local_position.y < 0.003 and not active:
 				active = true
 				click_sound.play()
 
-				# Toggle the button state
-				_button_state = not _button_state
-
-				# Change the resting height based on the button state
-				initial_y_position = -0.005 if _button_state else -0.0025
-				ButtonStatesAutoload.set_value(button_number, _button_state)
-				reset_button_plate()
+				## Toggle the button state
+				#_button_state = not _button_state
+#
+				## Change the resting height based on the button state
+				#initial_y_position = -0.005 if _button_state else -0.0025
+				ButtonStatesAutoload.set_value(button_number, true)
+				print(_button_state)
+				#reset_button_plate()
 
 		# Update the last y position
 		last_y_position = _local_position.y  
+		
 
 
 # Resets the lever mesh to it's original height
@@ -115,4 +121,7 @@ func _on_Area3D_body_exited(body: Node):
 	if tracked_body == body:
 		tracked_body = null
 		active = false
+		# Set the button state to false when the finger is no longer pressing
+		ButtonStatesAutoload.set_value(button_number, false)
 		reset_button_plate()
+		print("Not Pressed")
