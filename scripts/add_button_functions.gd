@@ -15,6 +15,7 @@ func _ready():
 					button_number += 1
 					setup_cell(cell)
 
+
 func setup_cell(cell: Vector3):
 	var area = Area3D.new()
 

@@ -13,10 +13,19 @@ var max_movement_threshold = 0.5 # Maximum movement allowed for a valid press
 var finger_collision_offset = 0.0025
 var click_sound: AudioStreamPlayer
 
+# References
+var font_data = ButtonStatesAutoload.font_data
+var atlas_width = ButtonStatesAutoload.atlas_width
+var atlas_height = ButtonStatesAutoload.atlas_height
+var sdf_atlas = ButtonStatesAutoload.sdf_atlas
+var sdf_material = ButtonStatesAutoload.sdf_material
+
 # Start by setting up the button and it's functions
 func init(area_node: Area3D, cell_no: int):
 	area = area_node
 	button_number = cell_no
+	
+	prepare_word("PETER")
 	
 	# Signals emitted at entry and exit
 	area_node.connect("body_entered", Callable(self, "_on_Area3D_body_entered"))
@@ -94,7 +103,6 @@ func _process(delta):
 
 		# Update the last y position
 		last_y_position = _local_position.y  
-		
 
 
 # Resets the lever mesh to it's original height
@@ -125,3 +133,64 @@ func _on_Area3D_body_exited(body: Node):
 		ButtonStatesAutoload.set_value(button_number, false)
 		reset_button_plate()
 		print("Not Pressed")
+
+
+func prepare_word(word : String):
+	var string_length = word.length()
+	var char_advances = PackedFloat32Array()
+	var atlas_uvs = PackedVector2Array()
+	var plane_uvs = PackedVector2Array()
+	var max_advance = 0.0
+
+	for i in range(string_length):
+		var letter = word[i]
+		var code_point = letter.unicode_at(0)
+		var glyph_data
+		
+		for glyph in font_data["glyphs"]:
+			if glyph["unicode"] == code_point:
+				glyph_data = glyph
+			#elif glyph["unicode"] == " "e
+				#glyph_data = glyph
+		
+		if glyph_data:
+			char_advances.append(glyph_data["advance"])
+			max_advance += glyph_data["advance"]
+
+			var atlas_bounds = glyph_data["atlasBounds"]
+			var atlas_uv_x = atlas_bounds["left"] / atlas_width
+			var atlas_uv_y = (atlas_height - atlas_bounds["top"]) / atlas_height  # Inverting Y for OpenGL
+			var atlas_uv_w = (atlas_bounds["right"] - atlas_bounds["left"]) / atlas_width
+			var atlas_uv_h = (atlas_bounds["top"] - atlas_bounds["bottom"]) / atlas_height
+
+			atlas_uvs.append(Vector2(atlas_uv_x, atlas_uv_y))
+			atlas_uvs.append(Vector2(atlas_uv_w, atlas_uv_h))
+			
+			var plane_bounds = glyph_data["planeBounds"]
+			var plane_uv_x = plane_bounds["left"]
+			#print("Left: ", plane_uv_x)
+			var plane_uv_y = (plane_bounds["top"])  # Inverting Y for OpenGL
+			#print("top: ", plane_uv_y)
+			var plane_uv_w = (plane_bounds["right"] - plane_bounds["left"])
+			#print("right: ", plane_uv_w)
+			var plane_uv_h = (plane_bounds["top"] - plane_bounds["bottom"])
+			#print("bottom: ", plane_uv_h)
+
+			plane_uvs.append(Vector2(plane_uv_x, plane_uv_y))
+			plane_uvs.append(Vector2(plane_uv_w, plane_uv_h))
+
+		else:
+			print("Glyph data not found for character: ", letter)
+
+	# Set shader parameters
+	sdf_material.set_shader_parameter("sdf_atlas", sdf_atlas)
+	sdf_material.set_shader_parameter("string_length", string_length)
+	#print("String Length: ", string_length)
+	sdf_material.set_shader_parameter("char_advances", char_advances)
+	#print("Advances: ", char_advances)
+	sdf_material.set_shader_parameter("atlas_uvs", atlas_uvs)
+	#print("Atlas: ", atlas_uvs)
+	sdf_material.set_shader_parameter("plane_uvs", plane_uvs)
+	#print("Plane: ", plane_uvs)
+	sdf_material.set_shader_parameter("max_string_width", max_advance)
+	#print("Total advance: ", max_advance)

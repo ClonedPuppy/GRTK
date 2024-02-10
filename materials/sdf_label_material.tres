@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dfcgbmkxsfv8t"]
+
+[ext_resource type="Shader" path="res://shaders/sdf_label.gdshader" id="1_5swkn"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_5swkn")
+shader_parameter/string_length = null
+shader_parameter/char_advances = null
+shader_parameter/atlas_uvs = null
+shader_parameter/plane_uvs = null
+shader_parameter/max_string_width = null
