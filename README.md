@@ -1,2 +1,2 @@
 # GRTK
-Godot Reality Touch Kit ;)
+Godot Reality Touch Kit 😉
