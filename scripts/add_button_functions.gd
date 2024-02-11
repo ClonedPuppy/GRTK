@@ -12,14 +12,12 @@ func _ready():
 			if item_id != -1:  # Check if cell is not empty
 				var item_name = mesh_library.get_item_name(item_id)
 				if item_name == "Button":
-					var material = load("res://materials/sdf_label_material.tres")
-					var unique_material = material.duplicate()
-					mesh_library.get_item_mesh(item_id).surface_set_material(0, unique_material)
+					var mesh = mesh_library.get_item_mesh(item_id)
 					button_number += 1
-					setup_cell(cell)
+					setup_cell(cell, mesh)
 
 
-func setup_cell(cell: Vector3):
+func setup_cell(cell: Vector3, mesh: Mesh):
 	var area = Area3D.new()
 
 	current_area = area
@@ -41,6 +39,6 @@ func setup_cell(cell: Vector3):
 	if script:
 		area.script = script
 		if area.has_method("init"):
-			area.call("init", area, button_number)
+			area.call("init", area, button_number, mesh)
 	else:
 		print("Failed to attach script:", script_path)

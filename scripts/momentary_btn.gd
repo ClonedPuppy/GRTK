@@ -18,15 +18,20 @@ var font_data = ButtonStatesAutoload.font_data
 var atlas_width = ButtonStatesAutoload.atlas_width
 var atlas_height = ButtonStatesAutoload.atlas_height
 var sdf_atlas = ButtonStatesAutoload.sdf_atlas
-var sdf_material = ButtonStatesAutoload.sdf_material
+var sdf_material # = ButtonStatesAutoload.sdf_material
 
 
 # Start by setting up the button and it's functions
-func init(area_node: Area3D, cell_no: int):
+func init(area_node: Area3D, cell_no: int, current_mesh: Mesh):
 	area = area_node
 	button_number = cell_no
 	
-	prepare_word("BUTTON:" + str(button_number))
+	var material = load("res://materials/sdf_label_material.tres")
+	var current_material = material.duplicate()
+	current_mesh.surface_set_material(0, current_material)
+	#sdf_material = unique_material
+	
+	prepare_word("BUTTON:" + str(button_number), current_material)
 	
 	# Signals emitted at entry and exit
 	area_node.connect("body_entered", Callable(self, "_on_Area3D_body_entered"))
@@ -136,7 +141,7 @@ func _on_Area3D_body_exited(body: Node):
 		print("Not Pressed")
 
 
-func prepare_word(word : String):
+func prepare_word(word : String, current_material: Material):
 	var string_length = word.length()
 	var char_advances = PackedFloat32Array()
 	var atlas_uvs = PackedVector2Array()
@@ -184,14 +189,14 @@ func prepare_word(word : String):
 			print("Glyph data not found for character: ", letter)
 
 	# Set shader parameters
-	sdf_material.set_shader_parameter("sdf_atlas", sdf_atlas)
-	sdf_material.set_shader_parameter("string_length", string_length)
+	current_material.set_shader_parameter("sdf_atlas", sdf_atlas)
+	current_material.set_shader_parameter("string_length", string_length)
 	#print("String Length: ", string_length)
-	sdf_material.set_shader_parameter("char_advances", char_advances)
+	current_material.set_shader_parameter("char_advances", char_advances)
 	#print("Advances: ", char_advances)
-	sdf_material.set_shader_parameter("atlas_uvs", atlas_uvs)
+	current_material.set_shader_parameter("atlas_uvs", atlas_uvs)
 	#print("Atlas: ", atlas_uvs)
-	sdf_material.set_shader_parameter("plane_uvs", plane_uvs)
+	current_material.set_shader_parameter("plane_uvs", plane_uvs)
 	#print("Plane: ", plane_uvs)
-	sdf_material.set_shader_parameter("max_string_width", max_advance)
+	current_material.set_shader_parameter("max_string_width", max_advance)
 	#print("Total advance: ", max_advance)
