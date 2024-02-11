@@ -10,7 +10,7 @@ uniform float max_string_width;
 void fragment() {
     float total_advance = 0.0;
     float alpha = 0.0;
-    float y_offset = 0.5;
+    float y_offset = 0.85;
     int current_char = 0;
     float sdf_value = 0.0;
     vec2 atlas_glyph_uv = vec2(0, 0);

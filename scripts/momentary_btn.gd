@@ -20,12 +20,13 @@ var atlas_height = ButtonStatesAutoload.atlas_height
 var sdf_atlas = ButtonStatesAutoload.sdf_atlas
 var sdf_material = ButtonStatesAutoload.sdf_material
 
+
 # Start by setting up the button and it's functions
 func init(area_node: Area3D, cell_no: int):
 	area = area_node
 	button_number = cell_no
 	
-	prepare_word("PETER")
+	prepare_word("BUTTON:" + str(button_number))
 	
 	# Signals emitted at entry and exit
 	area_node.connect("body_entered", Callable(self, "_on_Area3D_body_entered"))

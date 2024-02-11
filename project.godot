@@ -50,5 +50,6 @@ up={
 [xr]
 
 openxr/enabled=true
+openxr/startup_alert=false
 openxr/extensions/eye_gaze_interaction=true
 shaders/enabled=true

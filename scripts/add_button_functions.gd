@@ -12,6 +12,9 @@ func _ready():
 			if item_id != -1:  # Check if cell is not empty
 				var item_name = mesh_library.get_item_name(item_id)
 				if item_name == "Button":
+					var material = load("res://materials/sdf_label_material.tres")
+					var unique_material = material.duplicate()
+					mesh_library.get_item_mesh(item_id).surface_set_material(0, unique_material)
 					button_number += 1
 					setup_cell(cell)
 
