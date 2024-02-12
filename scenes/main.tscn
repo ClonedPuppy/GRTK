@@ -1244,7 +1244,7 @@ skin = SubResource("Skin_c1ps3")
 surface_material_override/0 = ExtResource("3_pl25v")
 
 [node name="GridMap" type="GridMap" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.996658, -0.0179176)
+transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.517036, -0.0412646)
 mesh_library = ExtResource("1_mjqxf")
 cell_size = Vector3(0.04, 0.01, 0.04)
 cell_octant_size = 1

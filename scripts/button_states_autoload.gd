@@ -4,7 +4,6 @@ extends Node
 var state_dict = {}
 var sdf_atlas = preload("res://assets/sdf_font.png")
 var sdf_material = preload("res://materials/sdf_label_material.tres")
-#var json_data = preload("res://assets/sdf_font.json")
 var font_data = {}
 var atlas_width = sdf_atlas.get_width()
 var atlas_height = sdf_atlas.get_height()
