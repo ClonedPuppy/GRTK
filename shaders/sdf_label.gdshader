@@ -10,6 +10,7 @@ uniform float max_string_width;
 void fragment() {
     float total_advance = 0.0;
     float alpha = 0.0;
+	vec3 color = vec3(0.5, 0.5, 0.5);
     float y_offset = 0.85;
     int current_char = 0;
     float sdf_value = 0.0;
@@ -51,7 +52,7 @@ void fragment() {
 
         sdf_value = texture(sdf_atlas, atlas_glyph_uv).r;
         alpha = max(alpha, smoothstep(0.45, 0.52, sdf_value));
-
+		
         // Update indices and total advance for the next character.
         current_advance += char_advances[i] * advance_scale;
         current_char += 2;
@@ -72,6 +73,6 @@ void fragment() {
     }
 
     // Set the fragment color to white and apply the calculated alpha.
-    ALBEDO = vec3(1.0); // Set to white color.
-    ALPHA = alpha; // Apply alpha for transparency control.
+    ALBEDO = color + alpha; // Set to white color.
+    //ALPHA = alpha; // Apply alpha for transparency control.
 }
