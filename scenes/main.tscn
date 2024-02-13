@@ -446,7 +446,6 @@ material = SubResource("StandardMaterial3D_0ydwi")
 size = Vector3(0.1, 0.1, 0.1)
 
 [node name="main" type="Node3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.273931, 0.436027, -0.0697943)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.766244, -0.150127, 0.624765, 0.403567, 0.644176, 0.649747, -0.500003, 0.749999, -0.43301, 0.124235, 0.116918, 0)
@@ -462,6 +461,7 @@ script = ExtResource("1_0qha1")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+current = true
 
 [node name="LeftHand" type="OpenXRHand" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
@@ -1252,7 +1252,7 @@ skin = SubResource("Skin_c1ps3")
 surface_material_override/0 = ExtResource("3_pl25v")
 
 [node name="GridMap" type="GridMap" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.880197, -0.388215)
+transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.88, -0.388)
 mesh_library = ExtResource("1_mjqxf")
 cell_size = Vector3(0.04, 0.01, 0.04)
 cell_octant_size = 1
