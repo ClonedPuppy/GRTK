@@ -35,7 +35,7 @@ func setup_cell(cell: Vector3, mesh: Mesh):
 
 	# Load and assign script to the Area3D node
 	var script_path = "res://scripts/momentary_btn.gd"
-	var script = load(script_path).duplicate()
+	var script = load(script_path)
 	if script:
 		area.script = script
 		if area.has_method("init"):
