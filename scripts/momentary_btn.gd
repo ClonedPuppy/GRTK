@@ -90,7 +90,6 @@ func _process(delta):
 				## Change the resting height based on the button state
 				#initial_y_position = -0.005 if _button_state else -0.0025
 				ButtonStatesAutoload.set_value(button_number, true)
-				print(_button_state)
 				#reset_button_plate()
 
 		# Update the last y position
@@ -124,5 +123,3 @@ func _on_Area3D_body_exited(body: Node):
 		# Set the button state to false when the finger is no longer pressing
 		ButtonStatesAutoload.set_value(button_number, false)
 		reset_button_plate()
-		print("Not Pressed")
-

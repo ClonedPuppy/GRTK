@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bj7ax6sm8f37y"]
+[gd_scene load_steps=28 format=3 uid="uid://bj7ax6sm8f37y"]
 
 [ext_resource type="Script" path="res://scripts/StartVR.gd" id="1_0qha1"]
 [ext_resource type="MeshLibrary" uid="uid://dgiysbhvxgkva" path="res://assets/ProtoKit.tres" id="1_mjqxf"]
@@ -7,6 +7,7 @@
 [ext_resource type="Material" uid="uid://ccv8yseq7ntvf" path="res://materials/grid_floor_material.tres" id="3_pbxcr"]
 [ext_resource type="Material" uid="uid://bsgl6at68b8gj" path="res://materials/green_material.tres" id="3_pl25v"]
 [ext_resource type="Script" path="res://scripts/Floor.gd" id="4_761hc"]
+[ext_resource type="Script" path="res://scripts/TestCube.gd" id="8_prhp1"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_2707b"]
 
@@ -438,6 +439,12 @@ bind/25/pose = Transform3D(0.858791, -0.16715, 0.484293, 0.384474, 0.83503, -0.3
 material = ExtResource("3_pbxcr")
 size = Vector2(25, 25)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0ydwi"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_01rsx"]
+material = SubResource("StandardMaterial3D_0ydwi")
+size = Vector3(0.1, 0.1, 0.1)
+
 [node name="main" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.273931, 0.436027, -0.0697943)
 
@@ -454,6 +461,7 @@ script = ExtResource("1_0qha1")
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="LeftHand" type="OpenXRHand" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0, 0)
@@ -1244,7 +1252,7 @@ skin = SubResource("Skin_c1ps3")
 surface_material_override/0 = ExtResource("3_pl25v")
 
 [node name="GridMap" type="GridMap" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.517036, -0.0412646)
+transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.880197, -0.388215)
 mesh_library = ExtResource("1_mjqxf")
 cell_size = Vector3(0.04, 0.01, 0.04)
 cell_octant_size = 1
@@ -1260,3 +1268,8 @@ mesh = SubResource("PlaneMesh_3aeh2")
 script = ExtResource("4_761hc")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[node name="cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.970108, -0.565896)
+mesh = SubResource("BoxMesh_01rsx")
+script = ExtResource("8_prhp1")
