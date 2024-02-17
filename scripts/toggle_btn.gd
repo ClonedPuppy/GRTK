@@ -8,13 +8,14 @@ var active = false
 var lever
 var initial_y_position = -0.0025  # Store the initial y-position of the button
 var last_y_position: float = 0.0  # Variable to store the last y position
-var min_movement_threshold = 0.0005 # Minimum movement required to consider a press (e.g., 1mm)
-var max_movement_threshold = 0.5 # Maximum movement allowed for a valid press (e.g., 20mm)
+var min_movement_threshold = 0.0005 # Minimum movement required to consider a press
+var max_movement_threshold = 0.5 # Maximum movement allowed for a valid press
 var finger_collision_offset = 0.0025
 var click_sound: AudioStreamPlayer
 
+
 # Start by setting up the button and it's functions
-func init(area_node: Area3D, cell_no: int):
+func init(area_node: Area3D, cell_no: int, current_mesh: Mesh, cell_orientation):
 	area = area_node
 	button_number = cell_no
 	
@@ -36,9 +37,10 @@ func init(area_node: Area3D, cell_no: int):
 	# Add a MeshInstance3D with the leverage mesh at the same location
 	var mesh_instance = MeshInstance3D.new()
 	var mesh_library = load("res://assets/levers.tres")
-	var mesh = mesh_library.get_item_mesh(0) # Since I beforehand know this particular lever is in the 0 slot
+	var mesh = mesh_library.get_item_mesh(1) # Since I beforehand know this particular lever is in the 0 slot
+	
 	if mesh:
-		mesh_instance.mesh = mesh
+		mesh_instance.mesh = mesh.duplicate()
 	else:
 		print("Failed to load lever mesh from:", mesh)
 		return
@@ -46,9 +48,22 @@ func init(area_node: Area3D, cell_no: int):
 	var corrected_rotation = Quaternion(Vector3(1, 0, 0), deg_to_rad(0)) # not sued if lever correctly oriented in blender
 	mesh_instance.transform = Transform3D(corrected_rotation, Vector3(0, initial_y_position, 0))
 	mesh_instance.name = "Lever_" + str(cell_no)
-
+	if cell_orientation != -1:
+		if cell_orientation == 16:
+			mesh_instance.rotation_degrees.y = 90
 	area.add_child(mesh_instance)
+	
 	lever = mesh_instance
+	
+	# Create a label
+	var label_3d = Label3D.new()
+	label_3d.text = "Button: " + str(button_number)
+	label_3d.transform = Transform3D(Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))).translated(Vector3(0.0, 0.005, 0.015))
+	label_3d.pixel_size = 0.0001
+	label_3d.font_size = 40
+	label_3d.outline_size = 0
+	label_3d.modulate = Color.BLACK
+	add_child(label_3d)
 	
 	# Manually turn on the _process function as it's disabled since attaching the script via code
 	set_process(true) 
@@ -62,6 +77,7 @@ func init(area_node: Area3D, cell_no: int):
 	ButtonStatesAutoload.update_button_state(button_number, false)
 
 
+# frame by frame process
 func _process(delta):
 	if tracked_body and !active:
 		var _global_position = tracked_body.global_transform.origin
@@ -83,13 +99,13 @@ func _process(delta):
 				active = true
 				click_sound.play()
 
-				# Toggle the button state
+				## Toggle the button state
 				_button_state = not _button_state
-
-				# Change the resting height based on the button state
-				initial_y_position = -0.005 if _button_state else -0.0025
-				ButtonStatesAutoload.set_value(button_number, _button_state)
-				reset_button_plate()
+#
+				## Change the resting height based on the button state
+				#initial_y_position = -0.005 if _button_state else -0.0025
+				ButtonStatesAutoload.set_value(button_number, true)
+				#reset_button_plate()
 
 		# Update the last y position
 		last_y_position = _local_position.y  
@@ -119,4 +135,6 @@ func _on_Area3D_body_exited(body: Node):
 	if tracked_body == body:
 		tracked_body = null
 		active = false
+		# Set the button state to false when the finger is no longer pressing
+		ButtonStatesAutoload.set_value(button_number, false)
 		reset_button_plate()

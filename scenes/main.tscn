@@ -1,11 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://bj7ax6sm8f37y"]
+[gd_scene load_steps=9 format=3 uid="uid://bj7ax6sm8f37y"]
 
 [ext_resource type="MeshLibrary" uid="uid://dgiysbhvxgkva" path="res://assets/ProtoKit.tres" id="1_mjqxf"]
 [ext_resource type="Script" path="res://scripts/add_button_functions.gd" id="2_onwq2"]
-[ext_resource type="Script" path="res://scripts/TestCube2.gd" id="4_2up8f"]
-[ext_resource type="Script" path="res://scripts/TestCube3.gd" id="5_st4bn"]
-[ext_resource type="Script" path="res://scripts/TestCube4.gd" id="6_wkw5f"]
-[ext_resource type="Script" path="res://scripts/TestCube1.gd" id="8_prhp1"]
+[ext_resource type="Script" path="res://scripts/TestCube.gd" id="8_prhp1"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_2707b"]
 
@@ -22,7 +19,7 @@ tonemap_mode = 2
 
 [sub_resource type="BoxMesh" id="BoxMesh_01rsx"]
 material = SubResource("StandardMaterial3D_0ydwi")
-size = Vector3(0.05, 0.05, 0.05)
+size = Vector3(0.1, 0.1, 0.1)
 
 [node name="main" type="Node3D"]
 
@@ -34,7 +31,7 @@ shadow_enabled = true
 environment = SubResource("Environment_klqqv")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.969016, 0.246999, 0, -0.246999, 0.969016, 0, 0.899389, -0.206999)
+transform = Transform3D(1, 0, 0, 0, 0.885394, 0.464842, 0, -0.464842, 0.885394, 0, 1.00401, -0.223485)
 
 [node name="GridMap" type="GridMap" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.88, -0.388)
@@ -42,27 +39,14 @@ mesh_library = ExtResource("1_mjqxf")
 cell_size = Vector3(0.04, 0.01, 0.04)
 cell_center_y = false
 data = {
-"cells": PackedInt32Array(65534, 0, 2, 65535, 0, 2, 0, 0, 2, 1, 0, 2, 65534, 65535, 1, 1, 65535, 1441793, 1, 1, 655361, 65534, 1, 1048577, 0, 65535, 655360, 65535, 65535, 655360, 0, 1, 0, 65535, 1, 0)
+"cells": PackedInt32Array(65535, 65535, 3, 0, 65534, 655360, 65535, 1, 0, 0, 1, 0, 65534, 65534, 1, 1, 65534, 1441793, 1, 1, 655361, 65534, 1, 1048577, 65535, 0, 2, 0, 0, 1441794, 0, 65535, 1441795, 1, 65535, 1048579, 1, 0, 2, 65534, 0, 1441794, 65535, 65534, 655363, 65534, 65535, 655363)
 }
 script = ExtResource("2_onwq2")
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="cube1" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, 1, -0.5)
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+
+[node name="cube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.970108, -0.565896)
 mesh = SubResource("BoxMesh_01rsx")
 script = ExtResource("8_prhp1")
-
-[node name="cube2" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 1, -0.5)
-mesh = SubResource("BoxMesh_01rsx")
-script = ExtResource("4_2up8f")
-
-[node name="cube3" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 1, -0.5)
-mesh = SubResource("BoxMesh_01rsx")
-script = ExtResource("5_st4bn")
-
-[node name="cube4" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, 1, -0.5)
-mesh = SubResource("BoxMesh_01rsx")
-script = ExtResource("6_wkw5f")

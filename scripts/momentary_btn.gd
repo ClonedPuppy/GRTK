@@ -53,11 +53,10 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh):
 	
 	# Create a label
 	var label_3d = Label3D.new()
-	label_3d.name = "Label3D_" + str(button_number)
 	label_3d.text = "Button: " + str(button_number)
 	label_3d.transform = Transform3D(Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))).translated(Vector3(0.0, 0.005, 0.015))
 	label_3d.pixel_size = 0.0001
-	label_3d.font_size = 30
+	label_3d.font_size = 40
 	label_3d.outline_size = 0
 	label_3d.modulate = Color.BLACK
 	add_child(label_3d)
@@ -67,7 +66,6 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh):
 
 	# Initialize the AudioStreamPlayer
 	click_sound = AudioStreamPlayer.new()
-	click_sound.name = "AudioStream_" + str(button_number)
 	click_sound.stream = preload("res://assets/General_Button_2_User_Interface_Tap_FX_Sound.ogg")
 	add_child(click_sound)
 	
