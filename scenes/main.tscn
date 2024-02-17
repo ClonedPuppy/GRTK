@@ -2,7 +2,7 @@
 
 [ext_resource type="MeshLibrary" uid="uid://dgiysbhvxgkva" path="res://assets/ProtoKit.tres" id="1_mjqxf"]
 [ext_resource type="Script" path="res://scripts/add_button_functions.gd" id="2_onwq2"]
-[ext_resource type="Script" path="res://scripts/TestCube.gd" id="8_prhp1"]
+[ext_resource type="Script" path="res://scripts/TestCube1.gd" id="8_prhp1"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_2707b"]
 
@@ -31,7 +31,7 @@ shadow_enabled = true
 environment = SubResource("Environment_klqqv")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.885394, 0.464842, 0, -0.464842, 0.885394, 0, 1.00401, -0.223485)
+transform = Transform3D(1, 0, 0, 0, 0.885394, 0.464842, 0, -0.464842, 0.885394, 0, 0.950942, -0.274992)
 
 [node name="GridMap" type="GridMap" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.88, -0.388)

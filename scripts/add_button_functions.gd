@@ -67,7 +67,7 @@ func setup_toggleButton(cell: Vector3, mesh: Mesh, cell_orientation):
 
 	# Load and assign script to the Area3D node
 	var script_path = "res://scripts/toggle_btn.gd"
-	var script = load(script_path).duplicate()
+	var script = load(script_path).duplicate(true)
 	if script:
 		area.script = script
 		if area.has_method("init"):

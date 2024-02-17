@@ -48,9 +48,23 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh, cell_orientation)
 	var corrected_rotation = Quaternion(Vector3(1, 0, 0), deg_to_rad(0)) # not sued if lever correctly oriented in blender
 	mesh_instance.transform = Transform3D(corrected_rotation, Vector3(0, initial_y_position, 0))
 	mesh_instance.name = "Lever_" + str(cell_no)
+	
+	# Rotate the button accordingly
+	var label_position = Transform3D(Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))).translated(Vector3(0.0, 0.0055, 0.012))
+	print(cell_orientation)
 	if cell_orientation != -1:
 		if cell_orientation == 16:
 			mesh_instance.rotation_degrees.y = 90
+			label_position = Transform3D(Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))).translated(Vector3(0.0, 0.0055, 0.019))
+		elif cell_orientation == 10:
+			mesh_instance.rotation_degrees.y = 180
+			label_position = Transform3D(Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))).translated(Vector3(0.0, 0.0055, 0.012))
+		elif cell_orientation == 22:
+			mesh_instance.rotation_degrees.y = -90
+			label_position = Transform3D(Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))).translated(Vector3(0.0, 0.0055, 0.019))
+		else:
+			mesh_instance.rotation_degrees.y = 0
+		
 	area.add_child(mesh_instance)
 	
 	lever = mesh_instance
@@ -58,7 +72,7 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh, cell_orientation)
 	# Create a label
 	var label_3d = Label3D.new()
 	label_3d.text = "Button: " + str(button_number)
-	label_3d.transform = Transform3D(Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))).translated(Vector3(0.0, 0.005, 0.015))
+	label_3d.transform = label_position
 	label_3d.pixel_size = 0.0001
 	label_3d.font_size = 40
 	label_3d.outline_size = 0
