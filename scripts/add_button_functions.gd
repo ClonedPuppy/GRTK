@@ -9,6 +9,7 @@ func _ready():
 		var used_cells = get_used_cells()
 		for cell in used_cells:
 			var item_id = get_cell_item(cell)
+			var cell_orientation = get_cell_item_orientation(cell)
 			if item_id != -1:  # Check if cell is not empty
 				var item_name = mesh_library.get_item_name(item_id)
 				if item_name == "MomentaryButton":
@@ -18,7 +19,7 @@ func _ready():
 				if item_name == "ToggleButton":
 					var mesh = mesh_library.get_item_mesh(item_id)
 					button_number += 1
-					setup_toggleButton(cell, mesh)
+					setup_toggleButton(cell, mesh, cell_orientation)
 
 
 func setup_momentaryButton(cell: Vector3, mesh: Mesh):
@@ -48,13 +49,13 @@ func setup_momentaryButton(cell: Vector3, mesh: Mesh):
 		print("Failed to attach script:", script_path)
 
 
-func setup_toggleButton(cell: Vector3, mesh: Mesh):
+func setup_toggleButton(cell: Vector3, mesh: Mesh, cell_orientation):
 	var area = Area3D.new()
-
+	
 	current_area = area
 	area.name = "ToggleButton_" + str(button_number)
 
-	# Calculate the local transform for the cell
+	# Calculate the local transform for the cell's button
 	var cell_local_transform = Transform3D()
 	cell_local_transform.origin = cell * cell_size + Vector3(0.02, 0.005, 0.02)
 
@@ -66,10 +67,10 @@ func setup_toggleButton(cell: Vector3, mesh: Mesh):
 
 	# Load and assign script to the Area3D node
 	var script_path = "res://scripts/toggle_btn.gd"
-	var script = load(script_path)
+	var script = load(script_path).duplicate()
 	if script:
 		area.script = script
 		if area.has_method("init"):
-			area.call("init", area, button_number, mesh)
+			area.call("init", area, button_number, mesh, cell_orientation)
 	else:
 		print("Failed to attach script:", script_path)

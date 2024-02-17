@@ -15,7 +15,7 @@ var click_sound: AudioStreamPlayer
 
 
 # Start by setting up the button and it's functions
-func init(area_node: Area3D, cell_no: int, current_mesh: Mesh):
+func init(area_node: Area3D, cell_no: int, current_mesh: Mesh, cell_orientation):
 	area = area_node
 	button_number = cell_no
 	
@@ -38,8 +38,9 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh):
 	var mesh_instance = MeshInstance3D.new()
 	var mesh_library = load("res://assets/levers.tres")
 	var mesh = mesh_library.get_item_mesh(1) # Since I beforehand know this particular lever is in the 0 slot
+	
 	if mesh:
-		mesh_instance.mesh = mesh
+		mesh_instance.mesh = mesh.duplicate()
 	else:
 		print("Failed to load lever mesh from:", mesh)
 		return
@@ -47,8 +48,11 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh):
 	var corrected_rotation = Quaternion(Vector3(1, 0, 0), deg_to_rad(0)) # not sued if lever correctly oriented in blender
 	mesh_instance.transform = Transform3D(corrected_rotation, Vector3(0, initial_y_position, 0))
 	mesh_instance.name = "Lever_" + str(cell_no)
-
+	if cell_orientation != -1:
+		if cell_orientation == 16:
+			mesh_instance.rotation_degrees.y = 90
 	area.add_child(mesh_instance)
+	
 	lever = mesh_instance
 	
 	# Create a label
