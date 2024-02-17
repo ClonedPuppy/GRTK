@@ -1,8 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://bj7ax6sm8f37y"]
+[gd_scene load_steps=12 format=3 uid="uid://bj7ax6sm8f37y"]
 
 [ext_resource type="MeshLibrary" uid="uid://dgiysbhvxgkva" path="res://assets/ProtoKit.tres" id="1_mjqxf"]
 [ext_resource type="Script" path="res://scripts/add_button_functions.gd" id="2_onwq2"]
-[ext_resource type="Script" path="res://scripts/TestCube.gd" id="8_prhp1"]
+[ext_resource type="Script" path="res://scripts/TestCube2.gd" id="4_2up8f"]
+[ext_resource type="Script" path="res://scripts/TestCube3.gd" id="5_st4bn"]
+[ext_resource type="Script" path="res://scripts/TestCube4.gd" id="6_wkw5f"]
+[ext_resource type="Script" path="res://scripts/TestCube1.gd" id="8_prhp1"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_2707b"]
 
@@ -19,7 +22,7 @@ tonemap_mode = 2
 
 [sub_resource type="BoxMesh" id="BoxMesh_01rsx"]
 material = SubResource("StandardMaterial3D_0ydwi")
-size = Vector3(0.1, 0.1, 0.1)
+size = Vector3(0.05, 0.05, 0.05)
 
 [node name="main" type="Node3D"]
 
@@ -31,7 +34,7 @@ shadow_enabled = true
 environment = SubResource("Environment_klqqv")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.969162, 0.246424, 0, -0.246424, 0.969162, 0, 0.959224, -0.176327)
+transform = Transform3D(1, 0, 0, 0, 0.969016, 0.246999, 0, -0.246999, 0.969016, 0, 0.899389, -0.206999)
 
 [node name="GridMap" type="GridMap" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.88, -0.388)
@@ -44,9 +47,22 @@ data = {
 script = ExtResource("2_onwq2")
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-
-[node name="cube" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.970108, -0.565896)
+[node name="cube1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.24, 1, -0.5)
 mesh = SubResource("BoxMesh_01rsx")
 script = ExtResource("8_prhp1")
+
+[node name="cube2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 1, -0.5)
+mesh = SubResource("BoxMesh_01rsx")
+script = ExtResource("4_2up8f")
+
+[node name="cube3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 1, -0.5)
+mesh = SubResource("BoxMesh_01rsx")
+script = ExtResource("5_st4bn")
+
+[node name="cube4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24, 1, -0.5)
+mesh = SubResource("BoxMesh_01rsx")
+script = ExtResource("6_wkw5f")

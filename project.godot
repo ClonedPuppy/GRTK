@@ -23,6 +23,10 @@ ButtonStatesAutoload="*res://scripts/button_states_autoload.gd"
 
 gdscript/warnings/unused_parameter=0
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 left={
