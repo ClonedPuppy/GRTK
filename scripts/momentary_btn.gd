@@ -56,8 +56,9 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh):
 	label_3d.text = "Button: " + str(button_number)
 	label_3d.transform = Transform3D(Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))).translated(Vector3(0.0, 0.005, 0.015))
 	label_3d.pixel_size = 0.0001
-	label_3d.font_size = 30
-	label_3d.outline_size = 10
+	label_3d.font_size = 40
+	label_3d.outline_size = 0
+	label_3d.modulate = Color.BLACK
 	add_child(label_3d)
 	
 	# Manually turn on the _process function as it's disabled since attaching the script via code
