@@ -51,7 +51,6 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh, cell_orientation)
 	
 	# Rotate the button accordingly
 	var label_position = Transform3D(Quaternion(Vector3(1, 0, 0), deg_to_rad(-90))).translated(Vector3(0.0, 0.0055, 0.012))
-	print(cell_orientation)
 	if cell_orientation != -1:
 		if cell_orientation == 16:
 			mesh_instance.rotation_degrees.y = 90

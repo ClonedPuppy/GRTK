@@ -123,6 +123,7 @@ func update_button_plate_position(y_position):
 
 # Set the tracked_body to follow whatever has entered the Area3D
 func _on_Area3D_body_entered(body: Node):
+	print(body)
 	tracked_body = body
 
 
