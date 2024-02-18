@@ -71,6 +71,7 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh, cell_orientation)
 	# Create a label
 	var label_3d = Label3D.new()
 	label_3d.text = "Button: " + str(button_number)
+	label_3d.name = "Label_" + str(button_number)
 	label_3d.transform = label_position
 	label_3d.pixel_size = 0.0001
 	label_3d.font_size = 40
@@ -83,6 +84,7 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh, cell_orientation)
 
 	# Initialize the AudioStreamPlayer
 	click_sound = AudioStreamPlayer.new()
+	click_sound.name = "AudioStreamPlayer_" + str(button_number)
 	click_sound.stream = preload("res://assets/General_Button_2_User_Interface_Tap_FX_Sound.ogg")
 	add_child(click_sound)
 	
@@ -117,7 +119,7 @@ func _process(delta):
 #
 				## Change the resting height based on the button state
 				#initial_y_position = -0.005 if _button_state else -0.0025
-				ButtonStatesAutoload.set_value(button_number, true)
+				ButtonStatesAutoload.set_value(button_number, _button_state)
 				#reset_button_plate()
 
 		# Update the last y position
@@ -149,5 +151,5 @@ func _on_Area3D_body_exited(body: Node):
 		tracked_body = null
 		active = false
 		# Set the button state to false when the finger is no longer pressing
-		ButtonStatesAutoload.set_value(button_number, false)
+		#ButtonStatesAutoload.set_value(button_number, false)
 		reset_button_plate()

@@ -22,6 +22,7 @@ func get_value(key: int):
 func update_button_state(button_id: int, new_state):
 	state_dict[button_id] = new_state
 
+
 func load_font_data(path : String):
 	var file = FileAccess.open(path, FileAccess.READ)
 	if file.get_error() == OK:
