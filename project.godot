@@ -23,6 +23,10 @@ ButtonStatesAutoload="*res://scripts/button_states_autoload.gd"
 
 gdscript/warnings/unused_parameter=0
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 left={
@@ -48,7 +52,5 @@ up={
 
 [xr]
 
-openxr/enabled=true
 openxr/startup_alert=false
 openxr/extensions/eye_gaze_interaction=true
-shaders/enabled=true

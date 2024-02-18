@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cuxpqc0j8gb0h"
-path="res://.godot/imported/Button.glb-28b59af804015d7b5578ca91580f9802.scn"
+uid="uid://cl3grsmi8evb8"
+path="res://.godot/imported/ToggleButton.glb-6397a70501ed5702c126cc52e4254b38.scn"
 
 [deps]
 
-source_file="res://assets/Button.glb"
-dest_files=["res://.godot/imported/Button.glb-28b59af804015d7b5578ca91580f9802.scn"]
+source_file="res://assets/ToggleButton.glb"
+dest_files=["res://.godot/imported/ToggleButton.glb-6397a70501ed5702c126cc52e4254b38.scn"]
 
 [params]
 
@@ -19,7 +19,7 @@ nodes/apply_root_scale=true
 nodes/root_scale=1.0
 meshes/ensure_tangents=true
 meshes/generate_lods=false
-meshes/create_shadow_meshes=false
+meshes/create_shadow_meshes=true
 meshes/light_baking=1
 meshes/lightmap_texel_size=0.2
 meshes/force_disable_compression=false
@@ -31,4 +31,4 @@ animation/remove_immutable_tracks=true
 import_script/path=""
 _subresources={}
 gltf/naming_version=1
-gltf/embedded_image_handling=0
+gltf/embedded_image_handling=1
