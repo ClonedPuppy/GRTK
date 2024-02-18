@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://c8mf7vdb7fkom"
 path.s3tc="res://.godot/imported/SkeuomorphicButtons.png-0d01f1331458cb0a9015863d1b4a444b.s3tc.ctex"
+path.etc2="res://.godot/imported/SkeuomorphicButtons.png-0d01f1331458cb0a9015863d1b4a444b.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://sourceFiles/SkeuomorphicButtons.png"
-dest_files=["res://.godot/imported/SkeuomorphicButtons.png-0d01f1331458cb0a9015863d1b4a444b.s3tc.ctex"]
+dest_files=["res://.godot/imported/SkeuomorphicButtons.png-0d01f1331458cb0a9015863d1b4a444b.s3tc.ctex", "res://.godot/imported/SkeuomorphicButtons.png-0d01f1331458cb0a9015863d1b4a444b.etc2.ctex"]
 
 [params]
 
