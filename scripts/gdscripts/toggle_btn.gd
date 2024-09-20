@@ -116,12 +116,11 @@ func _process(delta):
 
 				## Toggle the button state
 				_button_state = not _button_state
-#
+				#
 				## Change the resting height based on the button state
 				#initial_y_position = -0.005 if _button_state else -0.0025
 				ButtonStatesAutoload.set_value(button_number, _button_state)
 				#reset_button_plate()
-
 		# Update the last y position
 		last_y_position = _local_position.y  
 
