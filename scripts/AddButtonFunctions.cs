@@ -41,7 +41,7 @@ public partial class AddButtonFunctions : GridMap
         toggleButton.Position = position;
 
         // Initialize the button
-        toggleButton.Initialize(buttonNumber, mesh, cellOrientation);
+        toggleButton.Initialize(buttonNumber, cellOrientation);
 
         GD.Print($"ToggleButton {buttonNumber} set up at position {position}");
     }

@@ -37,7 +37,7 @@ func init(area_node: Area3D, cell_no: int, current_mesh: Mesh, cell_orientation)
 	# Add a MeshInstance3D with the leverage mesh at the same location
 	var mesh_instance = MeshInstance3D.new()
 	var mesh_library = load("res://assets/levers.tres")
-	var mesh = mesh_library.get_item_mesh(1) # Since I beforehand know this particular lever is in the 0 slot
+	var mesh = mesh_library.get_item_mesh(1) # Since I beforehand know this particular lever is in the 1 slot
 	
 	if mesh:
 		mesh_instance.mesh = mesh.duplicate()

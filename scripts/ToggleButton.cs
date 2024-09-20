@@ -14,17 +14,18 @@ public partial class ToggleButton : Area3D
         AddChild(clickSound);
     }
 
-    public void Initialize(int cellNo, Mesh currentMesh, int cellOrientation)
+    public void Initialize(int cellNo, int cellOrientation)
     {
         buttonNumber = cellNo;
         Name = $"ToggleButton_{buttonNumber}";
+        var leverMesh = GD.Load<MeshLibrary>("res://assets/levers.tres");
 
         var collisionShape = new CollisionShape3D();
         collisionShape.Shape = new CylinderShape3D { Height = 0.01f, Radius = 0.01f };
         AddChild(collisionShape);
 
         lever = new MeshInstance3D();
-        lever.Mesh = currentMesh;
+        lever.Mesh = leverMesh.GetItemMesh(1);
         lever.Name = $"Lever_{buttonNumber}";
         AddChild(lever);
 
