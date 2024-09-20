@@ -26,6 +26,9 @@ public partial class MomentaryButton : Area3D
         buttonNumber = cellNo;
         Name = $"MomentaryButton_{buttonNumber}";
 
+        // // Signals emitted at entry and exit
+        // BodyEntered += OnBodyEntered;
+        // BodyExited += OnBodyExited;
 
 
         // Add a collision node
