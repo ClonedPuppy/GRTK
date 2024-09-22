@@ -162,7 +162,7 @@ public partial class ToggleButton : Area3D
     {
         // Handle body entered logic
         trackedBody = body;
-        GD.Print($"Body entered ToggleButton {buttonNumber}");
+        //GD.Print($"Body entered ToggleButton {buttonNumber}");
     }
 
     private void OnBodyExited(Node3D body)
@@ -174,6 +174,6 @@ public partial class ToggleButton : Area3D
             ResetButtonPlate();
         }
         // Handle body exited logic
-        GD.Print($"Body exited ToggleButton {buttonNumber}");
+        //GD.Print($"Body exited ToggleButton {buttonNumber}");
     }
 }

@@ -129,7 +129,7 @@ public partial class MomentaryButton : Area3D
 
     private void OnBodyEntered(Node3D body)
     {
-        GD.Print(body.Name + " Entered");
+        //GD.Print(body.Name + " Entered");
         trackedBody = body;
     }
 
@@ -137,7 +137,7 @@ public partial class MomentaryButton : Area3D
     {
         if (trackedBody == body)
         {
-            GD.Print(body.Name + " Exited");
+            //GD.Print(body.Name + " Exited");
             trackedBody = null;
             active = false;
             var buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
