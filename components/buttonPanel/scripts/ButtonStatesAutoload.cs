@@ -5,7 +5,6 @@ public partial class ButtonStatesAutoload : Node
 {
     // Dictionary to store all the values and states
     public Dictionary<int, Variant> StateDict { get; private set; } = new Dictionary<int, Variant>();
-    
     private Texture2D sdfAtlas;
     private Material sdfMaterial;
     private Godot.Collections.Dictionary fontData = new Godot.Collections.Dictionary();
@@ -14,11 +13,11 @@ public partial class ButtonStatesAutoload : Node
 
     public override void _Ready()
     {
-        sdfAtlas = GD.Load<Texture2D>("res://assets/sdf_font.png");
-        sdfMaterial = GD.Load<Material>("res://materials/sdf_label_material.tres");
+        sdfAtlas = GD.Load<Texture2D>("res://components/buttonPanel/assets/sdf/sdf_font.png");
+        sdfMaterial = GD.Load<Material>("res://components/buttonPanel/assets/materials/sdf_label_material.tres");
         atlasWidth = sdfAtlas.GetWidth();
         atlasHeight = sdfAtlas.GetHeight();
-        LoadFontData("res://assets/sdf_font.json");
+        LoadFontData("res://components/buttonPanel/assets/sdf/sdf_font.json");
     }
 
     public void SetValue(int key, Variant value)

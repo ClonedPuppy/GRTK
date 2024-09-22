@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://ctyipc6vje5m8"
-path="res://.godot/imported/ProKit.gltf-8e54c46e3b7fd33dc51706d9c140b18f.scn"
+uid="uid://cidotlsn6tv2p"
+path="res://.godot/imported/RoundLever.glb-d66bdd2788e0b146cb14764ccf6c258d.scn"
 
 [deps]
 
-source_file="res://assets/ProKit.gltf"
-dest_files=["res://.godot/imported/ProKit.gltf-8e54c46e3b7fd33dc51706d9c140b18f.scn"]
+source_file="res://components/buttonPanel/assets/models/RoundLever.glb"
+dest_files=["res://.godot/imported/RoundLever.glb-d66bdd2788e0b146cb14764ccf6c258d.scn"]
 
 [params]
 
@@ -20,7 +20,7 @@ nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
 meshes/ensure_tangents=true
 meshes/generate_lods=false
-meshes/create_shadow_meshes=false
+meshes/create_shadow_meshes=true
 meshes/light_baking=1
 meshes/lightmap_texel_size=0.2
 meshes/force_disable_compression=false

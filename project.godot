@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-ButtonStatesAutoload="*res://scripts/ButtonStatesAutoload.cs"
+ButtonStatesAutoload="*res://components/buttonPanel/scripts/ButtonStatesAutoload.cs"
 
 [debug]
 
@@ -56,8 +56,6 @@ up={
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
 anti_aliasing/quality/msaa_3d=1
 

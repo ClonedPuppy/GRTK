@@ -33,7 +33,7 @@ public partial class ToggleButton : Area3D
 
         // Add a MeshInstance3D with the leverage mesh at the same location
         lever = new MeshInstance3D();
-        var leverMeshLib = GD.Load<MeshLibrary>("res://assets/levers.tres");
+        var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
 
         var mesh = leverMeshLib.GetItemMesh(1);
         if (mesh != null)
@@ -89,7 +89,7 @@ public partial class ToggleButton : Area3D
         // Setup audio click sound
         clickSound = new AudioStreamPlayer();
         clickSound.Name = "AudioStreamPlayer_" + buttonNumber.ToString();
-        clickSound.Stream = GD.Load<AudioStream>("res://assets/General_Button_2_User_Interface_Tap_FX_Sound.ogg");
+        clickSound.Stream = GD.Load<AudioStream>("res://components/buttonPanel/assets/audio/General_Button_2_User_Interface_Tap_FX_Sound.ogg");
         AddChild(clickSound);
 
         // Setup the button in the global Dict
@@ -126,7 +126,7 @@ public partial class ToggleButton : Area3D
                     buttonState = !buttonState;
 
                     // Change the resting height based on the button state
-                    // initialYPosition = buttonState ? -0.005f : -0.0025f;
+                    //initialYposition = buttonState ? -0.005f : -0.0025f;
                     buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(buttonState));
                     // ResetButtonPlate();
                 }
@@ -162,7 +162,6 @@ public partial class ToggleButton : Area3D
     {
         // Handle body entered logic
         trackedBody = body;
-        //GD.Print($"Body entered ToggleButton {buttonNumber}");
     }
 
     private void OnBodyExited(Node3D body)
@@ -173,7 +172,5 @@ public partial class ToggleButton : Area3D
             active = false;
             ResetButtonPlate();
         }
-        // Handle body exited logic
-        //GD.Print($"Body exited ToggleButton {buttonNumber}");
     }
 }

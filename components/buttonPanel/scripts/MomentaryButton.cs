@@ -26,11 +26,6 @@ public partial class MomentaryButton : Area3D
         buttonNumber = cellNo;
         Name = $"MomentaryButton_{buttonNumber}";
 
-        // // Signals emitted at entry and exit
-        // BodyEntered += OnBodyEntered;
-        // BodyExited += OnBodyExited;
-
-
         // Add a collision node
         var collisionShape = new CollisionShape3D();
         collisionShape.Name = "Collision_" + cellNo.ToString();
@@ -41,7 +36,7 @@ public partial class MomentaryButton : Area3D
 
         // Add a MeshInstance3D with the leverage mesh at the same location
         lever = new MeshInstance3D();
-        var leverMeshLib = GD.Load<MeshLibrary>("res://assets/levers.tres");
+        var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
 
         var mesh = leverMeshLib.GetItemMesh(0);
         if (mesh != null)
@@ -77,7 +72,7 @@ public partial class MomentaryButton : Area3D
         // Setup audio click sound
         clickSound = new AudioStreamPlayer();
         clickSound.Name = "AudioStreamPlayer_" + buttonNumber.ToString();
-        clickSound.Stream = GD.Load<AudioStream>("res://assets/General_Button_2_User_Interface_Tap_FX_Sound.ogg");
+        clickSound.Stream = GD.Load<AudioStream>("res://components/buttonPanel/assets/audio/General_Button_2_User_Interface_Tap_FX_Sound.ogg");
         AddChild(clickSound);
 
         // Setup the button in the global Dict
@@ -129,7 +124,6 @@ public partial class MomentaryButton : Area3D
 
     private void OnBodyEntered(Node3D body)
     {
-        //GD.Print(body.Name + " Entered");
         trackedBody = body;
     }
 
@@ -137,7 +131,6 @@ public partial class MomentaryButton : Area3D
     {
         if (trackedBody == body)
         {
-            //GD.Print(body.Name + " Exited");
             trackedBody = null;
             active = false;
             var buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");

@@ -1,14 +1,19 @@
-[gd_scene load_steps=30 format=3 uid="uid://bj7ax6sm8f37y"]
+[gd_scene load_steps=11 format=3 uid="uid://bj7ax6sm8f37y"]
 
-[ext_resource type="MeshLibrary" uid="uid://dgiysbhvxgkva" path="res://assets/ProtoKit.tres" id="1_mjqxf"]
-[ext_resource type="Script" path="res://scripts/Main.cs" id="1_qwgco"]
+[ext_resource type="Script" path="res://scripts/StartXR.cs" id="1_qbv7i"]
 [ext_resource type="PackedScene" uid="uid://cxof5jr0ob51t" path="res://assets/hands/LeftHand.glb" id="2_xl0ym"]
 [ext_resource type="Material" uid="uid://bnvrk8diwt48m" path="res://shaders/hands.tres" id="3_6435b"]
 [ext_resource type="PackedScene" uid="uid://dflrs1o4v0b5n" path="res://assets/hands/RightHand.glb" id="4_e3w36"]
-[ext_resource type="Script" path="res://scripts/AddButtonFunctions.cs" id="4_jdq7n"]
-[ext_resource type="Script" path="res://scripts/TestCube.cs" id="5_nr848"]
+[ext_resource type="PackedScene" uid="uid://cjf40p0rtevbs" path="res://components/buttonPanel/scenes/button_panel.tscn" id="5_8ns57"]
+[ext_resource type="PackedScene" uid="uid://d3y1qfi4tihwb" path="res://scenes/testLights.tscn" id="6_i37s3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3j31l"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0.357345, 0.365951, 0.379538, 1)
+sky_curve = 0.0137258
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.402315, 0.411551, 0.426132, 1)
+ground_curve = 0.00554782
 
 [sub_resource type="Sky" id="Sky_i5m3x"]
 sky_material = SubResource("ProceduralSkyMaterial_3j31l")
@@ -26,77 +31,27 @@ tonemap_mode = 2
 [sub_resource type="SphereShape3D" id="SphereShape3D_0yskk"]
 radius = 0.01
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tn1rr"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_6btbj"]
-material = SubResource("StandardMaterial3D_tn1rr")
-size = Vector3(0.05, 0.05, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pubc8"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_x27qx"]
-material = SubResource("StandardMaterial3D_pubc8")
-size = Vector3(0.05, 0.05, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36rbb"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_iklnh"]
-material = SubResource("StandardMaterial3D_36rbb")
-size = Vector3(0.05, 0.05, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bcj2v"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_hnw8o"]
-material = SubResource("StandardMaterial3D_bcj2v")
-size = Vector3(0.05, 0.05, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_465pt"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_f5nmr"]
-material = SubResource("StandardMaterial3D_465pt")
-size = Vector3(0.05, 0.05, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xyn10"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_j4kv2"]
-material = SubResource("StandardMaterial3D_xyn10")
-size = Vector3(0.05, 0.05, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w1khr"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_6iutp"]
-material = SubResource("StandardMaterial3D_w1khr")
-size = Vector3(0.05, 0.05, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b3vmm"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_ew71e"]
-material = SubResource("StandardMaterial3D_b3vmm")
-size = Vector3(0.05, 0.05, 0.05)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0uhag"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_yc5as"]
-material = SubResource("StandardMaterial3D_0uhag")
-size = Vector3(0.05, 0.05, 0.05)
-
 [node name="main" type="Node3D"]
-script = ExtResource("1_qwgco")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.358513, -0.764692, 0.535458, 0.403567, 0.644176, 0.649747, -0.841785, -0.0168492, 0.53955, 0.124235, 0.116918, 0)
+light_energy = 0.5
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_klqqv")
 
+[node name="StartXR" type="Node" parent="."]
+script = ExtResource("1_qbv7i")
+
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.72, 0)
+transform = Transform3D(1, 0, 0, 0, 0.881567, 0.472058, 0, -0.472058, 0.881567, 0, 1.35679, 0)
 
 [node name="LeftHand" type="XRNode3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 1, 0)
 tracker = &"/user/hand_tracker/left"
+show_when_tracked = true
 
 [node name="LeftHand2" parent="XROrigin3D/LeftHand" instance=ExtResource("2_xl0ym")]
 
@@ -121,6 +76,7 @@ shape = SubResource("SphereShape3D_0yskk")
 [node name="RightHand" type="XRNode3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1, 0)
 tracker = &"/user/hand_tracker/right"
+show_when_tracked = true
 
 [node name="RightHand2" parent="XROrigin3D/RightHand" instance=ExtResource("4_e3w36")]
 
@@ -143,71 +99,11 @@ sync_to_physics = false
 transform = Transform3D(1, 5.96046e-08, -1.86265e-09, 8.9407e-08, 1, 0, 4.84288e-08, 7.45058e-08, 1, -0.00191483, 0.00391752, 0.0016095)
 shape = SubResource("SphereShape3D_0yskk")
 
-[node name="GridMap" type="GridMap" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.709411, -0.704795, 0, 0.704795, 0.709411, 0, 0.860309, -0.429234)
-mesh_library = ExtResource("1_mjqxf")
-cell_size = Vector3(0.04, 0.01, 0.04)
-cell_center_y = false
-data = {
-"cells": PackedInt32Array(65535, 65535, 3, 65535, 0, 2, 0, 0, 2, 0, 65535, 3, 1, 65535, 3, 65534, 0, 2, 65534, 65535, 3, 2, 65533, 1441793, 65533, 65533, 1, 65534, 65533, 655360, 65535, 65533, 655360, 0, 65533, 655360, 1, 65533, 655360, 65534, 65534, 655363, 65534, 1, 0, 65535, 1, 0, 0, 1, 0, 1, 1, 0, 65533, 1, 1048577, 2, 1, 655361, 65535, 65534, 655363, 0, 65534, 655363, 1, 65534, 655363, 1, 0, 2, 65533, 65534, 1441796, 65533, 65535, 1441796, 65533, 0, 1441796, 2, 65534, 1048580, 2, 65535, 1048580, 2, 0, 1048580)
-}
-script = ExtResource("4_jdq7n")
-metadata/_editor_floor_ = Vector3(0, 0, 0)
+[node name="ButtonPanel" parent="." instance=ExtResource("5_8ns57")]
+transform = Transform3D(1, 0, 0, 0, 0.641155, -0.767411, 0, 0.767411, 0.641155, 0, 0.920056, -0.247086)
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-
-[node name="TestCube01" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 1.056, -0.597975)
-mesh = SubResource("BoxMesh_6btbj")
-script = ExtResource("5_nr848")
-
-[node name="TestCube02" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, 1.056, -0.597975)
-mesh = SubResource("BoxMesh_x27qx")
-script = ExtResource("5_nr848")
-Button = 2
-
-[node name="TestCube03" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04, 1.056, -0.597975)
-mesh = SubResource("BoxMesh_iklnh")
-script = ExtResource("5_nr848")
-Button = 3
-
-[node name="TestCube04" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 1.056, -0.597975)
-mesh = SubResource("BoxMesh_hnw8o")
-script = ExtResource("5_nr848")
-Button = 4
-
-[node name="TestCube05" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.982, -0.566)
-mesh = SubResource("BoxMesh_f5nmr")
-script = ExtResource("5_nr848")
-Button = 5
-
-[node name="TestCube06" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.085, 0.982, -0.566)
-mesh = SubResource("BoxMesh_j4kv2")
-script = ExtResource("5_nr848")
-Button = 6
-
-[node name="TestCube07" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.982, -0.566)
-mesh = SubResource("BoxMesh_6iutp")
-script = ExtResource("5_nr848")
-Button = 7
-
-[node name="TestCube08" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0852647, 0.98202, -0.565896)
-mesh = SubResource("BoxMesh_ew71e")
-script = ExtResource("5_nr848")
-Button = 8
-
-[node name="TestCube09" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17, 0.982, -0.566)
-mesh = SubResource("BoxMesh_yc5as")
-script = ExtResource("5_nr848")
-Button = 9
+[node name="TestBulbs" parent="." instance=ExtResource("6_i37s3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.969704, -0.494654)
 
 [editable path="XROrigin3D/LeftHand/LeftHand2"]
 [editable path="XROrigin3D/RightHand/RightHand2"]
