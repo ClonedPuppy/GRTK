@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cxof5jr0ob51t" path="res://assets/hands/LeftHand.glb" id="2_xl0ym"]
 [ext_resource type="Material" uid="uid://bnvrk8diwt48m" path="res://shaders/hands.tres" id="3_6435b"]
 [ext_resource type="PackedScene" uid="uid://dflrs1o4v0b5n" path="res://assets/hands/RightHand.glb" id="4_e3w36"]
-[ext_resource type="PackedScene" uid="uid://cjf40p0rtevbs" path="res://components/buttonPanel/scenes/button_panel.tscn" id="5_8ns57"]
+[ext_resource type="PackedScene" uid="uid://brx02fyuar3if" path="res://components/buttonPanel/scenes/button_panel.tscn" id="5_8ns57"]
 [ext_resource type="PackedScene" uid="uid://d3y1qfi4tihwb" path="res://scenes/testLights.tscn" id="6_i37s3"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3j31l"]
@@ -100,7 +100,7 @@ transform = Transform3D(1, 5.96046e-08, -1.86265e-09, 8.9407e-08, 1, 0, 4.84288e
 shape = SubResource("SphereShape3D_0yskk")
 
 [node name="ButtonPanel" parent="." instance=ExtResource("5_8ns57")]
-transform = Transform3D(1, 0, 0, 0, 0.641155, -0.767411, 0, 0.767411, 0.641155, 0, 0.920056, -0.247086)
+transform = Transform3D(1, 0, 0, 0, 0.58374, -0.811941, 0, 0.811941, 0.58374, 0, 0.87636, -0.321628)
 
 [node name="TestBulbs" parent="." instance=ExtResource("6_i37s3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.969704, -0.494654)

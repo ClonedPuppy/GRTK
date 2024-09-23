@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://d3y1qfi4tihwb"]
+[gd_scene load_steps=32 format=3 uid="uid://d3y1qfi4tihwb"]
 
 [ext_resource type="Script" path="res://scripts/TestCube.cs" id="1_t82d3"]
 
@@ -56,66 +56,144 @@ size = Vector3(0.05, 0.05, 0.05)
 material = SubResource("StandardMaterial3D_0uhag")
 size = Vector3(0.05, 0.05, 0.05)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vytiu"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_nr8af"]
+material = SubResource("StandardMaterial3D_vytiu")
+size = Vector3(0.05, 0.05, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6fhik"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_7tkia"]
+material = SubResource("StandardMaterial3D_6fhik")
+size = Vector3(0.05, 0.05, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xpqrh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cqavk"]
+material = SubResource("StandardMaterial3D_xpqrh")
+size = Vector3(0.05, 0.05, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_klvkb"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yd5re"]
+material = SubResource("StandardMaterial3D_klvkb")
+size = Vector3(0.05, 0.05, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8s4xc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_d3qv4"]
+material = SubResource("StandardMaterial3D_8s4xc")
+size = Vector3(0.05, 0.05, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eqppj"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_4dqld"]
+material = SubResource("StandardMaterial3D_eqppj")
+size = Vector3(0.05, 0.05, 0.05)
+
 [node name="TestBulbs" type="Node3D"]
 
 [node name="TestCube01" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0.102138, -0.0338681)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.12, 0.15, -0.0738946)
 mesh = SubResource("BoxMesh_6btbj")
 skeleton = NodePath("../..")
 script = ExtResource("1_t82d3")
 
 [node name="TestCube02" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, 0.102138, -0.0338681)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04, 0.15, -0.0738946)
 mesh = SubResource("BoxMesh_x27qx")
 skeleton = NodePath("../..")
 script = ExtResource("1_t82d3")
 Button = 2
 
 [node name="TestCube03" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04, 0.102138, -0.0338681)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.04, 0.15, -0.0738946)
 mesh = SubResource("BoxMesh_iklnh")
 skeleton = NodePath("../..")
 script = ExtResource("1_t82d3")
 Button = 3
 
 [node name="TestCube04" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.102138, -0.0338681)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12, 0.15, -0.0738946)
 mesh = SubResource("BoxMesh_hnw8o")
 skeleton = NodePath("../..")
 script = ExtResource("1_t82d3")
 Button = 4
 
 [node name="TestCube05" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.0281383, -0.00189307)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.085, -0.04)
 mesh = SubResource("BoxMesh_f5nmr")
 skeleton = NodePath("../..")
 script = ExtResource("1_t82d3")
 Button = 5
 
 [node name="TestCube06" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.085, 0.0281383, -0.00189307)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.085, 0.085, -0.04)
 mesh = SubResource("BoxMesh_j4kv2")
 skeleton = NodePath("../..")
 script = ExtResource("1_t82d3")
 Button = 6
 
 [node name="TestCube07" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0281383, -0.00189307)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.085, -0.04)
 mesh = SubResource("BoxMesh_6iutp")
 skeleton = NodePath("../..")
 script = ExtResource("1_t82d3")
 Button = 7
 
 [node name="TestCube08" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0852647, 0.0281583, -0.00178906)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0852647, 0.085, -0.04)
 mesh = SubResource("BoxMesh_ew71e")
 skeleton = NodePath("../..")
 script = ExtResource("1_t82d3")
 Button = 8
 
 [node name="TestCube09" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17, 0.0281383, -0.00189307)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.17, 0.085, -0.04)
 mesh = SubResource("BoxMesh_yc5as")
 skeleton = NodePath("../..")
 script = ExtResource("1_t82d3")
 Button = 9
+
+[node name="TestCube10" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.212403, 0.025, 0)
+mesh = SubResource("BoxMesh_nr8af")
+skeleton = NodePath("../..")
+script = ExtResource("1_t82d3")
+Button = 10
+
+[node name="TestCube11" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.127403, 0.025, 0)
+mesh = SubResource("BoxMesh_7tkia")
+skeleton = NodePath("../..")
+script = ExtResource("1_t82d3")
+Button = 11
+
+[node name="TestCube12" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0424031, 0.025, 0)
+mesh = SubResource("BoxMesh_cqavk")
+skeleton = NodePath("../..")
+script = ExtResource("1_t82d3")
+Button = 12
+
+[node name="TestCube13" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0428616, 0.025, 0)
+mesh = SubResource("BoxMesh_yd5re")
+skeleton = NodePath("../..")
+script = ExtResource("1_t82d3")
+Button = 13
+
+[node name="TestCube14" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.127597, 0.025, 0)
+mesh = SubResource("BoxMesh_d3qv4")
+skeleton = NodePath("../..")
+script = ExtResource("1_t82d3")
+Button = 14
+
+[node name="TestCube15" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.210307, 0.025, 0)
+mesh = SubResource("BoxMesh_4dqld")
+skeleton = NodePath("../..")
+script = ExtResource("1_t82d3")
+Button = 15

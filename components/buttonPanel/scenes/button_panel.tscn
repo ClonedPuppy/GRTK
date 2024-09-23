@@ -1,14 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjf40p0rtevbs"]
+[gd_scene load_steps=2 format=3 uid="uid://brx02fyuar3if"]
 
-[ext_resource type="MeshLibrary" uid="uid://dgiysbhvxgkva" path="res://components/buttonPanel/assets/resources/ProtoKit.tres" id="1_m86yr"]
-[ext_resource type="Script" path="res://components/buttonPanel/scripts/AddButtonFunctions.cs" id="2_u76fe"]
+[ext_resource type="PackedScene" uid="uid://cjf40p0rtevbs" path="res://components/buttonPanel/scenes/grid_map.tscn" id="1_uiuyb"]
 
-[node name="ButtonPanel" type="GridMap"]
-mesh_library = ExtResource("1_m86yr")
-cell_size = Vector3(0.04, 0.01, 0.04)
-cell_center_y = false
-data = {
-"cells": PackedInt32Array(65535, 65535, 3, 65535, 0, 2, 0, 0, 2, 0, 65535, 3, 1, 65535, 3, 65534, 0, 2, 65534, 65535, 3, 2, 65533, 1441793, 65533, 65533, 1, 65534, 65533, 655360, 65535, 65533, 655360, 0, 65533, 655360, 1, 65533, 655360, 65534, 65534, 655363, 65534, 1, 0, 65535, 1, 0, 0, 1, 0, 1, 1, 0, 65533, 1, 1048577, 2, 1, 655361, 65535, 65534, 655363, 0, 65534, 655363, 1, 65534, 655363, 1, 0, 2, 65533, 65534, 1441796, 65533, 65535, 1441796, 65533, 0, 1441796, 2, 65534, 1048580, 2, 65535, 1048580, 2, 0, 1048580)
-}
-script = ExtResource("2_u76fe")
-metadata/_editor_floor_ = Vector3(0, 0, 0)
+[node name="ButtonPanel" type="Node3D"]
+
+[node name="GridMap" parent="." instance=ExtResource("1_uiuyb")]
