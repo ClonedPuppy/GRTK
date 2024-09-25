@@ -1,9 +1,16 @@
 {
-    "godot_tools.editor_path": "c:\\Users\\peter\\GODOT\\Godot_v4.2.1-stable_win64.exe",
+    "godotTools.editorPath.godot4": "c:\\Users\\peter\\GODOT\\Godot_v4.3-stable_mono_win64.exe",
     "cSpell.words": [
         "Autoload",
+        "foveation",
+        "gdshader",
         "grabbable",
+        "HHmmss",
+        "Lerp",
         "Mathf",
-        "Yposition"
+        "openxr",
+        "Recentered",
+        "recentering",
+        "Vsync"
     ]
 }
