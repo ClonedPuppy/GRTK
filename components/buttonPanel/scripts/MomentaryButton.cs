@@ -54,7 +54,7 @@ public partial class MomentaryButton : Area3D
         lever.Transform = new Transform3D(correctedRotation, new Vector3(0, initialYPosition, 0));
         lever.Name = "Lever_" + cellNo.ToString();
 
-        var labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.012f));
+        var labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.013f));
 
         AddChild(lever);
 

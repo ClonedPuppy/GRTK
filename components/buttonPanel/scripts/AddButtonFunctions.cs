@@ -31,6 +31,12 @@ public partial class AddButtonFunctions : GridMap
                         buttonNumber++;
                         SetupMomentaryButton(cell);
                     }
+                    if (itemName == "RectButton")
+                    {
+                        Mesh mesh = MeshLibrary.GetItemMesh(itemId);
+                        buttonNumber++;
+                        SetupRectButton(cell, cellOrientation);
+                    }
                 }
             }
         }
@@ -60,5 +66,18 @@ public partial class AddButtonFunctions : GridMap
 
         // Initialize the button
         momentaryButton.Initialize(buttonNumber);
+    }
+
+    private void SetupRectButton(Vector3I cell, int cellOrientation)
+    {
+        var rectButton = new RectButton();
+        AddChild(rectButton);
+
+        // Set the button's position
+        Vector3 position = cell * CellSize + new Vector3(0.02f, 0.005f, 0.02f);
+        rectButton.Position = position;
+
+        // Initialize the button
+        rectButton.Initialize(buttonNumber, cellOrientation);
     }
 }
