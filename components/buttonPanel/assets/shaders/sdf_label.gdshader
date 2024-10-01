@@ -44,15 +44,15 @@ void fragment() {
         if (UV.x >= position_uv_x_start && UV.x <= position_uv_x_end) {
             if (UV.y >= position_uv_y_start && UV.y <= position_uv_y_end) {
 
-                atlas_glyph_uv = vec2(UV.x + atlas_UV_x - position_uv_x_start, 
+                atlas_glyph_uv = vec2(UV.x + atlas_UV_x - position_uv_x_start,
                                       UV.y + atlas_UV_y - position_uv_y_start);
 
-                } 
+                }
         }
 
         sdf_value = texture(sdf_atlas, atlas_glyph_uv).r;
         alpha = max(alpha, smoothstep(0.45, 0.52, sdf_value));
-		
+
         // Update indices and total advance for the next character.
         current_advance += char_advances[i] * advance_scale;
         current_char += 2;

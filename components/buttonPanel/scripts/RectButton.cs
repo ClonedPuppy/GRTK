@@ -29,7 +29,7 @@ public partial class RectButton : Area3D
         AddChild(collisionShape);
 
         // Add a shape to the collision node, assuming button size is 0.01 x 0.01
-        collisionShape.Shape = new BoxShape3D { Size = new Vector3(0.025f, 0.01f, 0.025f) };
+        collisionShape.Shape = new BoxShape3D { Size = new Vector3(0.02f, 0.01f, 0.02f) };
 
         // Add a MeshInstance3D with the leverage mesh at the same location
         lever = new MeshInstance3D();
@@ -52,7 +52,7 @@ public partial class RectButton : Area3D
         lever.Transform = new Transform3D(new Basis(correctedRotation), new Vector3(0, initialYposition, 0));
         lever.Name = "Lever_" + cellNo.ToString();
 
-        var labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.017f));
+        var labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.014f));
         if (cellOrientation != -1)
         {
             switch (cellOrientation)
