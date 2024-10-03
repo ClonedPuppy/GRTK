@@ -5,6 +5,7 @@ public partial class AddButtonFunctions : GridMap
 {
     private MeshLibrary uiMeshes;
     private int buttonNumber = 0;
+    private ShaderMaterial sliderMaterial;
 
     public override void _Ready()
     {
@@ -21,21 +22,35 @@ public partial class AddButtonFunctions : GridMap
                     string itemName = MeshLibrary.GetItemName(itemId);
                     if (itemName == "ToggleButton")
                     {
-                        Mesh mesh = MeshLibrary.GetItemMesh(itemId);
+                        //Mesh mesh = MeshLibrary.GetItemMesh(itemId);
                         buttonNumber++;
                         SetupToggleButton(cell, cellOrientation);
                     }
                     if (itemName == "MomentaryButton")
                     {
-                        Mesh mesh = MeshLibrary.GetItemMesh(itemId);
+                        //Mesh mesh = MeshLibrary.GetItemMesh(itemId);
                         buttonNumber++;
                         SetupMomentaryButton(cell);
                     }
                     if (itemName == "RectButton")
                     {
-                        Mesh mesh = MeshLibrary.GetItemMesh(itemId);
+                        //Mesh mesh = MeshLibrary.GetItemMesh(itemId);
                         buttonNumber++;
                         SetupRectButton(cell, cellOrientation);
+                    }
+                    if (itemName == "HBar")
+                    {
+                        Mesh mesh = MeshLibrary.GetItemMesh(itemId);
+                        var shader = GD.Load<Shader>("res://components/buttonPanel/assets/shaders/hBar.gdshader");
+                        sliderMaterial = new ShaderMaterial
+                        {
+                            Shader = shader
+                        };
+                        sliderMaterial.SetShaderParameter("fill_amount", 0.0f);
+
+                        mesh.SurfaceSetMaterial(1, sliderMaterial);
+                        SetupHBar(cell, cellOrientation);
+                        buttonNumber++;
                     }
                 }
             }
@@ -79,5 +94,17 @@ public partial class AddButtonFunctions : GridMap
 
         // Initialize the button
         rectButton.Initialize(buttonNumber, cellOrientation);
+    }
+    private void SetupHBar(Vector3I cell, int cellOrientation)
+    {
+        var hBar = new HBar();
+        AddChild(hBar);
+
+        // Set the button's position
+        Vector3 position = cell * CellSize + new Vector3(0.02f, 0.005f, 0.02f);
+        hBar.Position = position;
+
+        // Initialize the button
+        hBar.Initialize(buttonNumber, cellOrientation, sliderMaterial);
     }
 }
