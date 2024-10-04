@@ -9,10 +9,12 @@ void fragment() {
     vec3 fillColor = vec3(0.0, 1.0, 0.0);
     
     // Background color (e.g., gray)
-    vec3 bgColor = vec3(0.5, 0.5, 0.5);
+    vec3 bgColor = vec3(0.109, 0.109, 0.109);
     
     // Determine color based on fill amount
     vec3 finalColor = (uv.y < fill_amount) ? fillColor : bgColor;
     
     ALBEDO =  finalColor;
+	METALLIC = 0.949;
+	ROUGHNESS = 0.477;
 }

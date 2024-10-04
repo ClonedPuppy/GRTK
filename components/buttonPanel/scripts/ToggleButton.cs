@@ -35,7 +35,7 @@ public partial class ToggleButton : Area3D
         lever = new MeshInstance3D();
         var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
 
-        var mesh = leverMeshLib.GetItemMesh(2);
+        var mesh = leverMeshLib.GetItemMesh(1);
         if (mesh != null)
         {
             lever.Mesh = mesh.Duplicate() as Mesh;

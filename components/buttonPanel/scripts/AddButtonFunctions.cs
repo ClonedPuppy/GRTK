@@ -38,7 +38,7 @@ public partial class AddButtonFunctions : GridMap
                         buttonNumber++;
                         SetupRectButton(cell, cellOrientation);
                     }
-                    if (itemName == "HBar")
+                    if (itemName == "Slider")
                     {
                         Mesh mesh = MeshLibrary.GetItemMesh(itemId);
                         var shader = GD.Load<Shader>("res://components/buttonPanel/assets/shaders/hBar.gdshader");
@@ -48,8 +48,8 @@ public partial class AddButtonFunctions : GridMap
                         };
                         sliderMaterial.SetShaderParameter("fill_amount", 0.0f);
 
-                        mesh.SurfaceSetMaterial(1, sliderMaterial);
-                        SetupHBar(cell, cellOrientation, sliderMaterial);
+                        
+                        SetupSlider(cell, cellOrientation, sliderMaterial);
                         buttonNumber++;
                     }
                 }
@@ -96,16 +96,16 @@ public partial class AddButtonFunctions : GridMap
         rectButton.Initialize(buttonNumber, cellOrientation);
     }
 
-    private void SetupHBar(Vector3I cell, int cellOrientation, ShaderMaterial sliderMaterial)
+    private void SetupSlider(Vector3I cell, int cellOrientation, ShaderMaterial sliderMaterial)
     {
-        var hBar = new HBar();
-        AddChild(hBar);
+        var slider = new Slider();
+        AddChild(slider);
 
         // Set the button's position
         Vector3 position = cell * CellSize + new Vector3(0.02f, 0.005f, 0.02f);
-        hBar.Position = position;
+        slider.Position = position;
 
         // Initialize the button
-        hBar.Initialize(buttonNumber, cellOrientation, sliderMaterial);
+        slider.Initialize(buttonNumber, cellOrientation, sliderMaterial);
     }
 }

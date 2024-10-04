@@ -35,11 +35,10 @@ public partial class RectButton : Area3D
         lever = new MeshInstance3D();
         var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
 
-        var mesh = leverMeshLib.GetItemMesh(1);
+        var mesh = leverMeshLib.GetItemMesh(2);
         if (mesh != null)
         {
             lever.Mesh = mesh.Duplicate() as Mesh;
-            GD.Print("Lever loaded...");
         }
         else
         {
@@ -59,15 +58,15 @@ public partial class RectButton : Area3D
             {
                 case 16:
                     lever.RotationDegrees = new Vector3(lever.RotationDegrees.X, 90, lever.RotationDegrees.Z);
-                    labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.019f));
+                    labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.014f));
                     break;
                 case 10:
                     lever.RotationDegrees = new Vector3(lever.RotationDegrees.X, 180, lever.RotationDegrees.Z);
-                    labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.012f));
+                    labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.014f));
                     break;
                 case 22:
                     lever.RotationDegrees = new Vector3(lever.RotationDegrees.X, -90, lever.RotationDegrees.Z);
-                    labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.019f));
+                    labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.014f));
                     break;
                 default:
                     lever.RotationDegrees = new Vector3(lever.RotationDegrees.X, 0, lever.RotationDegrees.Z);

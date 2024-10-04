@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://dy6dpj3aokx6f"]
+[gd_scene load_steps=13 format=4 uid="uid://dy6dpj3aokx6f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yp0fe"]
 resource_name = "ProtoKit_Buttons"
@@ -116,6 +116,44 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_m13un")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_er1ym"]
+resource_name = "ProtoKit_Buttons"
+albedo_color = Color(0.364706, 0.364706, 0.364706, 1)
+metallic = 0.94864
+roughness = 0.477341
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_xflb7"]
+_surfaces = [{
+"aabb": AABB(-0.0108503, 0.0082, -0.0550809, 0.0216158, 1e-05, 0.0711388),
+"format": 34896613377,
+"index_count": 6,
+"index_data": PackedByteArray("AAADAAEAAAACAAMA"),
+"name": "ProtoKit_Buttons",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("AAAAAP//AAD//wAA//8AAAAAAAAAAAAA//8AAAAAAAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_enbrr"]
+resource_name = "SliderPlane_Plane"
+_surfaces = [{
+"aabb": AABB(-0.0108503, 0.0082, -0.0550809, 0.0216158, 1e-05, 0.0711388),
+"attribute_data": PackedByteArray("XABMAVNOTAFcALz/U068/w=="),
+"format": 34896613399,
+"index_count": 6,
+"index_data": PackedByteArray("AAADAAEAAAACAAMA"),
+"material": SubResource("StandardMaterial3D_er1ym"),
+"name": "ProtoKit_Buttons",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 4,
+"vertex_data": PackedByteArray("AAAAAP///z///wAA////PwAAAAAAAP8///8AAAAA/z////9/////f////3////9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_xflb7")
+
 [node name="Node3D" type="Node3D"]
 
 [node name="RoundLever" type="MeshInstance3D" parent="."]
@@ -128,4 +166,8 @@ skeleton = NodePath("")
 
 [node name="RectLever" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_i06tn")
+skeleton = NodePath("")
+
+[node name="SliderPlane" type="MeshInstance3D" parent="."]
+mesh = SubResource("ArrayMesh_enbrr")
 skeleton = NodePath("")

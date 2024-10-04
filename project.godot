@@ -27,6 +27,13 @@ gdscript/warnings/unused_parameter=0
 
 project/assembly_name="GRTK"
 
+[file_customization]
+
+folder_colors={
+"res://components/": "blue",
+"res://components/buttonPanel/assets/": "purple"
+}
+
 [filesystem]
 
 import/blender/enabled=false
