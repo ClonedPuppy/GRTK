@@ -49,7 +49,7 @@ public partial class AddButtonFunctions : GridMap
                         sliderMaterial.SetShaderParameter("fill_amount", 0.0f);
 
                         mesh.SurfaceSetMaterial(1, sliderMaterial);
-                        SetupHBar(cell, cellOrientation);
+                        SetupHBar(cell, cellOrientation, sliderMaterial);
                         buttonNumber++;
                     }
                 }
@@ -95,7 +95,8 @@ public partial class AddButtonFunctions : GridMap
         // Initialize the button
         rectButton.Initialize(buttonNumber, cellOrientation);
     }
-    private void SetupHBar(Vector3I cell, int cellOrientation)
+
+    private void SetupHBar(Vector3I cell, int cellOrientation, ShaderMaterial sliderMaterial)
     {
         var hBar = new HBar();
         AddChild(hBar);

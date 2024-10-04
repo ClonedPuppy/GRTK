@@ -7,8 +7,8 @@ public partial class HBar : Area3D
     private Node3D trackedBody = null;
     private bool active = false;
     private ShaderMaterial sliderMaterial;
-    private const float MIN_Y = 0.004f;
-    private const float MAX_Y = 0.018f;
+private const float MIN_Z = -0.062f;
+private const float MAX_Z = 0.028f;
     private float lastFillAmount = 0f;
 
     public override void _Ready()
@@ -21,7 +21,7 @@ public partial class HBar : Area3D
     public void Initialize(int cellNo, int cellOrientation, ShaderMaterial _sliderMaterial)
     {
         buttonNumber = cellNo;
-        Name = $"MomentaryButton_{buttonNumber}";
+        Name = $"Slider_{buttonNumber}";
         sliderMaterial = _sliderMaterial;
 
         // Add a collision node
@@ -49,23 +49,23 @@ public partial class HBar : Area3D
 
     }
 
-    public override void _Process(double delta)
+public override void _Process(double delta)
+{
+    if (trackedBody != null && !active)
     {
-        if (trackedBody != null && !active)
-        {
-            var globalPosition = trackedBody.GlobalTransform.Origin;
-            var localPosition = ToLocal(globalPosition);
-            // Calculate fill amount (0 to 1) based on local Y position
-            float fillAmount = Mathf.InverseLerp(MIN_Y, MAX_Y, localPosition.Y);
-            fillAmount = Mathf.Clamp(fillAmount, 0f, 1f);
+        var globalPosition = trackedBody.GlobalTransform.Origin;
+        var localPosition = ToLocal(globalPosition);
+        
+        float fillAmount = Mathf.Lerp(1f, 0f, (localPosition.Z - MIN_Z) / (MAX_Z - MIN_Z));
+        fillAmount = Mathf.Clamp(fillAmount, 0f, 1f);
 
-            lastFillAmount = fillAmount;
+        lastFillAmount = fillAmount;
 
-            // Update shader parameter
-            sliderMaterial.SetShaderParameter("fill_amount", fillAmount);
+        //GD.Print($"HBar {buttonNumber}: Fill Amount = {fillAmount}");
 
-        }
+        sliderMaterial.SetShaderParameter("fill_amount", fillAmount);
     }
+}
 
     public void SetFillAmount(float amount)
 {
