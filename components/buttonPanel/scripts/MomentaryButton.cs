@@ -13,13 +13,17 @@ public partial class MomentaryButton : Area3D
     private const float MinMovementThreshold = 0.0005f;
     private const float MaxMovementThreshold = 0.5f;
     private const float FingerCollisionOffset = 0.0025f;
+    private const float ActivationThreshold = 0.003f;
     private AudioStreamPlayer clickSound;
+    private ButtonStatesAutoload buttonStatesAutoload;
+    private bool isRuntime;
+    private Label3D label3D;
 
     public override void _Ready()
     {
-        // Signals emitted at entry and exit
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
+        isRuntime = !Engine.IsEditorHint();
     }
 
     public void Initialize(int cellNo)
@@ -27,116 +31,125 @@ public partial class MomentaryButton : Area3D
         buttonNumber = cellNo;
         Name = $"MomentaryButton_{buttonNumber}";
 
-        // Add a collision node
-        var collisionShape = new CollisionShape3D();
-        collisionShape.Name = "Collision_" + cellNo.ToString();
-        AddChild(collisionShape);
-
-        // Add a shape to the collision node, assuming button size is 0.01 x 0.01
-        collisionShape.Shape = new CylinderShape3D { Height = 0.01f, Radius = 0.01f };
-
-        // Add a MeshInstance3D with the leverage mesh at the same location
-        lever = new MeshInstance3D();
-        var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
-
-        var mesh = leverMeshLib.GetItemMesh(0);
-        if (mesh != null)
+        SetupCollision();
+        SetupLever();
+        // Check if the parent has showLabels property and set label visibility
+        var parent = GetParent();
+        if (parent is AddButtonFunctions addButtonFunctions)
         {
-            lever.Mesh = mesh.Duplicate() as Mesh;
+            if (label3D != null)
+            {
+                SetupLabel();
+            }
         }
-        else
+        SetupAudio();
+
+        if (isRuntime)
         {
-            GD.Print("Failed to load lever mesh from:", mesh);
-            return;
+            buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
+            buttonStatesAutoload.UpdateButtonState(buttonNumber, false);
         }
-
-        lever.Name = $"Lever_{buttonNumber}";
-        var correctedRotation = new Basis(new Quaternion(Vector3.Right, 0));
-        lever.Transform = new Transform3D(correctedRotation, new Vector3(0, initialYPosition, 0));
-        lever.Name = "Lever_" + cellNo.ToString();
-
-        var labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.013f));
-
-        AddChild(lever);
-
-        // Create a label
-        var label3D = new Label3D();
-        label3D.Text = "Button: " + buttonNumber.ToString();
-        label3D.Name = "Label_" + buttonNumber.ToString();
-        label3D.Transform = labelPosition;
-        label3D.PixelSize = 0.0001f;
-        label3D.FontSize = 40;
-        label3D.OutlineSize = 0;
-        label3D.Modulate = Colors.Black;
-        AddChild(label3D);
-
-        // Setup audio click sound
-        clickSound = new AudioStreamPlayer();
-        clickSound.Name = "AudioStreamPlayer_" + buttonNumber.ToString();
-        clickSound.Stream = GD.Load<AudioStream>("res://components/buttonPanel/assets/audio/General_Button_2_User_Interface_Tap_FX_Sound.ogg");
-        AddChild(clickSound);
-
-        // Setup the button in the global Dict
-        var buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
-        buttonStatesAutoload.UpdateButtonState(buttonNumber, false);
     }
 
     public override void _Process(double delta)
     {
-        if (trackedBody != null && !active)
+        if (!isRuntime || trackedBody == null || active) return;
+
+        var localPosition = ToLocal(trackedBody.GlobalTransform.Origin);
+        var movementDistance = lastYPosition - localPosition.Y;
+
+        if (localPosition.Y >= 0 && lastYPosition >= 0 && movementDistance >= MinMovementThreshold)
         {
-            var globalPosition = trackedBody.GlobalTransform.Origin;
-            var localPosition = ToLocal(globalPosition);
+            UpdateButtonPlatePosition(localPosition.Y - FingerCollisionOffset);
 
-            var movementDistance = lastYPosition - localPosition.Y;
-
-            var buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
-            var buttonState = buttonStatesAutoload.GetValue(buttonNumber);
-
-            if (localPosition.Y >= 0 && lastYPosition >= 0 && movementDistance >= MinMovementThreshold)
+            if (localPosition.Y < ActivationThreshold)
             {
-                UpdateButtonPlatePosition(localPosition.Y - FingerCollisionOffset);
-
-                if (localPosition.Y < 0.003 && !active)
-                {
-                    active = true;
-                    clickSound.Play();
-                    buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(true));
-                }
+                ActivateButton();
             }
-
-            lastYPosition = localPosition.Y;
         }
+
+        lastYPosition = localPosition.Y;
     }
 
-    private void ResetButtonPlate()
+    private void SetupCollision()
     {
-        var buttonPlateTransform = lever.Transform;
-        buttonPlateTransform.Origin = new Vector3(buttonPlateTransform.Origin.X, initialYPosition, buttonPlateTransform.Origin.Z);
-        lever.Transform = buttonPlateTransform;
+        var collisionShape = new CollisionShape3D
+        {
+            Name = $"Collision_{buttonNumber}",
+            Shape = new CylinderShape3D { Height = 0.01f, Radius = 0.01f }
+        };
+        AddChild(collisionShape);
+    }
+
+    private void SetupLever()
+    {
+        lever = new MeshInstance3D { Name = $"Lever_{buttonNumber}" };
+        var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
+        var mesh = leverMeshLib.GetItemMesh(0);
+        if (mesh == null)
+        {
+            GD.PrintErr($"Failed to load lever mesh for button {buttonNumber}");
+            return;
+        }
+        lever.Mesh = mesh.Duplicate() as Mesh;
+        lever.Transform = new Transform3D(new Basis(new Quaternion(Vector3.Right, 0)), new Vector3(0, initialYPosition, 0));
+        AddChild(lever);
+    }
+
+    private void SetupLabel()
+    {
+        var label3D = new Label3D
+        {
+            Text = $"Button: {buttonNumber}",
+            Name = $"Label_{buttonNumber}",
+            Transform = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.013f)),
+            PixelSize = 0.0001f,
+            FontSize = 40,
+            OutlineSize = 0,
+            Modulate = Colors.Black
+        };
+        AddChild(label3D);
+    }
+
+    private void SetupAudio()
+    {
+        clickSound = new AudioStreamPlayer
+        {
+            Name = $"AudioStreamPlayer_{buttonNumber}",
+            Stream = GD.Load<AudioStream>("res://components/buttonPanel/assets/audio/General_Button_2_User_Interface_Tap_FX_Sound.ogg")
+        };
+        AddChild(clickSound);
+    }
+
+    private void ActivateButton()
+    {
+        active = true;
+        clickSound.Play();
+        buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(true));
     }
 
     private void UpdateButtonPlatePosition(float yPosition)
     {
-        var buttonPlateTransform = lever.Transform;
-        buttonPlateTransform.Origin = new Vector3(buttonPlateTransform.Origin.X, initialYPosition + yPosition - 0.007f, buttonPlateTransform.Origin.Z);
-        lever.Transform = buttonPlateTransform;
+        lever.Transform = lever.Transform with { Origin = new Vector3(lever.Transform.Origin.X, initialYPosition + yPosition - 0.007f, lever.Transform.Origin.Z) };
     }
 
-    private void OnBodyEntered(Node3D body)
+    private void ResetButtonPlate()
     {
-        trackedBody = body;
+        lever.Transform = lever.Transform with { Origin = new Vector3(lever.Transform.Origin.X, initialYPosition, lever.Transform.Origin.Z) };
     }
+
+    private void OnBodyEntered(Node3D body) => trackedBody = body;
 
     private void OnBodyExited(Node3D body)
     {
-        if (trackedBody == body)
+        if (trackedBody != body) return;
+
+        trackedBody = null;
+        active = false;
+        if (isRuntime)
         {
-            trackedBody = null;
-            active = false;
-            var buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
             buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(false));
-            ResetButtonPlate();
         }
+        ResetButtonPlate();
     }
 }

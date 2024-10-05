@@ -13,11 +13,11 @@ public partial class ButtonStatesAutoload : Node
 
     public override void _Ready()
     {
-        sdfAtlas = GD.Load<Texture2D>("res://components/buttonPanel/assets/sdf/sdf_font.png");
-        sdfMaterial = GD.Load<Material>("res://components/buttonPanel/assets/materials/sdf_label_material.tres");
-        atlasWidth = sdfAtlas.GetWidth();
-        atlasHeight = sdfAtlas.GetHeight();
-        LoadFontData("res://components/buttonPanel/assets/sdf/sdf_font.json");
+        // sdfAtlas = GD.Load<Texture2D>("res://components/buttonPanel/assets/sdf/sdf_font.png");
+        // sdfMaterial = GD.Load<Material>("res://components/buttonPanel/assets/materials/sdf_label_material.tres");
+        // atlasWidth = sdfAtlas.GetWidth();
+        // atlasHeight = sdfAtlas.GetHeight();
+        // LoadFontData("res://components/buttonPanel/assets/sdf/sdf_font.json");
     }
 
     public void SetValue(int key, Variant value)
@@ -35,18 +35,18 @@ public partial class ButtonStatesAutoload : Node
         StateDict[buttonId] = newState;
     }
 
-    private void LoadFontData(string path)
-    {
-        var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
-        if (file != null)
-        {
-            string content = file.GetAsText();
-            fontData = Json.ParseString(content).AsGodotDictionary();
-            file.Close();
-        }
-        else
-        {
-            GD.Print("Failed to load font data.");
-        }
-    }
+    // private void LoadFontData(string path)
+    // {
+    //     var file = FileAccess.Open(path, FileAccess.ModeFlags.Read);
+    //     if (file != null)
+    //     {
+    //         string content = file.GetAsText();
+    //         fontData = Json.ParseString(content).AsGodotDictionary();
+    //         file.Close();
+    //     }
+    //     else
+    //     {
+    //         GD.Print("Failed to load font data.");
+    //     }
+    // }
 }

@@ -6,172 +6,209 @@ public partial class ToggleButton : Area3D
 {
     private int buttonNumber;
     private Node3D trackedBody = null;
-    private bool active = false;
+    private bool isPressed = false;
     private MeshInstance3D lever;
-    private float initialYposition = -0.0025f;
-    private float lastYposition = 0.0f;
-    private const float minMoveThreshold = 0.0005f;
-    private const float maxMoveThreshold = 0.5f;
-    private const float fingerCollisionOffset = 0.0025f;
+    private float initialYPosition = -0.0025f;
+    private float lastYPosition = 0.0f;
+    private const float MinMovementThreshold = 0.0005f;
+    private const float ActivationThreshold = 0.003f;
+    private const float FingerCollisionOffset = 0.0025f;
     private AudioStreamPlayer clickSound;
+    private ButtonStatesAutoload buttonStatesAutoload;
+    private bool isRuntime;
+    private Label3D label3D;
 
-    public void Initialize(int cellNo, int cellOrientation) // Start by setting up the button and it's functions
+    public override void _Ready()
     {
-        buttonNumber = cellNo;
-        Name = $"ToggleButton_{buttonNumber}";
-
-        // Signals emitted at entry and exit
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
+        isRuntime = !Engine.IsEditorHint();
+    }
 
-        // Add a collision node
-        var collisionShape = new CollisionShape3D();
-        collisionShape.Name = "Collision_" + cellNo.ToString();
-        AddChild(collisionShape);
+    public void Initialize(int cellNo, int cellOrientation)
+    {
+        buttonNumber = cellNo;
+        Name = $"ValueAdjusterButton_{buttonNumber}";
 
-        // Add a shape to the collision node, assuming button size is 0.01 x 0.01
-        collisionShape.Shape = new CylinderShape3D { Height = 0.01f, Radius = 0.01f };
-
-        // Add a MeshInstance3D with the leverage mesh at the same location
-        lever = new MeshInstance3D();
-        var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
-
-        var mesh = leverMeshLib.GetItemMesh(1);
-        if (mesh != null)
+        SetupCollision();
+        SetupLever(cellOrientation);
+        // Check if the parent has showLabels property and set label visibility
+        var parent = GetParent();
+        if (parent is AddButtonFunctions addButtonFunctions)
         {
-            lever.Mesh = mesh.Duplicate() as Mesh;
-        }
-        else
-        {
-            GD.Print("Failed to load lever mesh from:", mesh);
-            return;
-        }
-
-        lever.Name = $"Lever_{buttonNumber}";
-        var correctedRotation = new Quaternion(Vector3.Right, Mathf.DegToRad(0)); // not sure if lever correctly oriented in blender
-        lever.Transform = new Transform3D(new Basis(correctedRotation), new Vector3(0, initialYposition, 0));
-        lever.Name = "Lever_" + cellNo.ToString();
-
-        var labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.012f));
-        if (cellOrientation != -1)
-        {
-            switch (cellOrientation)
+            if (label3D != null)
             {
-                case 16:
-                    lever.RotationDegrees = new Vector3(lever.RotationDegrees.X, 90, lever.RotationDegrees.Z);
-                    labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.019f));
-                    break;
-                case 10:
-                    lever.RotationDegrees = new Vector3(lever.RotationDegrees.X, 180, lever.RotationDegrees.Z);
-                    labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.012f));
-                    break;
-                case 22:
-                    lever.RotationDegrees = new Vector3(lever.RotationDegrees.X, -90, lever.RotationDegrees.Z);
-                    labelPosition = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.019f));
-                    break;
-                default:
-                    lever.RotationDegrees = new Vector3(lever.RotationDegrees.X, 0, lever.RotationDegrees.Z);
-                    break;
+                SetupLabel(cellOrientation);
             }
         }
-        AddChild(lever);
+        SetupAudio();
 
-        // Create a label
-        var label3D = new Label3D();
-        label3D.Text = "Button: " + buttonNumber.ToString();
-        label3D.Name = "Label_" + buttonNumber.ToString();
-        label3D.Transform = labelPosition;
-        label3D.PixelSize = 0.0001f;
-        label3D.FontSize = 40;
-        label3D.OutlineSize = 0;
-        label3D.Modulate = Colors.Black;
-        AddChild(label3D);
-
-        // Setup audio click sound
-        clickSound = new AudioStreamPlayer();
-        clickSound.Name = "AudioStreamPlayer_" + buttonNumber.ToString();
-        clickSound.Stream = GD.Load<AudioStream>("res://components/buttonPanel/assets/audio/General_Button_2_User_Interface_Tap_FX_Sound.ogg");
-        AddChild(clickSound);
-
-        // Setup the button in the global Dict
-        var buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
-        buttonStatesAutoload.UpdateButtonState(buttonNumber, false);
+        if (isRuntime)
+        {
+            buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
+            buttonStatesAutoload.UpdateButtonState(buttonNumber, false);
+        }
     }
 
     public override void _Process(double delta)
     {
-        if (trackedBody != null && !active)
+        if (!isRuntime || trackedBody == null) return;
+
+        var localPosition = ToLocal(trackedBody.GlobalTransform.Origin);
+        var movementDistance = lastYPosition - localPosition.Y;
+
+        if (localPosition.Y >= 0 && lastYPosition >= 0 && movementDistance >= MinMovementThreshold)
         {
-            Vector3 globalPosition = trackedBody.GlobalTransform.Origin;
-            Vector3 localPosition = ToLocal(globalPosition);
+            UpdateButtonPlatePosition(localPosition.Y - FingerCollisionOffset);
 
-            float movementDistance = lastYposition - localPosition.Y;
-
-            // Get the current state of the button
-            var buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
-            bool buttonState = buttonStatesAutoload.GetValue(buttonNumber).AsBool();
-
-            // Make sure we are pressing the button from a top - down direction
-            if (localPosition.Y >= 0 && lastYposition >= 0 && movementDistance >= minMoveThreshold)
+            if (localPosition.Y < ActivationThreshold && !isPressed)
             {
-                // Update the lever position as the "finger tip" is moving in the Area3D
-                UpdateButtonPlatePosition(localPosition.Y - fingerCollisionOffset);
-
-                // Check if the "finger tip" is far enough down the Area3D volume to trigger the button as pressed 
-                if (localPosition.Y < 0.003 && !active)
-                {
-                    active = true;
-                    clickSound.Play();
-
-                    // Toggle the button state
-                    buttonState = !buttonState;
-
-                    // Change the resting height based on the button state
-                    //initialYposition = buttonState ? -0.005f : -0.0025f;
-                    buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(buttonState));
-                    // ResetButtonPlate();
-                }
+                PressButton();
             }
-            // Update the last y position
-            lastYposition = localPosition.Y;
+            else if (localPosition.Y >= ActivationThreshold && isPressed)
+            {
+                ReleaseButton();
+            }
+        }
+
+        lastYPosition = localPosition.Y;
+    }
+
+    private void SetupCollision()
+    {
+        var collisionShape = new CollisionShape3D
+        {
+            Name = $"Collision_{buttonNumber}",
+            Shape = new CylinderShape3D { Height = 0.01f, Radius = 0.01f }
+        };
+        AddChild(collisionShape);
+    }
+
+    private void SetupLever(int cellOrientation)
+    {
+        lever = new MeshInstance3D { Name = $"Lever_{buttonNumber}" };
+        var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
+        var mesh = leverMeshLib.GetItemMesh(1);
+        if (mesh == null)
+        {
+            GD.PrintErr($"Failed to load lever mesh for momentary switch {buttonNumber}");
+            return;
+        }
+        lever.Mesh = mesh.Duplicate() as Mesh;
+        lever.Transform = new Transform3D(new Basis(new Quaternion(Vector3.Right, 0)), new Vector3(0, initialYPosition, 0));
+
+        ApplyCellOrientation(lever, cellOrientation);
+        AddChild(lever);
+    }
+
+    private void SetupLabel(int cellOrientation)
+    {
+        var label3D = new Label3D
+        {
+            Text = $"Switch: {buttonNumber}",
+            Name = $"Label_{buttonNumber}",
+            PixelSize = 0.0001f,
+            FontSize = 40,
+            OutlineSize = 0,
+            Modulate = Colors.Black
+        };
+
+        // Base position and rotation
+        Vector3 labelPosition = new Vector3(0.0f, 0.0055f, 0.015f);
+        Vector3 labelRotation = new Vector3(-90, 0, 0);
+
+        switch (cellOrientation)
+        {
+            case 16: // 90 degrees (facing positive X)
+                labelPosition = new Vector3(0.015f, 0.0055f, 0f);
+                labelRotation = new Vector3(-95, -90, 0);
+                break;
+            case 10: // 180 degrees (facing negative Z)
+                labelPosition = new Vector3(0f, 0.0055f, 0.015f);
+                labelRotation = new Vector3(-90, 180, 180); // Changed to keep text upright
+                break;
+            case 22: // -90 degrees (facing negative X)
+                labelPosition = new Vector3(-0.015f, 0.0055f, 0f);
+                labelRotation = new Vector3(-90, 90, 0);
+                break;
+                // Default case (0) uses the base position and rotation
+        }
+
+        label3D.Position = labelPosition;
+        label3D.RotationDegrees = labelRotation;
+
+        AddChild(label3D);
+    }
+
+    private void SetupAudio()
+    {
+        clickSound = new AudioStreamPlayer
+        {
+            Name = $"AudioStreamPlayer_{buttonNumber}",
+            Stream = GD.Load<AudioStream>("res://components/buttonPanel/assets/audio/General_Button_2_User_Interface_Tap_FX_Sound.ogg")
+        };
+        AddChild(clickSound);
+    }
+
+    private void ApplyCellOrientation(Node3D node, int cellOrientation)
+    {
+        switch (cellOrientation)
+        {
+            case 16:
+                node.RotateY(Mathf.DegToRad(90));
+                break;
+            case 10:
+                node.RotateY(Mathf.DegToRad(180));
+                break;
+            case 22:
+                node.RotateY(Mathf.DegToRad(-90));
+                break;
         }
     }
 
-    private void ResetButtonPlate() // Resets the lever mesh to its original height
+    private void PressButton()
     {
-        Transform3D buttonPlateTransform = lever.Transform;
-        buttonPlateTransform.Origin = new Vector3(
-            buttonPlateTransform.Origin.X,
-            initialYposition,
-            buttonPlateTransform.Origin.Z
-        );
-        lever.Transform = buttonPlateTransform;
+        isPressed = true;
+        clickSound.Play();
+
+        if (isRuntime)
+        {
+            buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(true));
+        }
     }
 
-    private void UpdateButtonPlatePosition(float yPosition) // Transforms the lever's height in accordance with where the finger tip is in the Area3D
+    private void ReleaseButton()
     {
-        Transform3D buttonPlateTransform = lever.Transform;
-        buttonPlateTransform.Origin = new Vector3(
-            buttonPlateTransform.Origin.X,
-            initialYposition + yPosition - 0.007f,
-            buttonPlateTransform.Origin.Z
-        );
-        lever.Transform = buttonPlateTransform;
+        isPressed = false;
+
+        if (isRuntime)
+        {
+            buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(false));
+        }
     }
 
-    private void OnBodyEntered(Node3D body)
+    private void UpdateButtonPlatePosition(float yPosition)
     {
-        // Handle body entered logic
-        trackedBody = body;
+        lever.Transform = lever.Transform with { Origin = new Vector3(lever.Transform.Origin.X, initialYPosition + yPosition - 0.007f, lever.Transform.Origin.Z) };
     }
+
+    private void ResetButtonPlate()
+    {
+        lever.Transform = lever.Transform with { Origin = new Vector3(lever.Transform.Origin.X, initialYPosition, lever.Transform.Origin.Z) };
+    }
+
+    private void OnBodyEntered(Node3D body) => trackedBody = body;
 
     private void OnBodyExited(Node3D body)
     {
-        if (trackedBody == body)
+        if (trackedBody != body) return;
+
+        trackedBody = null;
+        isPressed = false;
+        if (isRuntime)
         {
-            trackedBody = null;
-            active = false;
-            ResetButtonPlate();
+            buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(false));
         }
+        ResetButtonPlate();
     }
 }

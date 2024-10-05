@@ -4,6 +4,8 @@ using System;
 [Tool]
 public partial class AddButtonFunctions : GridMap
 {
+    [Export]
+    public bool showLabels = false;
     private MeshLibrary uiMeshes;
     private int buttonNumber = 0;
     private ShaderMaterial sliderMaterial;
@@ -49,7 +51,6 @@ public partial class AddButtonFunctions : GridMap
                         };
                         sliderMaterial.SetShaderParameter("fill_amount", 0.0f);
 
-                        
                         SetupSlider(cell, cellOrientation, sliderMaterial);
                         buttonNumber++;
                     }
