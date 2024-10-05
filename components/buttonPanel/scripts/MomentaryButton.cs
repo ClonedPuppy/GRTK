@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+[Tool]
 public partial class MomentaryButton : Area3D
 {
     private int buttonNumber;

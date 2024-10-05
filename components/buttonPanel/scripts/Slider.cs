@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+[Tool]
 public partial class Slider : Area3D
 {
     private int buttonNumber;
@@ -11,12 +12,16 @@ public partial class Slider : Area3D
     private const float MIN_Z = -0.062f;
     private const float MAX_Z = 0.028f;
     private float lastFillAmount = 0f;
+    private ButtonStatesAutoload buttonStatesAutoload; // New cached reference
 
     public override void _Ready()
     {
         // Signals emitted at entry and exit
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
+
+        // Cache the ButtonStatesAutoload reference
+        buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
     }
 
     public void Initialize(int cellNo, int cellOrientation, ShaderMaterial _sliderMaterial)
@@ -69,7 +74,6 @@ public partial class Slider : Area3D
         label3D.OutlineSize = 0;
         label3D.Modulate = Colors.Black;
         AddChild(label3D);
-
     }
 
     public override void _Process(double delta)
@@ -87,6 +91,9 @@ public partial class Slider : Area3D
             //GD.Print($"Slider {buttonNumber}: Fill Amount = {fillAmount}");
 
             sliderMaterial.SetShaderParameter("fill_amount", fillAmount);
+
+            // Use the cached reference
+            buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(fillAmount));
         }
     }
 
@@ -94,6 +101,8 @@ public partial class Slider : Area3D
     {
         lastFillAmount = Mathf.Clamp(amount, 0f, 1f);
         sliderMaterial.SetShaderParameter("fill_amount", lastFillAmount);
+        // Use the cached reference
+        buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(lastFillAmount));
     }
 
     private void OnBodyEntered(Node3D body)

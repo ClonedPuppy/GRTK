@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+[Tool]
 public partial class AddButtonFunctions : GridMap
 {
     private MeshLibrary uiMeshes;

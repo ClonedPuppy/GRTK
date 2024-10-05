@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
+[Tool]
 public partial class GridMapHandController : GridMap
 {
     private Node3D _handTracker;
