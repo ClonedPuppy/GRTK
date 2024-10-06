@@ -17,9 +17,9 @@ public partial class Slider : Area3D
     private Label3D label3D;
 
     // Constants for slider dimensions
-    private const float TileSize = 0.04f; // Assuming each tile is 4cm
-    private const float SliderLength = 0.08f; //TileSize * 2;
-    private const float SliderWidth = 0.02f; //TileSize / 2;
+    private const float TileSize = 0.04f;
+    private const float SliderLength = 0.08f;
+    private const float SliderWidth = 0.02f;
     private const float SliderHeight = 0.01f;
 
     public override void _Ready()
@@ -41,16 +41,11 @@ public partial class Slider : Area3D
 
         SetupCollision(cellOrientation);
         SetupSliderPlane(cellOrientation);
-        // Check if the parent has showLabels property and set label visibility
         var parent = GetParent();
-        if (parent is AddButtonFunctions addButtonFunctions)
+        if (parent.Get("showLabels").AsBool())
         {
-            if (label3D != null)
-            {
-                SetupLabel(cellOrientation);
-            }
+            SetupLabel(cellOrientation);
         }
-
 
         if (isRuntime)
         {

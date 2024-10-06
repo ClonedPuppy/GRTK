@@ -34,14 +34,10 @@ public partial class RectButton : Area3D
 
         SetupCollision();
         SetupLever(cellOrientation);
-        // Check if the parent has showLabels property and set label visibility
         var parent = GetParent();
-        if (parent is AddButtonFunctions addButtonFunctions)
+        if (parent.Get("showLabels").AsBool())
         {
-            if (label3D != null)
-            {
-                SetupLabel(cellOrientation);
-            }
+            SetupLabel(cellOrientation);
         }
         SetupAudio();
 

@@ -29,7 +29,8 @@ reflected_light_source = 2
 tonemap_mode = 2
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_0yskk"]
-radius = 0.01
+margin = 0.001
+radius = 0.005
 
 [node name="main" type="Node3D"]
 
