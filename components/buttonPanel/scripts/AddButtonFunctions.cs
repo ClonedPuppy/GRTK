@@ -1,58 +1,53 @@
 using Godot;
 using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 [Tool]
-public partial class AddButtonFunctions : GridMap
+public partial class AddButtonFunctions : Node3D
 {
     [Export]
     public bool showLabels = false;
-    private MeshLibrary uiMeshes;
+    [Export]
     private int buttonNumber = 0;
+    private GridMap gridMap;
+    private MeshLibrary uiMeshes;
+    private Vector3 centerTile = new Vector3(0.02f, 0.005f, 0.02f);
     private ShaderMaterial sliderMaterial;
 
     public override void _Ready()
     {
-        uiMeshes = MeshLibrary;
+        gridMap = GetNode<GridMap>("GridMap"); // Adjust the path if necessary
+        uiMeshes = gridMap.MeshLibrary;
         if (uiMeshes != null)
         {
-            var usedCells = GetUsedCells();
+            var usedCells = gridMap.GetUsedCells();
             foreach (Vector3I cell in usedCells)
             {
-                int itemId = GetCellItem(cell);
-                int cellOrientation = GetCellItemOrientation(cell);
+                int itemId = gridMap.GetCellItem(cell);
+                int cellOrientation = gridMap.GetCellItemOrientation(cell);
                 if (itemId != -1)  // Check if cell is not empty
                 {
-                    string itemName = MeshLibrary.GetItemName(itemId);
+                    string itemName = uiMeshes.GetItemName(itemId);
                     if (itemName == "ToggleButton")
                     {
-                        //Mesh mesh = MeshLibrary.GetItemMesh(itemId);
                         buttonNumber++;
                         SetupToggleButton(cell, cellOrientation);
                     }
                     if (itemName == "MomentaryButton")
                     {
-                        //Mesh mesh = MeshLibrary.GetItemMesh(itemId);
                         buttonNumber++;
                         SetupMomentaryButton(cell);
                     }
                     if (itemName == "RectButton")
                     {
-                        //Mesh mesh = MeshLibrary.GetItemMesh(itemId);
                         buttonNumber++;
                         SetupRectButton(cell, cellOrientation);
                     }
                     if (itemName == "Slider")
                     {
-                        Mesh mesh = MeshLibrary.GetItemMesh(itemId);
-                        var shader = GD.Load<Shader>("res://components/buttonPanel/assets/shaders/hBar.gdshader");
-                        sliderMaterial = new ShaderMaterial
-                        {
-                            Shader = shader
-                        };
-                        sliderMaterial.SetShaderParameter("fill_amount", 0.0f);
-
-                        SetupSlider(cell, cellOrientation, sliderMaterial);
                         buttonNumber++;
+                        SetupSlider(cell, cellOrientation);
                     }
                 }
             }
@@ -62,52 +57,47 @@ public partial class AddButtonFunctions : GridMap
     private void SetupToggleButton(Vector3I cell, int cellOrientation)
     {
         var toggleButton = new ToggleButton();
-        AddChild(toggleButton);
+        gridMap.AddChild(toggleButton);
 
-        // Set the button's position
-        Vector3 position = cell * CellSize + new Vector3(0.02f, 0.005f, 0.02f);
+        Vector3 position = cell * gridMap.CellSize + centerTile;
         toggleButton.Position = position;
 
-        // Initialize the button
         toggleButton.Initialize(buttonNumber, cellOrientation);
     }
 
     private void SetupMomentaryButton(Vector3I cell)
     {
         var momentaryButton = new MomentaryButton();
-        AddChild(momentaryButton);
+        gridMap.AddChild(momentaryButton);
 
-        // Set the button's position
-        Vector3 position = cell * CellSize + new Vector3(0.02f, 0.005f, 0.02f);
+        Vector3 position = cell * gridMap.CellSize + centerTile;
         momentaryButton.Position = position;
 
-        // Initialize the button
         momentaryButton.Initialize(buttonNumber);
     }
 
     private void SetupRectButton(Vector3I cell, int cellOrientation)
     {
         var rectButton = new RectButton();
-        AddChild(rectButton);
+        gridMap.AddChild(rectButton);
 
-        // Set the button's position
-        Vector3 position = cell * CellSize + new Vector3(0.02f, 0.005f, 0.02f);
+        Vector3 position = cell * gridMap.CellSize + centerTile;
         rectButton.Position = position;
 
-        // Initialize the button
         rectButton.Initialize(buttonNumber, cellOrientation);
     }
 
-    private void SetupSlider(Vector3I cell, int cellOrientation, ShaderMaterial sliderMaterial)
+    private void SetupSlider(Vector3I cell, int cellOrientation)
     {
         var slider = new Slider();
-        AddChild(slider);
+        gridMap.AddChild(slider);
+        //GD.Print("\nCell: " + (cell * gridMap.CellSize).ToString());
 
-        // Set the button's position
-        Vector3 position = cell * CellSize + new Vector3(0.02f, 0.005f, 0.02f);
+        Vector3 position = cell * gridMap.CellSize + centerTile;
         slider.Position = position;
 
-        // Initialize the button
-        slider.Initialize(buttonNumber, cellOrientation, sliderMaterial);
+        //GD.Print("\nPosition: " + slider.Position.ToString());
+
+        slider.Initialize(buttonNumber, cellOrientation);
     }
 }

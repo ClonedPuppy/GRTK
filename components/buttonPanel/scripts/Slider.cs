@@ -9,16 +9,16 @@ public partial class Slider : Area3D
     private bool active = false;
     private MeshInstance3D sliderPlane;
     private ShaderMaterial sliderMaterial;
-    private const float MIN_Z = -0.062f;
-    private const float MAX_Z = 0.028f;
+    private const float sliderMin = -0.062f;
+    private const float sliderMax = 0.028f;
     private float lastFillAmount = 0f;
     private ButtonStatesAutoload buttonStatesAutoload;
     private bool isRuntime;
     private Label3D label3D;
+    private int direction = 0;
 
     // Constants for slider dimensions
-    private const float TileSize = 0.04f;
-    private const float SliderLength = 0.08f;
+    private const float SliderLength = 0.072f;
     private const float SliderWidth = 0.02f;
     private const float SliderHeight = 0.01f;
 
@@ -33,12 +33,16 @@ public partial class Slider : Area3D
         }
     }
 
-    public void Initialize(int cellNo, int cellOrientation, ShaderMaterial _sliderMaterial)
+    public void Initialize(int cellNo, int cellOrientation)
     {
         buttonNumber = cellNo;
         Name = $"Slider_{buttonNumber}";
-        sliderMaterial = _sliderMaterial;
-
+        var shader = GD.Load<Shader>("res://components/buttonPanel/assets/shaders/hBar.gdshader");
+        sliderMaterial = new ShaderMaterial
+        {
+            Shader = shader
+        };
+        sliderMaterial.SetShaderParameter("fill_amount", 0.0f);
         SetupCollision(cellOrientation);
         SetupSliderPlane(cellOrientation);
         var parent = GetParent();
@@ -69,11 +73,7 @@ public partial class Slider : Area3D
             Shape = new BoxShape3D { Size = new Vector3(SliderWidth, SliderHeight, SliderLength) },
         };
 
-        // Position the collision shape centered on the two tiles
-        Vector3 offset = GetOrientationOffset(cellOrientation);
-        collisionShape.Position = offset + new Vector3(0, 0, -0.02f);
-
-        ApplyOrientation(collisionShape, cellOrientation);
+        ApplyOrientation(collisionShape, cellOrientation, true);
         AddChild(collisionShape);
     }
 
@@ -89,13 +89,65 @@ public partial class Slider : Area3D
         }
         sliderPlane.Mesh = mesh.Duplicate() as Mesh;
 
-        // Position the slider plane centered on the two tiles
-        Vector3 offset = GetOrientationOffset(cellOrientation);
-        sliderPlane.Position = offset + new Vector3(0, -SliderHeight / 2, 0); // Slight Y offset to sit on the surface
-
-        ApplyOrientation(sliderPlane, cellOrientation);
+        ApplyOrientation(sliderPlane, cellOrientation, false);
         sliderPlane.Mesh.SurfaceSetMaterial(0, sliderMaterial);
         AddChild(sliderPlane);
+    }
+
+    private void ApplyOrientation(Node3D node, int cellOrientation, bool isColShape)
+    {
+        switch (cellOrientation)
+        {
+            case 16: // 90 degrees
+                direction = 2;
+                node.RotateY(Mathf.DegToRad(90));
+                if (isColShape)
+                {
+                    node.Position = new Vector3(-0.02f, 0, 0);
+                }
+                else
+                {
+                    node.Position = new Vector3(0, -SliderHeight / 2, 0);
+                }
+                break;
+            case 10: // 180 degrees
+                direction = 1;
+                node.RotateY(Mathf.DegToRad(180));
+                if (isColShape)
+                {
+                    node.Position = new Vector3(0, 0, 0.02f);
+                }
+                else
+                {
+                    node.Position = new Vector3(0, -SliderHeight / 2, 0);
+                }
+                break;
+            case 22: // -90 degrees
+                direction = 3;
+                node.RotateY(Mathf.DegToRad(-90));
+                if (isColShape)
+                {
+                    node.Position = new Vector3(0.02f, 0, 0);
+                }
+                else
+                {
+                    node.Position = new Vector3(0, -SliderHeight / 2, 0);
+                }
+
+                break;
+            default:
+                direction = 0;
+                if (isColShape)
+                {
+                    node.Position = new Vector3(0, 0, -0.02f);
+                }
+                else
+                {
+                    node.Position = new Vector3(0, -SliderHeight / 2, 0);
+                    //GD.Print("Last Pos: " + node.Position.ToString());
+                }
+                break;
+        }
     }
 
     private void SetupLabel(int cellOrientation)
@@ -117,6 +169,7 @@ public partial class Slider : Area3D
         switch (cellOrientation)
         {
             case 16: // 90 degrees (facing positive X)
+                //GD.Print("90");
                 labelOffset = new Vector3(SliderLength / 2 + 0.005f, 0.0055f, 0f);
                 labelRotation = new Vector3(-90, -90, 0);
                 break;
@@ -125,6 +178,7 @@ public partial class Slider : Area3D
                 labelRotation = new Vector3(-90, 180, 0);
                 break;
             case 22: // -90 degrees (facing negative X)
+                //GD.Print("-90");
                 labelOffset = new Vector3(-SliderLength / 2 - 0.005f, 0.0055f, 0f);
                 labelRotation = new Vector3(-90, 90, 0);
                 break;
@@ -134,48 +188,34 @@ public partial class Slider : Area3D
                 break;
         }
 
-        Vector3 baseOffset = GetOrientationOffset(cellOrientation);
-        label3D.Position = baseOffset + labelOffset;
+        //Vector3 baseOffset = GetOrientationOffset(cellOrientation);
+        label3D.Position = labelOffset;
         label3D.RotationDegrees = labelRotation;
 
         AddChild(label3D);
     }
 
-    private Vector3 GetOrientationOffset(int cellOrientation)
-    {
-        switch (cellOrientation)
-        {
-            case 16: // 90 degrees
-                return new Vector3(0, 0, 0);
-            case 10: // 180 degrees
-                return new Vector3(0, 0, 0);
-            case 22: // -90 degrees
-                return new Vector3(0, 0, 0);
-            default: // 0 degrees
-                return new Vector3(0, 0, 0);
-        }
-    }
-
-    private void ApplyOrientation(Node3D node, int cellOrientation)
-    {
-        switch (cellOrientation)
-        {
-            case 16: // 90 degrees
-                node.RotateY(Mathf.DegToRad(90));
-                break;
-            case 10: // 180 degrees
-                node.RotateY(Mathf.DegToRad(180));
-                break;
-            case 22: // -90 degrees
-                node.RotateY(Mathf.DegToRad(-90));
-                break;
-                // Default case (0) requires no rotation
-        }
-    }
-
     private void UpdateSliderPosition(Vector3 localPosition)
     {
-        float fillAmount = Mathf.Lerp(1f, 0f, (localPosition.Z - MIN_Z) / (MAX_Z - MIN_Z));
+        float fillAmount = 0f;
+        switch (direction)
+        {
+            case 0:
+                fillAmount = Mathf.Lerp(1f, 0f, (localPosition.Z - sliderMin) / (sliderMax - sliderMin));
+                break;
+
+            case 1:
+                fillAmount = Mathf.Lerp(1f, 0f, (-localPosition.Z - sliderMin) / (sliderMax - sliderMin));
+                break;
+
+            case 2:
+                fillAmount = Mathf.Lerp(1f, 0f, (localPosition.X - sliderMin) / (sliderMax - sliderMin));
+                break;
+
+            case 3:
+                fillAmount = Mathf.Lerp(1f, 0f, (-localPosition.X - sliderMin) / (sliderMax - sliderMin));
+                break;
+        }
         fillAmount = Mathf.Clamp(fillAmount, 0f, 1f);
 
         lastFillAmount = fillAmount;

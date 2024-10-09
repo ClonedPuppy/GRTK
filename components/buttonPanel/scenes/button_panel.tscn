@@ -1,10 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://brx02fyuar3if"]
+[gd_scene load_steps=3 format=3 uid="uid://brx02fyuar3if"]
 
+[ext_resource type="Script" path="res://components/buttonPanel/scripts/AddButtonFunctions.cs" id="1_jl6kf"]
 [ext_resource type="PackedScene" uid="uid://cjf40p0rtevbs" path="res://components/buttonPanel/scenes/grid_map.tscn" id="1_uiuyb"]
 
 [node name="ButtonPanel" type="Node3D"]
+script = ExtResource("1_jl6kf")
 
 [node name="GridMap" parent="." instance=ExtResource("1_uiuyb")]
 data = {
-"cells": PackedInt32Array(65534, 65535, 6, 0, 65535, 6, 65535, 65535, 7, 65535, 65534, 7, 65534, 65533, 3, 0, 65533, 3, 0, 0, 1048582, 65534, 0, 1048578, 65535, 65533, 655363, 65533, 65533, 1441796, 65533, 65534, 1441796, 65533, 65535, 1441796, 65533, 0, 1441796, 1, 65533, 1048580, 1, 65534, 1048580, 1, 65535, 1048580, 1, 0, 1048580)
+"cells": PackedInt32Array(65535, 65535, 7, 65535, 65534, 7, 65534, 65533, 3, 0, 65533, 3, 65534, 0, 1048578, 65535, 65533, 655363, 65533, 65533, 1441796, 65533, 65534, 1441796, 65533, 65535, 1441796, 65533, 0, 1441796, 1, 65533, 1048580, 1, 65534, 1048580, 1, 65535, 1048580, 1, 0, 1048580, 65535, 0, 1441798, 65534, 65535, 6, 0, 65534, 655366, 0, 1, 1048582)
 }
+script = null

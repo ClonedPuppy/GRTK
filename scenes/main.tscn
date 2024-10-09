@@ -102,6 +102,7 @@ shape = SubResource("SphereShape3D_0yskk")
 
 [node name="ButtonPanel" parent="." instance=ExtResource("5_8ns57")]
 transform = Transform3D(1, 0, 0, 0, 0.58374, -0.811941, 0, 0.811941, 0.58374, 0, 0.876549, -0.321628)
+buttonNumber = 60
 
 [node name="TestBulbs" parent="." instance=ExtResource("6_i37s3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.969704, -0.494654)
