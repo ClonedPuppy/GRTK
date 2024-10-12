@@ -13,6 +13,8 @@ public partial class ButtonStatesAutoload : Node
 
     public override void _Ready()
     {
+        StateDict.Clear();
+        //GD.Print("GLOBAL CLEARED!");
         // sdfAtlas = GD.Load<Texture2D>("res://components/buttonPanel/assets/sdf/sdf_font.png");
         // sdfMaterial = GD.Load<Material>("res://components/buttonPanel/assets/materials/sdf_label_material.tres");
         // atlasWidth = sdfAtlas.GetWidth();
@@ -28,6 +30,11 @@ public partial class ButtonStatesAutoload : Node
     public Variant GetValue(int key)
     {
         return StateDict.TryGetValue(key, out Variant value) ? value : new Variant();
+    }
+
+    public void Clear()
+    {
+        StateDict.Clear();
     }
 
     public void UpdateButtonState(int buttonId, Variant newState)

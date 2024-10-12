@@ -8,15 +8,17 @@ public partial class AddButtonFunctions : Node3D
 {
     [Export]
     public bool showLabels = false;
-    [Export]
+    //[Export]
     private int buttonNumber = 0;
     private GridMap gridMap;
     private MeshLibrary uiMeshes;
     private Vector3 centerTile = new Vector3(0.02f, 0.005f, 0.02f);
     private ShaderMaterial sliderMaterial;
+    //private ButtonStatesAutoload buttonStatesAutoload;
 
     public override void _Ready()
     {
+        //buttonStatesAutoload.Clear();
         gridMap = GetNode<GridMap>("GridMap"); // Adjust the path if necessary
         uiMeshes = gridMap.MeshLibrary;
         if (uiMeshes != null)
@@ -24,6 +26,7 @@ public partial class AddButtonFunctions : Node3D
             var usedCells = gridMap.GetUsedCells();
             foreach (Vector3I cell in usedCells)
             {
+                //GD.Print("Adding a cell: ");
                 int itemId = gridMap.GetCellItem(cell);
                 int cellOrientation = gridMap.GetCellItemOrientation(cell);
                 if (itemId != -1)  // Check if cell is not empty
@@ -100,4 +103,9 @@ public partial class AddButtonFunctions : Node3D
 
         slider.Initialize(buttonNumber, cellOrientation);
     }
+    // public override void _ExitTree()
+    // {
+    //     gridMap.Free();
+    //     base._ExitTree();
+    // }
 }
