@@ -4,18 +4,19 @@ using System;
 [Tool]
 public partial class Slider : Area3D
 {
-    private int buttonNumber;
     private Node3D trackedBody = null;
-    private bool active = false;
     private MeshInstance3D sliderPlane;
     private ShaderMaterial sliderMaterial;
+    private Label3D label3D;
+
+    private bool isRuntime;
+    private int buttonNumber;
     private const float sliderMin = -0.062f;
     private const float sliderMax = 0.028f;
     private float lastFillAmount = 0f;
-    private ButtonStatesAutoload buttonStatesAutoload;
-    private bool isRuntime;
-    private Label3D label3D;
     private int direction = 0;
+    private double lastUpdateTime = 0;
+    private const double UpdateInterval = 0.05; // 50ms interval for updates
 
     // Constants for slider dimensions
     private const float SliderLength = 0.072f;
@@ -27,10 +28,6 @@ public partial class Slider : Area3D
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
         isRuntime = !Engine.IsEditorHint();
-        if (isRuntime)
-        {
-            buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
-        }
     }
 
     public void Initialize(int cellNo, int cellOrientation)
@@ -45,25 +42,27 @@ public partial class Slider : Area3D
         sliderMaterial.SetShaderParameter("fill_amount", 0.0f);
         SetupCollision(cellOrientation);
         SetupSliderPlane(cellOrientation);
-        var parent = GetParent();
-        if (parent.Get("showLabels").AsBool())
-        {
-            SetupLabel(cellOrientation);
-        }
 
         if (isRuntime)
         {
-            buttonStatesAutoload.UpdateButtonState(buttonNumber, 0f);
+            GetTree().CallGroup("UIListeners", "OnSliderValueChanged", buttonNumber, 0f);
         }
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        if (!isRuntime || trackedBody == null || active) return;
+        if (!isRuntime || trackedBody == null) return;
 
         var localPosition = ToLocal(trackedBody.GlobalTransform.Origin);
-        UpdateSliderPosition(localPosition);
+        double currentTime = Time.GetTicksMsec() / 1000.0;
+
+        if (currentTime - lastUpdateTime >= UpdateInterval)
+        {
+            UpdateSliderPosition(localPosition);
+            lastUpdateTime = currentTime;
+        }
     }
+
 
     private void SetupCollision(int cellOrientation)
     {
@@ -150,51 +149,6 @@ public partial class Slider : Area3D
         }
     }
 
-    private void SetupLabel(int cellOrientation)
-    {
-        var label3D = new Label3D
-        {
-            Text = $"Slider: {buttonNumber}",
-            Name = $"Label_{buttonNumber}",
-            PixelSize = 0.0001f,
-            FontSize = 40,
-            OutlineSize = 0,
-            Modulate = Colors.Black
-        };
-
-        // Position and rotate the label based on orientation
-        Vector3 labelOffset;
-        Vector3 labelRotation;
-
-        switch (cellOrientation)
-        {
-            case 16: // 90 degrees (facing positive X)
-                //GD.Print("90");
-                labelOffset = new Vector3(SliderLength / 2 + 0.005f, 0.0055f, 0f);
-                labelRotation = new Vector3(-90, -90, 0);
-                break;
-            case 10: // 180 degrees (facing negative Z)
-                labelOffset = new Vector3(0f, 0.0055f, -SliderLength / 2 - 0.005f);
-                labelRotation = new Vector3(-90, 180, 0);
-                break;
-            case 22: // -90 degrees (facing negative X)
-                //GD.Print("-90");
-                labelOffset = new Vector3(-SliderLength / 2 - 0.005f, 0.0055f, 0f);
-                labelRotation = new Vector3(-90, 90, 0);
-                break;
-            default: // 0 degrees (facing positive Z)
-                labelOffset = new Vector3(0f, 0.0055f, SliderLength / 2 + 0.005f);
-                labelRotation = new Vector3(-90, 0, 0);
-                break;
-        }
-
-        //Vector3 baseOffset = GetOrientationOffset(cellOrientation);
-        label3D.Position = labelOffset;
-        label3D.RotationDegrees = labelRotation;
-
-        AddChild(label3D);
-    }
-
     private void UpdateSliderPosition(Vector3 localPosition)
     {
         float fillAmount = 0f;
@@ -203,27 +157,23 @@ public partial class Slider : Area3D
             case 0:
                 fillAmount = Mathf.Lerp(1f, 0f, (localPosition.Z - sliderMin) / (sliderMax - sliderMin));
                 break;
-
             case 1:
                 fillAmount = Mathf.Lerp(1f, 0f, (-localPosition.Z - sliderMin) / (sliderMax - sliderMin));
                 break;
-
             case 2:
                 fillAmount = Mathf.Lerp(1f, 0f, (localPosition.X - sliderMin) / (sliderMax - sliderMin));
                 break;
-
             case 3:
                 fillAmount = Mathf.Lerp(1f, 0f, (-localPosition.X - sliderMin) / (sliderMax - sliderMin));
                 break;
         }
         fillAmount = Mathf.Clamp(fillAmount, 0f, 1f);
 
-        lastFillAmount = fillAmount;
-        sliderMaterial.SetShaderParameter("fill_amount", fillAmount);
-
-        if (isRuntime)
+        if (Mathf.Abs(fillAmount - lastFillAmount) > 0.001f) // Only update if there's a significant change
         {
-            buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(fillAmount));
+            lastFillAmount = fillAmount;
+            sliderMaterial.SetShaderParameter("fill_amount", fillAmount);
+            GetTree().CallGroup("UIListeners", "OnSliderValueChanged", buttonNumber, fillAmount);
         }
     }
 
@@ -231,11 +181,7 @@ public partial class Slider : Area3D
     {
         lastFillAmount = Mathf.Clamp(amount, 0f, 1f);
         sliderMaterial.SetShaderParameter("fill_amount", lastFillAmount);
-
-        if (isRuntime)
-        {
-            buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(lastFillAmount));
-        }
+        GetTree().CallGroup("UIListeners", "OnSliderValueChanged", buttonNumber, lastFillAmount);
     }
 
     private void OnBodyEntered(Node3D body) => trackedBody = body;
@@ -243,9 +189,6 @@ public partial class Slider : Area3D
     private void OnBodyExited(Node3D body)
     {
         if (trackedBody != body) return;
-
         trackedBody = null;
-        active = false;
-        sliderMaterial.SetShaderParameter("fill_amount", lastFillAmount);
     }
 }

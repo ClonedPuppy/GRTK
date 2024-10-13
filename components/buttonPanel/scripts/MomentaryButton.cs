@@ -4,21 +4,21 @@ using System;
 [Tool]
 public partial class MomentaryButton : Area3D
 {
-    private int buttonNumber;
     private Node3D trackedBody = null;
-    private bool active = false;
     private MeshInstance3D lever;
+    private AudioStreamPlayer clickSound;
+    private Label3D label3D;
+
+    private bool isRuntime;
+    private int buttonNumber;
     private float initialYPosition = -0.0025f;
     private float lastYPosition = 0.0f;
     private const float MinMovementThreshold = 0.0005f;
-    private const float MaxMovementThreshold = 0.5f;
     private const float FingerCollisionOffset = 0.0025f;
     private const float ActivationThreshold = 0.003f;
-    private AudioStreamPlayer clickSound;
-    private ButtonStatesAutoload buttonStatesAutoload;
-    private bool isRuntime;
-    private Label3D label3D;
     private bool lastReportedState = false;
+    private double lastStateChangeTime = 0;
+    private const double DebounceTime = 0.05;
 
     public override void _Ready()
     {
@@ -34,23 +34,12 @@ public partial class MomentaryButton : Area3D
 
         SetupCollision();
         SetupLever();
-        var parent = GetParent();
-        if (parent.Get("showLabels").AsBool())
-        {
-            SetupLabel();
-        }
         SetupAudio();
-
-        if (isRuntime)
-        {
-            buttonStatesAutoload = GetNode<ButtonStatesAutoload>("/root/ButtonStatesAutoload");
-            buttonStatesAutoload.UpdateButtonState(buttonNumber, false);
-        }
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        if (!isRuntime || trackedBody == null || active) return;
+        if (!isRuntime || trackedBody == null) return;
 
         var localPosition = ToLocal(trackedBody.GlobalTransform.Origin);
         var movementDistance = lastYPosition - localPosition.Y;
@@ -60,9 +49,12 @@ public partial class MomentaryButton : Area3D
             UpdateButtonPlatePosition(localPosition.Y - FingerCollisionOffset);
 
             bool currentState = localPosition.Y < ActivationThreshold;
-            if (currentState != lastReportedState)
+            double currentTime = Time.GetTicksMsec() / 1000.0;
+
+            if (currentState != lastReportedState && (currentTime - lastStateChangeTime) > DebounceTime)
             {
                 lastReportedState = currentState;
+                lastStateChangeTime = currentTime;
                 if (currentState)
                 {
                     ActivateButton();
@@ -129,14 +121,12 @@ public partial class MomentaryButton : Area3D
 
     private void ActivateButton()
     {
-        active = true;
         clickSound.Play();
         GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, true);
     }
 
     private void DeactivateButton()
     {
-        active = false;
         GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, false);
     }
 
