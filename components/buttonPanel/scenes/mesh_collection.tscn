@@ -1,6 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://cgu56h3r4pxnu"]
-
-[ext_resource type="Script" path="res://components/buttonPanel/scripts/SidePanelScript.cs" id="1_siukk"]
+[gd_scene load_steps=11 format=4 uid="uid://cgu56h3r4pxnu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_grcue"]
 resource_name = "ProtoKit_Tiles"
@@ -163,7 +161,6 @@ blend_shape_mode = 0
 [node name="Side" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_foami")
 skeleton = NodePath("")
-script = ExtResource("1_siukk")
 
 [node name="Corner" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_ujenw")

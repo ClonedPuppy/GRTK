@@ -1,7 +1,4 @@
 using Godot;
-using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 [Tool]
 public partial class AddButtonFunctions : Node3D

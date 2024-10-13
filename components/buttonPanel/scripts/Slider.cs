@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 [Tool]
 public partial class Slider : Area3D
@@ -62,7 +61,6 @@ public partial class Slider : Area3D
             lastUpdateTime = currentTime;
         }
     }
-
 
     private void SetupCollision(int cellOrientation)
     {

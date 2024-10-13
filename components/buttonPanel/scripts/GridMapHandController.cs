@@ -1,12 +1,10 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 
 [Tool]
 public partial class GridMapHandController : GridMap
 {
     private Node3D _handTracker;
-
     private bool _isGripping = false;
     private Vector3 _grabPosition = Vector3.Zero;
     private Vector3 _initialHandPosition = Vector3.Zero;
