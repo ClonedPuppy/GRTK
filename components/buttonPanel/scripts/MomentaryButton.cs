@@ -18,6 +18,7 @@ public partial class MomentaryButton : Area3D
     private ButtonStatesAutoload buttonStatesAutoload;
     private bool isRuntime;
     private Label3D label3D;
+    private bool lastReportedState = false;
 
     public override void _Ready()
     {
@@ -58,9 +59,18 @@ public partial class MomentaryButton : Area3D
         {
             UpdateButtonPlatePosition(localPosition.Y - FingerCollisionOffset);
 
-            if (localPosition.Y < ActivationThreshold)
+            bool currentState = localPosition.Y < ActivationThreshold;
+            if (currentState != lastReportedState)
             {
-                ActivateButton();
+                lastReportedState = currentState;
+                if (currentState)
+                {
+                    ActivateButton();
+                }
+                else
+                {
+                    DeactivateButton();
+                }
             }
         }
 
@@ -121,7 +131,13 @@ public partial class MomentaryButton : Area3D
     {
         active = true;
         clickSound.Play();
-        buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(true));
+        GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, true);
+    }
+
+    private void DeactivateButton()
+    {
+        active = false;
+        GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, false);
     }
 
     private void UpdateButtonPlatePosition(float yPosition)
@@ -141,10 +157,10 @@ public partial class MomentaryButton : Area3D
         if (trackedBody != body) return;
 
         trackedBody = null;
-        active = false;
-        if (isRuntime)
+        if (lastReportedState)
         {
-            buttonStatesAutoload.SetValue(buttonNumber, Variant.CreateFrom(false));
+            lastReportedState = false;
+            DeactivateButton();
         }
         ResetButtonPlate();
     }
