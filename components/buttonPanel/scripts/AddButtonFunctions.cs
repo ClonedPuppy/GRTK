@@ -1,10 +1,11 @@
 using Godot;
+using Godot.Collections;
 
 [Tool]
 public partial class AddButtonFunctions : Node3D
 {
     [Export]
-    public bool showLabels = false;
+    public Dictionary<int, string> labelNames;
     private int buttonNumber = 0;
     private GridMap gridMap;
     private MeshLibrary uiMeshes;
@@ -13,6 +14,7 @@ public partial class AddButtonFunctions : Node3D
 
     public override void _Ready()
     {
+        labelNames = new Dictionary<int, string>();
         gridMap = GetNode<GridMap>("GridMap");
         uiMeshes = gridMap.MeshLibrary;
         if (uiMeshes != null)
