@@ -8,7 +8,6 @@ script = ExtResource("1_jl6kf")
 labelNames = {}
 
 [node name="GridMap1" type="GridMap" parent="."]
-visible = false
 mesh_library = ExtResource("2_vnwdc")
 cell_size = Vector3(0.04, 0.04, 0.04)
 cell_center_y = false
@@ -28,6 +27,7 @@ data = {
 metadata/_editor_floor_ = Vector3(-4, 0, 0)
 
 [node name="GridMap3" type="GridMap" parent="."]
+visible = false
 mesh_library = ExtResource("2_vnwdc")
 cell_size = Vector3(0.04, 0.04, 0.04)
 cell_center_y = false

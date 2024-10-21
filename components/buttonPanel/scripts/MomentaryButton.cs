@@ -39,6 +39,7 @@ public partial class MomentaryButton : Area3D
 
         SetupCollision();
         SetupLever();
+        SetupLabel();
         SetupAudio();
     }
 

@@ -7,21 +7,20 @@ public partial class AddButtonFunctions : Node3D
 {
     [Export]
     public Dictionary<int, string> labelNames;
-    private int buttonNumber = 0;
     private GridMap[] layoutInstances;
     private int currentLayoutIndex = -1;
     private MeshLibrary uiMeshes;
     private Vector3 centerTile = new Vector3(0.02f, 0.005f, 0.02f);
     private double lastSwitchTime = 0;
-    private const double SwitchDebounceTime = 1f; // 500ms debounce time
+    private const double SwitchDebounceTime = 1f; // 1000ms debounce time
     public override void _Ready()
     {
         labelNames = new Dictionary<int, string>();
 
-        // Find all GridMap children and store them
         layoutInstances = GetChildren().OfType<GridMap>().ToArray();
         uiMeshes = layoutInstances[0].MeshLibrary;
         var gmIndex = 0;
+        var btnNumber = 0;
 
         foreach (var gridMapInst in layoutInstances)
         {
@@ -37,28 +36,28 @@ public partial class AddButtonFunctions : Node3D
                         string itemName = uiMeshes.GetItemName(itemId);
                         if (itemName == "ToggleButton")
                         {
-                            buttonNumber++;
-                            SetupToggleButton(cell, cellOrientation, gmIndex);
+                            btnNumber++;
+                            SetupToggleButton(cell, cellOrientation, gmIndex, btnNumber);
                         }
-                        if (itemName == "MomentaryButton")
+                        else if (itemName == "MomentaryButton")
                         {
-                            buttonNumber++;
-                            SetupMomentaryButton(cell, gmIndex);
+                            btnNumber++;
+                            SetupMomentaryButton(cell, gmIndex, btnNumber);
                         }
-                        if (itemName == "TabButton")
+                        else if (itemName == "TabButton")
                         {
-                            buttonNumber++;
-                            SetupTabButton(cell, gmIndex);
+                            btnNumber++;
+                            SetupTabButton(cell, gmIndex, btnNumber);
                         }
-                        if (itemName == "RectButton")
+                        else if (itemName == "RectButton")
                         {
-                            buttonNumber++;
-                            SetupRectButton(cell, cellOrientation, gmIndex);
+                            btnNumber++;
+                            SetupRectButton(cell, cellOrientation, gmIndex, btnNumber);
                         }
-                        if (itemName == "Slider")
+                        else if (itemName == "Slider")
                         {
-                            buttonNumber++;
-                            SetupSlider(cell, cellOrientation, gmIndex);
+                            btnNumber++;
+                            SetupSlider(cell, cellOrientation, gmIndex, btnNumber);
                         }
                     }
                 }
@@ -81,59 +80,54 @@ public partial class AddButtonFunctions : Node3D
         InitializeActiveLayout();
     }
 
-    private void SetupToggleButton(Vector3I cell, int cellOrientation, int index)
+    private void SetupToggleButton(Vector3I cell, int cellOrientation, int index, int btnNumber)
     {
         var toggleButton = new ToggleButton();
         layoutInstances[index].AddChild(toggleButton);
 
         Vector3 position = cell * layoutInstances[index].CellSize + centerTile;
         toggleButton.Position = position;
-
-        toggleButton.Initialize(buttonNumber, cellOrientation);
+        toggleButton.Initialize(btnNumber, cellOrientation);
     }
 
-    private void SetupMomentaryButton(Vector3I cell, int index)
+    private void SetupMomentaryButton(Vector3I cell, int index, int btnNumber)
     {
         var momentaryButton = new MomentaryButton();
         layoutInstances[index].AddChild(momentaryButton);
 
         Vector3 position = cell * layoutInstances[index].CellSize + centerTile;
         momentaryButton.Position = position;
-
-        momentaryButton.Initialize(buttonNumber);
+        momentaryButton.Initialize(btnNumber);
     }
 
-    private void SetupTabButton(Vector3I cell, int index)
+    private void SetupTabButton(Vector3I cell, int index, int btnNumber)
     {
         var tabButton = new TabButton();
         layoutInstances[index].AddChild(tabButton);
 
         Vector3 position = cell * layoutInstances[index].CellSize + centerTile;
         tabButton.Position = position;
-
-        tabButton.Initialize(buttonNumber);
+        tabButton.Initialize(btnNumber);
     }
 
-    private void SetupRectButton(Vector3I cell, int cellOrientation, int index)
+    private void SetupRectButton(Vector3I cell, int cellOrientation, int index, int btnNumber)
     {
         var rectButton = new RectButton();
         layoutInstances[index].AddChild(rectButton);
 
         Vector3 position = cell * layoutInstances[index].CellSize + centerTile;
         rectButton.Position = position;
-
-        rectButton.Initialize(buttonNumber, cellOrientation);
+        rectButton.Initialize(btnNumber, cellOrientation);
     }
 
-    private void SetupSlider(Vector3I cell, int cellOrientation, int index)
+    private void SetupSlider(Vector3I cell, int cellOrientation, int index, int btnNumber)
     {
         var slider = new Slider();
         layoutInstances[index].AddChild(slider);
 
         Vector3 position = cell * layoutInstances[index].CellSize + centerTile;
         slider.Position = position;
-
-        slider.Initialize(buttonNumber, cellOrientation);
+        slider.Initialize(btnNumber, cellOrientation);
     }
 
     private void SetGridMapProcessing(GridMap gridMap, bool enable)
@@ -183,7 +177,7 @@ public partial class AddButtonFunctions : Node3D
         double currentTime = Time.GetTicksMsec() / 1000.0;
         if (currentTime - lastSwitchTime < SwitchDebounceTime)
         {
-            return; // Ignore rapid successive calls
+            return;
         }
 
         int nextIndex = (currentLayoutIndex + 1) % layoutInstances.Length;

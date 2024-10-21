@@ -39,6 +39,7 @@ public partial class TabButton : Area3D
 
         SetupCollision();
         SetupLever();
+        SetupLabel();
         SetupAudio();
     }
 
@@ -70,7 +71,6 @@ public partial class TabButton : Area3D
                 }
             }
         }
-
         lastYPosition = localPosition.Y;
     }
 
