@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v4.2.57",
+		"generator":"Khronos glTF Blender I/O v4.2.70",
 		"version":"2.0"
 	},
 	"extensionsUsed":[
@@ -29,7 +29,8 @@
 				14,
 				15,
 				16,
-				17
+				17,
+				18
 			]
 		}
 	],
@@ -105,6 +106,10 @@
 		{
 			"mesh":17,
 			"name":"LongCornerR"
+		},
+		{
+			"mesh":18,
+			"name":"TabButton"
 		}
 	],
 	"materials":[
@@ -467,6 +472,20 @@
 						"TEXCOORD_0":85
 					},
 					"indices":86,
+					"material":0
+				}
+			]
+		},
+		{
+			"name":"Cube.020",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":87,
+						"NORMAL":88,
+						"TEXCOORD_0":89
+					},
+					"indices":90,
 					"material":0
 				}
 			]
@@ -1214,6 +1233,40 @@
 			"componentType":5123,
 			"count":1092,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":87,
+			"componentType":5126,
+			"count":180,
+			"max":[
+				0.019999999552965164,
+				0.010000697337090969,
+				0.019999999552965164
+			],
+			"min":[
+				-0.019999999552965164,
+				-2.98023217215615e-10,
+				-0.019999999552965164
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":88,
+			"componentType":5126,
+			"count":180,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":89,
+			"componentType":5126,
+			"count":180,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":90,
+			"componentType":5123,
+			"count":534,
+			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
@@ -1738,11 +1791,35 @@
 			"byteLength":2184,
 			"byteOffset":183204,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":2160,
+			"byteOffset":185388,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":2160,
+			"byteOffset":187548,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":1440,
+			"byteOffset":189708,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":1068,
+			"byteOffset":191148,
+			"target":34963
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":185388,
+			"byteLength":192216,
 			"uri":"ProKit.bin"
 		}
 	]

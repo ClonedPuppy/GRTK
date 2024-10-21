@@ -2,13 +2,13 @@ using Godot;
 using System;
 
 [Tool]
-public partial class MomentaryButton : Area3D
+public partial class TabButton : Area3D
 {
     private Node3D trackedBody = null;
     private MeshInstance3D lever;
     private AudioStreamPlayer clickSound;
     private Label3D label3D;
-    // private AddButtonFunctions addButtonFunctions;
+    private AddButtonFunctions addButtonFunctions;
 
     private bool isRuntime;
     private int buttonNumber;
@@ -26,16 +26,16 @@ public partial class MomentaryButton : Area3D
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
         isRuntime = !Engine.IsEditorHint();
-        // if (isRuntime)
-        // {
-        //     addButtonFunctions = GetNode<AddButtonFunctions>("/root/main/ButtonPanel");
-        // }
+        if (isRuntime)
+        {
+            addButtonFunctions = GetNode<AddButtonFunctions>("/root/main/ButtonPanel");
+        }
     }
 
     public void Initialize(int cellNo)
     {
         buttonNumber = cellNo;
-        Name = $"MomentaryButton_{buttonNumber}";
+        Name = $"TabButton_{buttonNumber}";
 
         SetupCollision();
         SetupLever();
@@ -88,7 +88,7 @@ public partial class MomentaryButton : Area3D
     {
         lever = new MeshInstance3D { Name = $"Lever_{buttonNumber}" };
         var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
-        var mesh = leverMeshLib.GetItemMesh(0);
+        var mesh = leverMeshLib.GetItemMesh(4);
         if (mesh == null)
         {
             GD.PrintErr($"Failed to load lever mesh for button {buttonNumber}");
@@ -127,17 +127,17 @@ public partial class MomentaryButton : Area3D
     private void ActivateButton()
     {
         clickSound.Play();
-        GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, true);
+        // GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, true);
 
-        // if (addButtonFunctions != null)
-        // {
-        //     addButtonFunctions.SwitchToNextLayout();
-        // }
+        if (addButtonFunctions != null)
+        {
+            addButtonFunctions.SwitchToNextLayout();
+        }
     }
 
     private void DeactivateButton()
     {
-        GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, false);
+        // GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, false);
     }
 
     private void UpdateButtonPlatePosition(float yPosition)
