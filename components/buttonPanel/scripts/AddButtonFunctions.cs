@@ -6,7 +6,8 @@ using Godot.Collections;
 public partial class AddButtonFunctions : Node3D
 {
     [Export]
-    public Dictionary<int, string> labelNames;
+    public bool showLabels = false;
+    //public Dictionary<int, string> labelNames;
     private GridMap[] layoutInstances;
     private int currentLayoutIndex = -1;
     private MeshLibrary uiMeshes;
@@ -15,7 +16,7 @@ public partial class AddButtonFunctions : Node3D
     private const double SwitchDebounceTime = 0.5f; // 500ms debounce time
     public override void _Ready()
     {
-        labelNames = new Dictionary<int, string>();
+        //labelNames = new Dictionary<int, string>();
 
         layoutInstances = GetChildren().OfType<GridMap>().ToArray();
         uiMeshes = layoutInstances[0].MeshLibrary;
@@ -58,6 +59,11 @@ public partial class AddButtonFunctions : Node3D
                         {
                             btnNumber++;
                             SetupSlider(cell, cellOrientation, gmIndex, btnNumber);
+                        }
+                        else if (itemName == "StepSlider")
+                        {
+                            btnNumber++;
+                            SetupStepSlider(cell, cellOrientation, gmIndex, btnNumber);
                         }
                     }
                 }
@@ -128,6 +134,16 @@ public partial class AddButtonFunctions : Node3D
         Vector3 position = cell * layoutInstances[index].CellSize + centerTile;
         slider.Position = position;
         slider.Initialize(btnNumber, cellOrientation);
+    }
+
+    private void SetupStepSlider(Vector3I cell, int cellOrientation, int index, int btnNumber)
+    {
+        var stepSlider = new StepSlider();
+        layoutInstances[index].AddChild(stepSlider);
+
+        Vector3 position = cell * layoutInstances[index].CellSize + centerTile;
+        stepSlider.Position = position;
+        stepSlider.Initialize(btnNumber, cellOrientation);
     }
 
     private void SetGridMapProcessing(GridMap gridMap, bool enable)

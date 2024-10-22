@@ -26,10 +26,6 @@ public partial class MomentaryButton : Area3D
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
         isRuntime = !Engine.IsEditorHint();
-        // if (isRuntime)
-        // {
-        //     addButtonFunctions = GetNode<AddButtonFunctions>("/root/main/ButtonPanel");
-        // }
     }
 
     public void Initialize(int cellNo)
@@ -39,7 +35,12 @@ public partial class MomentaryButton : Area3D
 
         SetupCollision();
         SetupLever();
-        SetupLabel();
+        
+        var buttonPanel = GetParent<GridMap>()?.GetParent<AddButtonFunctions>();
+        if (buttonPanel != null && buttonPanel.showLabels)
+        {
+            SetupLabel();
+        }
         SetupAudio();
     }
 

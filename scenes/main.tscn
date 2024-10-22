@@ -102,6 +102,7 @@ shape = SubResource("SphereShape3D_0yskk")
 
 [node name="ButtonPanel" parent="." instance=ExtResource("5_8ns57")]
 transform = Transform3D(1, 0, 0, 0, 0.174422, -0.984671, 0, 0.984671, 0.174422, 0, 1.18982, -0.321628)
+showLabels = true
 
 [node name="TestBulbs" parent="." groups=["UIListeners"] instance=ExtResource("6_i37s3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47901, -0.74174)

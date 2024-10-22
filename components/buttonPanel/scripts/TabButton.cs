@@ -32,6 +32,10 @@ public partial class TabButton : Area3D
         {
             addButtonFunctions = GetNode<AddButtonFunctions>("/root/main/ButtonPanel");
         }
+        else
+        {
+            SetPhysicsProcess(false);
+        }
     }
 
     public void Initialize(int cellNo)
@@ -42,7 +46,12 @@ public partial class TabButton : Area3D
 
         SetupCollision();
         SetupLever();
-        SetupLabel();
+
+        var buttonPanel = GetParent<GridMap>()?.GetParent<AddButtonFunctions>();
+        if (buttonPanel != null && buttonPanel.showLabels)
+        {
+            SetupLabel();
+        }
         SetupAudio();
     }
 
@@ -169,11 +178,11 @@ public partial class TabButton : Area3D
         }
     }
 
-    public void SetInitialState(bool state)
-    {
-        currentState = state;
-        UpdateButtonRestingPosition(state);
-    }
+    // public void SetInitialState(bool state)
+    // {
+    //     currentState = state;
+    //     UpdateButtonRestingPosition(state);
+    // }
 
     private void OnBodyEntered(Node3D body) => trackedBody = body;
 

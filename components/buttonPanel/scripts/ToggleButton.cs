@@ -34,7 +34,12 @@ public partial class ToggleButton : Area3D
 
         SetupCollision();
         SetupLever(cellOrientation);
-        SetupLabel();
+
+        var buttonPanel = GetParent<GridMap>()?.GetParent<AddButtonFunctions>();
+        if (buttonPanel != null && buttonPanel.showLabels)
+        {
+            SetupLabel();
+        }
         SetupAudio();
     }
 

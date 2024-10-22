@@ -30,7 +30,8 @@
 				15,
 				16,
 				17,
-				18
+				18,
+				19
 			]
 		}
 	],
@@ -110,6 +111,10 @@
 		{
 			"mesh":18,
 			"name":"TabButton"
+		},
+		{
+			"mesh":19,
+			"name":"StepSlider"
 		}
 	],
 	"materials":[
@@ -486,6 +491,20 @@
 						"TEXCOORD_0":89
 					},
 					"indices":90,
+					"material":0
+				}
+			]
+		},
+		{
+			"name":"Cube.022",
+			"primitives":[
+				{
+					"attributes":{
+						"POSITION":91,
+						"NORMAL":92,
+						"TEXCOORD_0":93
+					},
+					"indices":94,
 					"material":0
 				}
 			]
@@ -1267,6 +1286,40 @@
 			"componentType":5123,
 			"count":534,
 			"type":"SCALAR"
+		},
+		{
+			"bufferView":91,
+			"componentType":5126,
+			"count":124,
+			"max":[
+				0.019999999552965164,
+				0.010000697337090969,
+				0.019999999552965164
+			],
+			"min":[
+				-0.019999999552965164,
+				-2.98023217215615e-10,
+				-0.05999999865889549
+			],
+			"type":"VEC3"
+		},
+		{
+			"bufferView":92,
+			"componentType":5126,
+			"count":124,
+			"type":"VEC3"
+		},
+		{
+			"bufferView":93,
+			"componentType":5126,
+			"count":124,
+			"type":"VEC2"
+		},
+		{
+			"bufferView":94,
+			"componentType":5123,
+			"count":390,
+			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
@@ -1815,11 +1868,35 @@
 			"byteLength":1068,
 			"byteOffset":191148,
 			"target":34963
+		},
+		{
+			"buffer":0,
+			"byteLength":1488,
+			"byteOffset":192216,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":1488,
+			"byteOffset":193704,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":992,
+			"byteOffset":195192,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":780,
+			"byteOffset":196184,
+			"target":34963
 		}
 	],
 	"buffers":[
 		{
-			"byteLength":192216,
+			"byteLength":196964,
 			"uri":"ProKit.bin"
 		}
 	]

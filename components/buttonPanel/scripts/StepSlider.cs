@@ -1,7 +1,7 @@
 using Godot;
 
 [Tool]
-public partial class Slider : Area3D
+public partial class StepSlider : Area3D
 {
     private Node3D trackedBody = null;
     private MeshInstance3D sliderPlane;
@@ -12,7 +12,6 @@ public partial class Slider : Area3D
     private int buttonNumber;
     private const float sliderMin = -0.062f;
     private const float sliderMax = 0.028f;
-    private float lastFillAmount = 0f;
     private int direction = 0;
     private double lastUpdateTime = 0;
     private const double UpdateInterval = 0.05; // 50ms interval for updates
@@ -21,6 +20,8 @@ public partial class Slider : Area3D
     private const float SliderLength = 0.072f;
     private const float SliderWidth = 0.02f;
     private const float SliderHeight = 0.01f;
+    private const int MAX_STEPS = 10;
+    private int currentStep = 0;
 
     public override void _Ready()
     {
@@ -39,12 +40,11 @@ public partial class Slider : Area3D
             Shader = shader
         };
         sliderMaterial.SetShaderParameter("fill_amount", 0.0f);
-
         SetupCollision(cellOrientation);
         SetupSliderPlane(cellOrientation);
 
         var buttonPanel = GetParent<GridMap>()?.GetParent<AddButtonFunctions>();
-        if (buttonPanel != null && buttonPanel.showLabels)
+        if (buttonPanel != null && buttonPanel.showLabels)  // Make showLabels field public instead of property
         {
             SetupLabel();
         }
@@ -171,37 +171,35 @@ public partial class Slider : Area3D
 
     private void UpdateSliderPosition(Vector3 localPosition)
     {
-        float fillAmount = 0f;
+        float rawPosition = 0f;
         switch (direction)
         {
             case 0:
-                fillAmount = Mathf.Lerp(1f, 0f, (localPosition.Z - sliderMin) / (sliderMax - sliderMin));
+                rawPosition = Mathf.Lerp(1f, 0f, (localPosition.Z - sliderMin) / (sliderMax - sliderMin));
                 break;
             case 1:
-                fillAmount = Mathf.Lerp(1f, 0f, (-localPosition.Z - sliderMin) / (sliderMax - sliderMin));
+                rawPosition = Mathf.Lerp(1f, 0f, (-localPosition.Z - sliderMin) / (sliderMax - sliderMin));
                 break;
             case 2:
-                fillAmount = Mathf.Lerp(1f, 0f, (localPosition.X - sliderMin) / (sliderMax - sliderMin));
+                rawPosition = Mathf.Lerp(1f, 0f, (localPosition.X - sliderMin) / (sliderMax - sliderMin));
                 break;
             case 3:
-                fillAmount = Mathf.Lerp(1f, 0f, (-localPosition.X - sliderMin) / (sliderMax - sliderMin));
+                rawPosition = Mathf.Lerp(1f, 0f, (-localPosition.X - sliderMin) / (sliderMax - sliderMin));
                 break;
         }
-        fillAmount = Mathf.Clamp(fillAmount, 0f, 1f);
 
-        if (Mathf.Abs(fillAmount - lastFillAmount) > 0.001f) // Only update if there's a significant change
+        // Convert raw position to steps
+        rawPosition = Mathf.Clamp(rawPosition, 0f, 1f);
+        int newStep = Mathf.RoundToInt(rawPosition * MAX_STEPS);
+
+        if (newStep != currentStep) // Only update if step changed
         {
-            lastFillAmount = fillAmount;
+            currentStep = newStep;
+            currentStep = Mathf.RoundToInt(Mathf.Clamp(rawPosition, 0f, 1f) * MAX_STEPS);
+            float fillAmount = (float)currentStep / MAX_STEPS;
             sliderMaterial.SetShaderParameter("fill_amount", fillAmount);
             GetTree().CallGroup("UIListeners", "OnSliderValueChanged", buttonNumber, fillAmount);
         }
-    }
-
-    public void SetFillAmount(float amount)
-    {
-        lastFillAmount = Mathf.Clamp(amount, 0f, 1f);
-        sliderMaterial.SetShaderParameter("fill_amount", lastFillAmount);
-        GetTree().CallGroup("UIListeners", "OnSliderValueChanged", buttonNumber, lastFillAmount);
     }
 
     private void OnBodyEntered(Node3D body) => trackedBody = body;
