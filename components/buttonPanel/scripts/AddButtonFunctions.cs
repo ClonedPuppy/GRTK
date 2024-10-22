@@ -12,7 +12,7 @@ public partial class AddButtonFunctions : Node3D
     private MeshLibrary uiMeshes;
     private Vector3 centerTile = new Vector3(0.02f, 0.005f, 0.02f);
     private double lastSwitchTime = 0;
-    private const double SwitchDebounceTime = 1f; // 1000ms debounce time
+    private const double SwitchDebounceTime = 0.5f; // 500ms debounce time
     public override void _Ready()
     {
         labelNames = new Dictionary<int, string>();
@@ -146,9 +146,9 @@ public partial class AddButtonFunctions : Node3D
 
     public void SwitchToLayout(int index)
     {
-        if (index >= 0 && index < layoutInstances.Length)
+        if (index >= 1 && index < layoutInstances.Length)  // Start from index 1
         {
-            if (currentLayoutIndex >= 0)
+            if (currentLayoutIndex >= 1)  // Only hide if it's not gridmap[0]
             {
                 layoutInstances[currentLayoutIndex].Visible = false;
                 SetGridMapProcessing(layoutInstances[currentLayoutIndex], false);
@@ -160,14 +160,38 @@ public partial class AddButtonFunctions : Node3D
         }
     }
 
+    public void SwitchToSpecificLayout(int buttonNumber)
+    {
+        // Since button numbers start at 1 and correlate directly to gridmap indices
+        // Check if the buttonNumber corresponds to a valid gridmap (excluding gridmap[0])
+        if (buttonNumber < layoutInstances.Length)
+        {
+            SwitchToLayout(buttonNumber);
+        }
+        // If button number is higher than available gridmaps, do nothing
+    }
+
     public void InitializeActiveLayout()
     {
         if (layoutInstances.Length > 0)
         {
+            // Keep gridmap[0] always active
             SetGridMapProcessing(layoutInstances[0], true);
-            for (int i = 1; i < layoutInstances.Length; i++)
+            layoutInstances[0].Visible = true;
+
+            // Start from index 1, set initial state
+            if (layoutInstances.Length > 1)
             {
-                SetGridMapProcessing(layoutInstances[i], false);
+                currentLayoutIndex = 1;
+                layoutInstances[1].Visible = true;
+                SetGridMapProcessing(layoutInstances[1], true);
+
+                // Hide and disable all other gridmaps
+                for (int i = 2; i < layoutInstances.Length; i++)
+                {
+                    layoutInstances[i].Visible = false;
+                    SetGridMapProcessing(layoutInstances[i], false);
+                }
             }
         }
     }
@@ -180,7 +204,13 @@ public partial class AddButtonFunctions : Node3D
             return;
         }
 
-        int nextIndex = (currentLayoutIndex + 1) % layoutInstances.Length;
+        // Only switch between gridmaps 1 and above
+        int nextIndex = currentLayoutIndex + 1;
+        if (nextIndex >= layoutInstances.Length || nextIndex < 1)
+        {
+            nextIndex = 1;  // Reset to gridmap[1]
+        }
+
         SwitchToLayout(nextIndex);
         lastSwitchTime = currentTime;
     }

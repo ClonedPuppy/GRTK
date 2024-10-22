@@ -41,6 +41,7 @@ public partial class Slider : Area3D
         sliderMaterial.SetShaderParameter("fill_amount", 0.0f);
         SetupCollision(cellOrientation);
         SetupSliderPlane(cellOrientation);
+        SetupLabel();
 
         if (isRuntime)
         {
@@ -89,6 +90,21 @@ public partial class Slider : Area3D
         ApplyOrientation(sliderPlane, cellOrientation, false);
         sliderPlane.Mesh.SurfaceSetMaterial(0, sliderMaterial);
         AddChild(sliderPlane);
+    }
+
+    private void SetupLabel()
+    {
+        var label3D = new Label3D
+        {
+            Text = $"Slider: {buttonNumber}",
+            Name = $"Label_{buttonNumber}",
+            Transform = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.015f, 0.013f)),
+            PixelSize = 0.0001f,
+            FontSize = 40,
+            OutlineSize = 0,
+            Modulate = Colors.Black
+        };
+        AddChild(label3D);
     }
 
     private void ApplyOrientation(Node3D node, int cellOrientation, bool isColShape)

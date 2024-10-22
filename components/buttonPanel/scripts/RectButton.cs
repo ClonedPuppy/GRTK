@@ -36,6 +36,7 @@ public partial class RectButton : Area3D
 
         SetupCollision();
         SetupLever(cellOrientation);
+        SetupLabel();
         SetupAudio();
 
         if (isRuntime)
@@ -113,6 +114,21 @@ public partial class RectButton : Area3D
                 lever.RotationDegrees = lever.RotationDegrees with { Y = -90 };
                 break;
         }
+    }
+
+    private void SetupLabel()
+    {
+        var label3D = new Label3D
+        {
+            Text = $"Button: {buttonNumber}",
+            Name = $"Label_{buttonNumber}",
+            Transform = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.013f)),
+            PixelSize = 0.0001f,
+            FontSize = 40,
+            OutlineSize = 0,
+            Modulate = Colors.Black
+        };
+        AddChild(label3D);
     }
 
     private void SetupAudio()

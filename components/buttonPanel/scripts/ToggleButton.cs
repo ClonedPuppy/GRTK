@@ -34,6 +34,7 @@ public partial class ToggleButton : Area3D
 
         SetupCollision();
         SetupLever(cellOrientation);
+        SetupLabel();
         SetupAudio();
     }
 
@@ -92,6 +93,21 @@ public partial class ToggleButton : Area3D
         AddChild(lever);
     }
 
+    private void SetupLabel()
+    {
+        var label3D = new Label3D
+        {
+            Text = $"Button: {buttonNumber}",
+            Name = $"Label_{buttonNumber}",
+            Transform = new Transform3D(new Basis(new Quaternion(Vector3.Right, Mathf.DegToRad(-90))), new Vector3(0.0f, 0.0055f, 0.013f)),
+            PixelSize = 0.0001f,
+            FontSize = 40,
+            OutlineSize = 0,
+            Modulate = Colors.Black
+        };
+        AddChild(label3D);
+    }
+
     private void SetupAudio()
     {
         clickSound = new AudioStreamPlayer
@@ -119,11 +135,11 @@ public partial class ToggleButton : Area3D
     }
 
     private void ToggleButtonState()
-{
-    clickSound.Play();
-    currentState = !currentState;
-    GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, currentState);
-}
+    {
+        clickSound.Play();
+        currentState = !currentState;
+        GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, currentState);
+    }
 
     private void UpdateButtonPlatePosition(float yPosition)
     {

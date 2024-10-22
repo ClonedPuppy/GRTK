@@ -13,11 +13,13 @@ public partial class TabButton : Area3D
     private bool isRuntime;
     private int buttonNumber;
     private float initialYPosition = -0.0025f;
+    private float pressedYPosition = -0.005f;
     private float lastYPosition = 0.0f;
     private const float MinMovementThreshold = 0.0005f;
     private const float FingerCollisionOffset = 0.0025f;
     private const float ActivationThreshold = 0.003f;
     private bool lastReportedState = false;
+    private bool currentState = false;
     private double lastStateChangeTime = 0;
     private const double DebounceTime = 0.05;
 
@@ -36,6 +38,7 @@ public partial class TabButton : Area3D
     {
         buttonNumber = cellNo;
         Name = $"TabButton_{buttonNumber}";
+        AddToGroup("UIListeners");
 
         SetupCollision();
         SetupLever();
@@ -63,11 +66,8 @@ public partial class TabButton : Area3D
                 lastStateChangeTime = currentTime;
                 if (currentState)
                 {
+                    ToggleButtonState();
                     ActivateButton();
-                }
-                else
-                {
-                    DeactivateButton();
                 }
             }
         }
@@ -124,30 +124,55 @@ public partial class TabButton : Area3D
         AddChild(clickSound);
     }
 
-    private void ActivateButton()
+    private void ToggleButtonState()
     {
         clickSound.Play();
-        // GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, true);
+        currentState = true;
+        UpdateButtonRestingPosition(currentState);
 
-        if (addButtonFunctions != null)
+        GetTree().CallGroup("UIListeners", "OnTabButtonPressed", buttonNumber);
+        GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, true);
+    }
+
+    public void OnTabButtonPressed(int activeButtonNumber)
+    {
+        if (buttonNumber != activeButtonNumber)
         {
-            addButtonFunctions.SwitchToNextLayout();
+            currentState = false;
+            UpdateButtonRestingPosition(currentState);
+            GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, false);
         }
     }
 
-    private void DeactivateButton()
+    private void UpdateButtonRestingPosition(bool isPressed)
     {
-        // GetTree().CallGroup("UIListeners", "OnButtonStateChanged", buttonNumber, false);
+        float targetY = isPressed ? pressedYPosition : initialYPosition;
+        lever.Transform = lever.Transform with { Origin = new Vector3(lever.Transform.Origin.X, targetY, lever.Transform.Origin.Z) };
     }
 
     private void UpdateButtonPlatePosition(float yPosition)
     {
-        lever.Transform = lever.Transform with { Origin = new Vector3(lever.Transform.Origin.X, initialYPosition + yPosition - 0.007f, lever.Transform.Origin.Z) };
+        float baseY = currentState ? pressedYPosition : initialYPosition;
+        lever.Transform = lever.Transform with { Origin = new Vector3(lever.Transform.Origin.X, baseY + yPosition - 0.007f, lever.Transform.Origin.Z) };
     }
 
     private void ResetButtonPlate()
     {
-        lever.Transform = lever.Transform with { Origin = new Vector3(lever.Transform.Origin.X, initialYPosition, lever.Transform.Origin.Z) };
+        UpdateButtonRestingPosition(currentState);
+    }
+
+    private void ActivateButton()
+    {
+        if (addButtonFunctions != null)
+        {
+            addButtonFunctions.SwitchToSpecificLayout(buttonNumber);
+        }
+    }
+
+    public void SetInitialState(bool state)
+    {
+        currentState = state;
+        UpdateButtonRestingPosition(state);
     }
 
     private void OnBodyEntered(Node3D body) => trackedBody = body;
@@ -157,11 +182,7 @@ public partial class TabButton : Area3D
         if (trackedBody != body) return;
 
         trackedBody = null;
-        if (lastReportedState)
-        {
-            lastReportedState = false;
-            DeactivateButton();
-        }
+        lastReportedState = false;
         ResetButtonPlate();
     }
 }
