@@ -1,0 +1,46 @@
+[gd_resource type="Resource" load_steps=8 format=3 uid="uid://drihkxai0vne1"]
+
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/FitnessFunction.cs" id="1_4gbvl"]
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPose.cs" id="1_6uqu6"]
+
+[sub_resource type="Resource" id="Resource_hghux"]
+script = ExtResource("1_4gbvl")
+FunctionType = 0
+From = 45.0
+To = 25.0
+
+[sub_resource type="Resource" id="Resource_hlbcy"]
+script = ExtResource("1_4gbvl")
+FunctionType = 0
+From = 80.0
+To = 110.0
+
+[sub_resource type="Resource" id="Resource_aq2aw"]
+script = ExtResource("1_4gbvl")
+FunctionType = 0
+From = 80.0
+To = 110.0
+
+[sub_resource type="Resource" id="Resource_nsfu2"]
+script = ExtResource("1_4gbvl")
+FunctionType = 0
+From = 80.0
+To = 110.0
+
+[sub_resource type="Resource" id="Resource_xso04"]
+script = ExtResource("1_4gbvl")
+FunctionType = 0
+From = 40.0
+To = 20.0
+
+[resource]
+script = ExtResource("1_6uqu6")
+PoseName = "Point"
+Threshold = 0.5
+HoldTime = 0.05
+ReleaseTime = 0.05
+FlexionIndex = SubResource("Resource_xso04")
+CurlIndex = SubResource("Resource_hghux")
+CurlMiddle = SubResource("Resource_hlbcy")
+CurlRing = SubResource("Resource_nsfu2")
+CurlPinky = SubResource("Resource_aq2aw")

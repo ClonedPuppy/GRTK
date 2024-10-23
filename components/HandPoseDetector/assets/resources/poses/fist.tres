@@ -1,0 +1,74 @@
+[gd_resource type="Resource" load_steps=12 format=3 uid="uid://0unncp8hsemk"]
+
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPose.cs" id="1_4dag5"]
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/FitnessFunction.cs" id="1_6dw0p"]
+
+[sub_resource type="Resource" id="Resource_16mlm"]
+script = ExtResource("1_6dw0p")
+FunctionType = 0
+From = 60.0
+To = 80.0
+
+[sub_resource type="Resource" id="Resource_h7imr"]
+script = ExtResource("1_6dw0p")
+FunctionType = 0
+From = 80.0
+To = 110.0
+
+[sub_resource type="Resource" id="Resource_4dlva"]
+script = ExtResource("1_6dw0p")
+FunctionType = 0
+From = 80.0
+To = 110.0
+
+[sub_resource type="Resource" id="Resource_tq60c"]
+script = ExtResource("1_6dw0p")
+FunctionType = 0
+From = 80.0
+To = 110.0
+
+[sub_resource type="Resource" id="Resource_522vx"]
+script = ExtResource("1_6dw0p")
+FunctionType = 0
+From = 30.0
+To = 45.0
+
+[sub_resource type="Resource" id="Resource_46qax"]
+script = ExtResource("1_6dw0p")
+FunctionType = 0
+From = 40.0
+To = 60.0
+
+[sub_resource type="Resource" id="Resource_lp8jk"]
+script = ExtResource("1_6dw0p")
+FunctionType = 0
+From = 40.0
+To = 60.0
+
+[sub_resource type="Resource" id="Resource_v0lms"]
+script = ExtResource("1_6dw0p")
+FunctionType = 0
+From = 40.0
+To = 60.0
+
+[sub_resource type="Resource" id="Resource_ylhk2"]
+script = ExtResource("1_6dw0p")
+FunctionType = 0
+From = 40.0
+To = 60.0
+
+[resource]
+script = ExtResource("1_4dag5")
+PoseName = "Fist"
+Threshold = 0.3
+HoldTime = 0.05
+ReleaseTime = 0.05
+FlexionThumb = SubResource("Resource_ylhk2")
+FlexionIndex = SubResource("Resource_522vx")
+FlexionMiddle = SubResource("Resource_46qax")
+FlexionRing = SubResource("Resource_v0lms")
+FlexionPinky = SubResource("Resource_lp8jk")
+CurlIndex = SubResource("Resource_16mlm")
+CurlMiddle = SubResource("Resource_h7imr")
+CurlRing = SubResource("Resource_tq60c")
+CurlPinky = SubResource("Resource_4dlva")

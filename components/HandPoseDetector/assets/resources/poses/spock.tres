@@ -1,0 +1,102 @@
+[gd_resource type="Resource" load_steps=16 format=3 uid="uid://d3pm6vg0wim5a"]
+
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/FitnessFunction.cs" id="1_gwd47"]
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPose.cs" id="1_ycwfr"]
+
+[sub_resource type="Resource" id="Resource_rhtmf"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 15.0
+To = 8.0
+
+[sub_resource type="Resource" id="Resource_bejxu"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 5.0
+To = 8.0
+
+[sub_resource type="Resource" id="Resource_r2ibf"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 15.0
+To = 8.0
+
+[sub_resource type="Resource" id="Resource_tw4gl"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 20.0
+To = 10.0
+
+[sub_resource type="Resource" id="Resource_ypx4r"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 20.0
+To = 10.0
+
+[sub_resource type="Resource" id="Resource_vgybe"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 20.0
+To = 10.0
+
+[sub_resource type="Resource" id="Resource_fgwt6"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 20.0
+To = 10.0
+
+[sub_resource type="Resource" id="Resource_bfb6x"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 20.0
+To = 10.0
+
+[sub_resource type="Resource" id="Resource_f68ul"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 40.0
+To = 30.0
+
+[sub_resource type="Resource" id="Resource_8v342"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 40.0
+To = 30.0
+
+[sub_resource type="Resource" id="Resource_kohhl"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 40.0
+To = 30.0
+
+[sub_resource type="Resource" id="Resource_4b023"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 40.0
+To = 30.0
+
+[sub_resource type="Resource" id="Resource_83vyg"]
+script = ExtResource("1_gwd47")
+FunctionType = 0
+From = 70.0
+To = 50.0
+
+[resource]
+script = ExtResource("1_ycwfr")
+PoseName = "Spock"
+Threshold = 0.3
+HoldTime = 0.05
+ReleaseTime = 0.05
+FlexionThumb = SubResource("Resource_83vyg")
+FlexionIndex = SubResource("Resource_f68ul")
+FlexionMiddle = SubResource("Resource_8v342")
+FlexionRing = SubResource("Resource_4b023")
+FlexionPinky = SubResource("Resource_kohhl")
+CurlThumb = SubResource("Resource_bfb6x")
+CurlIndex = SubResource("Resource_tw4gl")
+CurlMiddle = SubResource("Resource_ypx4r")
+CurlRing = SubResource("Resource_fgwt6")
+CurlPinky = SubResource("Resource_vgybe")
+AbductionIndexMiddle = SubResource("Resource_rhtmf")
+AbductionMiddleRing = SubResource("Resource_bejxu")
+AbductionRingPinky = SubResource("Resource_r2ibf")

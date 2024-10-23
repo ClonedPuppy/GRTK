@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="HandPose" load_steps=11 format=3 uid="uid://cx0nq12o080d6"]
+
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPose.cs" id="1_j8s2a"]
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/FitnessFunction.cs" id="1_t0sc5"]
+
+[sub_resource type="Resource" id="Resource_k45ii"]
+script = ExtResource("1_t0sc5")
+FunctionType = 0
+From = 5.0
+To = 10.0
+
+[sub_resource type="Resource" id="Resource_0btsl"]
+script = ExtResource("1_t0sc5")
+FunctionType = 0
+From = 45.0
+To = 35.0
+
+[sub_resource type="Resource" id="Resource_hy150"]
+script = ExtResource("1_t0sc5")
+FunctionType = 0
+From = 45.0
+To = 35.0
+
+[sub_resource type="Resource" id="Resource_uv5y2"]
+script = ExtResource("1_t0sc5")
+FunctionType = 0
+From = 45.0
+To = 35.0
+
+[sub_resource type="Resource" id="Resource_qvo4i"]
+script = ExtResource("1_t0sc5")
+FunctionType = 0
+From = 45.0
+To = 35.0
+
+[sub_resource type="Resource" id="Resource_whfv5"]
+script = ExtResource("1_t0sc5")
+FunctionType = 0
+From = 30.0
+To = 40.0
+
+[sub_resource type="Resource" id="Resource_okh7t"]
+script = ExtResource("1_t0sc5")
+FunctionType = 0
+From = 30.0
+To = 40.0
+
+[sub_resource type="Resource" id="Resource_s21w7"]
+script = ExtResource("1_t0sc5")
+FunctionType = 0
+From = 80.0
+To = 100.0
+
+[resource]
+script = ExtResource("1_j8s2a")
+PoseName = "Peace Sign"
+Threshold = 0.3
+HoldTime = 0.05
+ReleaseTime = 0.05
+FlexionThumb = SubResource("Resource_s21w7")
+FlexionIndex = SubResource("Resource_uv5y2")
+FlexionMiddle = SubResource("Resource_qvo4i")
+FlexionRing = SubResource("Resource_okh7t")
+FlexionPinky = SubResource("Resource_whfv5")
+CurlIndex = SubResource("Resource_0btsl")
+CurlMiddle = SubResource("Resource_hy150")
+AbductionIndexMiddle = SubResource("Resource_k45ii")

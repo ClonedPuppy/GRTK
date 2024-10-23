@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="HandPose" load_steps=10 format=3 uid="uid://dp6ufh8ekwbsf"]
+
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/FitnessFunction.cs" id="1_mfgc3"]
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPose.cs" id="1_x18t0"]
+
+[sub_resource type="Resource" id="Resource_l11v0"]
+script = ExtResource("1_mfgc3")
+FunctionType = 0
+From = 40.0
+To = 60.0
+
+[sub_resource type="Resource" id="Resource_fkx3u"]
+script = ExtResource("1_mfgc3")
+FunctionType = 0
+From = 40.0
+To = 60.0
+
+[sub_resource type="Resource" id="Resource_8okv1"]
+script = ExtResource("1_mfgc3")
+FunctionType = 0
+From = 50.0
+To = 30.0
+
+[sub_resource type="Resource" id="Resource_e7fce"]
+script = ExtResource("1_mfgc3")
+FunctionType = 0
+From = 30.0
+To = 40.0
+
+[sub_resource type="Resource" id="Resource_j6ecv"]
+script = ExtResource("1_mfgc3")
+FunctionType = 0
+From = 55.0
+To = 35.0
+
+[sub_resource type="Resource" id="Resource_flbl3"]
+script = ExtResource("1_mfgc3")
+FunctionType = 0
+From = 30.0
+To = 40.0
+
+[sub_resource type="Resource" id="Resource_8b4yg"]
+script = ExtResource("1_mfgc3")
+FunctionType = 0
+From = 60.0
+To = 40.0
+
+[resource]
+script = ExtResource("1_x18t0")
+PoseName = "Metal"
+Threshold = 0.5
+HoldTime = 0.05
+ReleaseTime = 0.05
+FlexionThumb = SubResource("Resource_8b4yg")
+FlexionIndex = SubResource("Resource_8okv1")
+FlexionMiddle = SubResource("Resource_e7fce")
+FlexionRing = SubResource("Resource_flbl3")
+FlexionPinky = SubResource("Resource_j6ecv")
+CurlMiddle = SubResource("Resource_l11v0")
+CurlRing = SubResource("Resource_fkx3u")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnth2mojelc3s"]
+
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPoseController.cs" id="1_wvsfg"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_wvsfg")

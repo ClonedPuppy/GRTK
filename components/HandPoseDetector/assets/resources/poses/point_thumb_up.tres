@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="HandPose" load_steps=10 format=3 uid="uid://bxxdmt8h0flik"]
+
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/FitnessFunction.cs" id="1_ejaih"]
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPose.cs" id="1_ww7dx"]
+
+[sub_resource type="Resource" id="Resource_t7na0"]
+script = ExtResource("1_ejaih")
+FunctionType = 0
+From = 20.0
+To = 30.0
+
+[sub_resource type="Resource" id="Resource_sbxla"]
+script = ExtResource("1_ejaih")
+FunctionType = 0
+From = 45.0
+To = 25.0
+
+[sub_resource type="Resource" id="Resource_qdy1g"]
+script = ExtResource("1_ejaih")
+FunctionType = 0
+From = 80.0
+To = 110.0
+
+[sub_resource type="Resource" id="Resource_6ih86"]
+script = ExtResource("1_ejaih")
+FunctionType = 0
+From = 80.0
+To = 110.0
+
+[sub_resource type="Resource" id="Resource_mxs4j"]
+script = ExtResource("1_ejaih")
+FunctionType = 0
+From = 80.0
+To = 110.0
+
+[sub_resource type="Resource" id="Resource_a5eya"]
+script = ExtResource("1_ejaih")
+FunctionType = 0
+From = 50.0
+To = 30.0
+
+[sub_resource type="Resource" id="Resource_mp667"]
+script = ExtResource("1_ejaih")
+FunctionType = 0
+From = 50.0
+To = 40.0
+
+[resource]
+script = ExtResource("1_ww7dx")
+PoseName = "Point Thumb Up"
+Threshold = 0.3
+HoldTime = 0.05
+ReleaseTime = 0.05
+FlexionThumb = SubResource("Resource_mp667")
+FlexionIndex = SubResource("Resource_a5eya")
+CurlIndex = SubResource("Resource_sbxla")
+CurlMiddle = SubResource("Resource_qdy1g")
+CurlRing = SubResource("Resource_mxs4j")
+CurlPinky = SubResource("Resource_6ih86")
+AbductionThumbIndex = SubResource("Resource_t7na0")

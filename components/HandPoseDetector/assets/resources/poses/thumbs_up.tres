@@ -1,0 +1,53 @@
+[gd_resource type="Resource" load_steps=9 format=3 uid="uid://tlukmc2sem7"]
+
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPose.cs" id="1_2n0sk"]
+[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/FitnessFunction.cs" id="1_icc0p"]
+
+[sub_resource type="Resource" id="Resource_dmg3l"]
+script = ExtResource("1_icc0p")
+FunctionType = 0
+From = 70.0
+To = 120.0
+
+[sub_resource type="Resource" id="Resource_glejn"]
+script = ExtResource("1_icc0p")
+FunctionType = 0
+From = 70.0
+To = 120.0
+
+[sub_resource type="Resource" id="Resource_r1s7n"]
+script = ExtResource("1_icc0p")
+FunctionType = 0
+From = 70.0
+To = 120.0
+
+[sub_resource type="Resource" id="Resource_seqnr"]
+script = ExtResource("1_icc0p")
+FunctionType = 0
+From = 70.0
+To = 120.0
+
+[sub_resource type="Resource" id="Resource_qbbqu"]
+script = ExtResource("1_icc0p")
+FunctionType = 0
+From = 25.0
+To = 10.0
+
+[sub_resource type="Resource" id="Resource_0uj78"]
+script = ExtResource("1_icc0p")
+FunctionType = 0
+From = 50.0
+To = 20.0
+
+[resource]
+script = ExtResource("1_2n0sk")
+PoseName = "ThumbsUp"
+Threshold = 0.3
+HoldTime = 0.05
+ReleaseTime = 0.05
+FlexionThumb = SubResource("Resource_0uj78")
+CurlThumb = SubResource("Resource_qbbqu")
+CurlIndex = SubResource("Resource_dmg3l")
+CurlMiddle = SubResource("Resource_glejn")
+CurlRing = SubResource("Resource_seqnr")
+CurlPinky = SubResource("Resource_r1s7n")
