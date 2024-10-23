@@ -11,7 +11,7 @@ To = 10.0
 
 [resource]
 script = ExtResource("1_k6ow7")
-PoseName = "Index Pinch"
+PoseName = "Pinch"
 Threshold = 0.3
 HoldTime = 0.05
 ReleaseTime = 0.05

@@ -1,8 +1,10 @@
-[gd_resource type="Resource" script_class="HandPoseSet" load_steps=3 format=3 uid="uid://cocswn8vj5nsj"]
+[gd_resource type="Resource" script_class="HandPoseSet" load_steps=5 format=3 uid="uid://cocswn8vj5nsj"]
 
 [ext_resource type="Resource" uid="uid://drihkxai0vne1" path="res://components/HandPoseDetector/assets/resources/poses/point.tres" id="1_0ccb0"]
+[ext_resource type="Resource" uid="uid://ce530p5a2wr6s" path="res://components/HandPoseDetector/assets/resources/poses/index_pinch.tres" id="1_f75b1"]
 [ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPoseSet.cs" id="1_k84bw"]
+[ext_resource type="Resource" uid="uid://0unncp8hsemk" path="res://components/HandPoseDetector/assets/resources/poses/fist.tres" id="2_ltr08"]
 
 [resource]
 script = ExtResource("1_k84bw")
-Poses = [ExtResource("1_0ccb0")]
+Poses = [ExtResource("1_f75b1"), ExtResource("2_ltr08"), ExtResource("1_0ccb0")]

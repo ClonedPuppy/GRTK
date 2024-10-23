@@ -1,6 +1,7 @@
 {
     "godotTools.editorPath.godot4": "c:\\Users\\peter\\GODOT\\Godot_v4.3-stable_mono_win64.exe",
     "cSpell.words": [
+        "Aabb",
         "Autoload",
         "foveation",
         "gdshader",
@@ -14,6 +15,7 @@
         "openxr",
         "Recentered",
         "recentering",
-        "Vsync"
+        "Vsync",
+        "wireframe"
     ]
 }

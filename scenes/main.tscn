@@ -1,18 +1,14 @@
-[gd_scene load_steps=26 format=3 uid="uid://bj7ax6sm8f37y"]
+[gd_scene load_steps=17 format=3 uid="uid://bj7ax6sm8f37y"]
 
 [ext_resource type="Script" path="res://scripts/StartXR.cs" id="1_qbv7i"]
 [ext_resource type="PackedScene" uid="uid://cxof5jr0ob51t" path="res://assets/hands/LeftHand.glb" id="2_xl0ym"]
 [ext_resource type="Material" uid="uid://bnvrk8diwt48m" path="res://shaders/hands.tres" id="3_6435b"]
+[ext_resource type="PackedScene" uid="uid://m8dds6iq26qu" path="res://components/HandPoseDetector/scenes/HandPoseDetector.tscn" id="4_0s3yj"]
 [ext_resource type="PackedScene" uid="uid://dflrs1o4v0b5n" path="res://assets/hands/RightHand.glb" id="4_e3w36"]
-[ext_resource type="PackedScene" uid="uid://cnth2mojelc3s" path="res://components/HandPoseDetector/scenes/HandPoseController.tscn" id="4_gxqs1"]
-[ext_resource type="Resource" uid="uid://drihkxai0vne1" path="res://components/HandPoseDetector/assets/resources/poses/point.tres" id="5_6upon"]
 [ext_resource type="PackedScene" uid="uid://brx02fyuar3if" path="res://components/buttonPanel/scenes/button_panel.tscn" id="5_8ns57"]
-[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPoseAction.cs" id="6_hhwue"]
+[ext_resource type="Resource" uid="uid://cocswn8vj5nsj" path="res://components/HandPoseDetector/assets/resources/poses/standard_pose.tres" id="5_t4dpa"]
 [ext_resource type="PackedScene" uid="uid://d3y1qfi4tihwb" path="res://scenes/testLights.tscn" id="6_i37s3"]
-[ext_resource type="Resource" uid="uid://tlukmc2sem7" path="res://components/HandPoseDetector/assets/resources/poses/thumbs_up.tres" id="7_l8j7r"]
-[ext_resource type="Resource" uid="uid://0unncp8hsemk" path="res://components/HandPoseDetector/assets/resources/poses/fist.tres" id="8_pwiup"]
-[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPoseActionMap.cs" id="9_bwmti"]
-[ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPoseSet.cs" id="10_5hn8h"]
+[ext_resource type="Script" path="res://scripts/Grabbable.cs" id="10_ete2u"]
 [ext_resource type="Script" path="res://scripts/PoseInfo.cs" id="14_8xdqi"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3j31l"]
@@ -40,39 +36,12 @@ tonemap_mode = 2
 margin = 0.001
 radius = 0.005
 
-[sub_resource type="Resource" id="Resource_2aj0i"]
-script = ExtResource("6_hhwue")
-Pose = ExtResource("5_6upon")
-Type = 0
-ActionName = ""
+[sub_resource type="SphereMesh" id="SphereMesh_kquav"]
+radius = 0.005
+height = 0.01
 
-[sub_resource type="Resource" id="Resource_fxn50"]
-script = ExtResource("6_hhwue")
-Pose = ExtResource("7_l8j7r")
-Type = 0
-ActionName = ""
-
-[sub_resource type="Resource" id="Resource_r8wpp"]
-script = ExtResource("6_hhwue")
-Pose = ExtResource("8_pwiup")
-Type = 0
-ActionName = ""
-
-[sub_resource type="Resource" id="Resource_3odxv"]
-script = ExtResource("9_bwmti")
-Actions = [SubResource("Resource_2aj0i"), SubResource("Resource_fxn50"), SubResource("Resource_r8wpp")]
-
-[sub_resource type="Resource" id="Resource_g6n6i"]
-script = ExtResource("10_5hn8h")
-Poses = [ExtResource("5_6upon"), ExtResource("7_l8j7r"), ExtResource("8_pwiup")]
-
-[sub_resource type="Resource" id="Resource_tpv0a"]
-script = ExtResource("9_bwmti")
-Actions = [SubResource("Resource_2aj0i"), SubResource("Resource_fxn50"), SubResource("Resource_r8wpp")]
-
-[sub_resource type="Resource" id="Resource_xfpdk"]
-script = ExtResource("10_5hn8h")
-Poses = [ExtResource("5_6upon"), ExtResource("7_l8j7r"), ExtResource("8_pwiup")]
+[sub_resource type="BoxMesh" id="BoxMesh_wphpm"]
+size = Vector3(0.1, 0.1, 0.1)
 
 [node name="main" type="Node3D"]
 
@@ -116,10 +85,20 @@ sync_to_physics = false
 transform = Transform3D(1, 5.96046e-08, -1.86265e-09, 8.9407e-08, 1, 0, 4.84288e-08, 7.45058e-08, 1, -0.00191483, 0.00391752, 0.0016095)
 shape = SubResource("SphereShape3D_0yskk")
 
-[node name="LeftHandPoseController" parent="XROrigin3D/LeftHand" instance=ExtResource("4_gxqs1")]
-ControllerPoseType = 1
-ControllerActionMap = SubResource("Resource_3odxv")
-HandPoseSet = SubResource("Resource_g6n6i")
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="XROrigin3D/LeftHand/LeftHand2/ArmatureLeft/Skeleton3D" index="3"]
+transform = Transform3D(-1, 1.99363e-14, -8.74228e-08, 8.74228e-08, 3.79176e-08, -1, -1.66214e-14, -1, -3.79176e-08, -0.00290547, 0.005367, 0.0591823)
+bone_name = "LeftHand"
+bone_idx = 1
+
+[node name="Marker3D" type="Marker3D" parent="XROrigin3D/LeftHand/LeftHand2/ArmatureLeft/Skeleton3D/BoneAttachment3D"]
+transform = Transform3D(1, 0, 6.30243e-22, 0, 1, 0, 6.30243e-22, 0, 1, -0.0258674, 0.119056, 0.0615224)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/LeftHand/LeftHand2/ArmatureLeft/Skeleton3D/BoneAttachment3D/Marker3D"]
+mesh = SubResource("SphereMesh_kquav")
+skeleton = NodePath("../..")
+
+[node name="LeftHandPoseDetector" parent="XROrigin3D/LeftHand" instance=ExtResource("4_0s3yj")]
+HandPoseSet = ExtResource("5_t4dpa")
 
 [node name="RightHand" type="XRNode3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1, 0)
@@ -147,25 +126,33 @@ sync_to_physics = false
 transform = Transform3D(1, 5.96046e-08, -1.86265e-09, 8.9407e-08, 1, 0, 4.84288e-08, 7.45058e-08, 1, -0.00191483, 0.00391752, 0.0016095)
 shape = SubResource("SphereShape3D_0yskk")
 
-[node name="RightHandPoseController" parent="XROrigin3D/RightHand" instance=ExtResource("4_gxqs1")]
-ControllerTrackerName = "/user/hand_pose_controller/right"
-ControllerPoseType = 1
-ControllerActionMap = SubResource("Resource_tpv0a")
+[node name="RightHandPoseDetector" parent="XROrigin3D/RightHand" instance=ExtResource("4_0s3yj")]
 HandTrackerName = "/user/hand_tracker/right"
-HandPoseSet = SubResource("Resource_xfpdk")
+HandPoseSet = ExtResource("5_t4dpa")
 
 [node name="ButtonPanel" parent="." instance=ExtResource("5_8ns57")]
 transform = Transform3D(1, 0, 0, 0, 0.174422, -0.984671, 0, 0.984671, 0.174422, 0, 1.18982, -0.321628)
 showLabels = true
+HandPoseDetectorPath = NodePath("../XROrigin3D/LeftHand/LeftHandPoseDetector")
+PinchPointPath = NodePath("../XROrigin3D/LeftHand/LeftHand2/ArmatureLeft/Skeleton3D/BoneAttachment3D/Marker3D")
 
 [node name="TestBulbs" parent="." groups=["UIListeners"] instance=ExtResource("6_i37s3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.47901, -0.74174)
 
 [node name="PoseInfo" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09234, -0.828558)
+visible = false
 text = "Pose"
 script = ExtResource("14_8xdqi")
 TrackerName = "/user/hand_tracker/left"
+
+[node name="Grabbable" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.51772, -0.391124)
+visible = false
+mesh = SubResource("BoxMesh_wphpm")
+script = ExtResource("10_ete2u")
+HandPoseDetectorPath = NodePath("../XROrigin3D/LeftHand/LeftHandPoseDetector")
+PinchPointPath = NodePath("../XROrigin3D/LeftHand/LeftHand2/ArmatureLeft/Skeleton3D/BoneAttachment3D/Marker3D")
 
 [editable path="XROrigin3D/LeftHand/LeftHand2"]
 [editable path="XROrigin3D/RightHand/RightHand2"]
