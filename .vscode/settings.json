@@ -15,6 +15,7 @@
         "openxr",
         "Recentered",
         "recentering",
+        "Slerp",
         "Vsync",
         "wireframe"
     ]

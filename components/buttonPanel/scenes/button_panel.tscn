@@ -5,6 +5,8 @@
 
 [node name="ButtonPanel" type="Node3D"]
 script = ExtResource("1_jl6kf")
+HandPoseDetectorPath = NodePath("")
+PinchPointPath = NodePath("")
 
 [node name="GridMap1" type="GridMap" parent="."]
 mesh_library = ExtResource("2_vnwdc")
