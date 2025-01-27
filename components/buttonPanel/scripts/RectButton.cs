@@ -90,7 +90,7 @@ public partial class RectButton : Area3D
     private void SetupLever(int cellOrientation)
     {
         lever = new MeshInstance3D { Name = $"Lever_{buttonNumber}" };
-        var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
+        var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.res");
         var mesh = leverMeshLib.GetItemMesh(2);
         if (mesh == null)
         {

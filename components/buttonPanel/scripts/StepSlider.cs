@@ -84,7 +84,7 @@ public partial class StepSlider : Area3D
     private void SetupSliderPlane(int cellOrientation)
     {
         sliderPlane = new MeshInstance3D { Name = $"SliderPlane_{buttonNumber}" };
-        var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.tres");
+        var leverMeshLib = GD.Load<MeshLibrary>("res://components/buttonPanel/assets/resources/levers.res");
         var mesh = leverMeshLib.GetItemMesh(3);
         if (mesh == null)
         {
