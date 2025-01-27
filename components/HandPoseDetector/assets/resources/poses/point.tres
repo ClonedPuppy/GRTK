@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="HandPose" load_steps=8 format=3 uid="uid://drihkxai0vne1"]
+[gd_resource type="Resource" load_steps=8 format=3 uid="uid://drihkxai0vne1"]
 
 [ext_resource type="Script" path="res://components/HandPoseDetector/scripts/FitnessFunction.cs" id="1_4gbvl"]
 [ext_resource type="Script" path="res://components/HandPoseDetector/scripts/HandPose.cs" id="1_6uqu6"]
