@@ -1,10 +1,10 @@
 [gd_scene load_steps=13 format=3 uid="uid://bj7ax6sm8f37y"]
 
 [ext_resource type="Script" path="res://scripts/StartXR.cs" id="1_qbv7i"]
-[ext_resource type="PackedScene" uid="uid://cxof5jr0ob51t" path="res://assets/hands/LeftHand.glb" id="2_xl0ym"]
+[ext_resource type="PackedScene" uid="uid://bvem7gq58jx8d" path="res://components/HandPoseDetector/assets/models/LeftHand.glb" id="2_xl0ym"]
 [ext_resource type="Material" uid="uid://bnvrk8diwt48m" path="res://shaders/hands.tres" id="3_6435b"]
 [ext_resource type="PackedScene" uid="uid://m8dds6iq26qu" path="res://components/HandPoseDetector/scenes/HandPoseDetector.tscn" id="4_0s3yj"]
-[ext_resource type="PackedScene" uid="uid://dflrs1o4v0b5n" path="res://assets/hands/RightHand.glb" id="4_e3w36"]
+[ext_resource type="PackedScene" uid="uid://5cyavmi57fsh" path="res://components/HandPoseDetector/assets/models/RightHand.glb" id="4_e3w36"]
 [ext_resource type="PackedScene" uid="uid://brx02fyuar3if" path="res://components/buttonPanel/scenes/button_panel.tscn" id="5_8ns57"]
 [ext_resource type="Resource" uid="uid://cocswn8vj5nsj" path="res://components/HandPoseDetector/assets/resources/poses/standard_pose.tres" id="5_t4dpa"]
 [ext_resource type="PackedScene" uid="uid://d3y1qfi4tihwb" path="res://scenes/testLights.tscn" id="6_i37s3"]
