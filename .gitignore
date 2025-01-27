@@ -1,5 +1,8 @@
 # Godot 4+ specific ignores
 .godot/
-executable/
+.vs/
+.vscode/
+addons/
 android/
+.executable/
 *.blend[1-9]
